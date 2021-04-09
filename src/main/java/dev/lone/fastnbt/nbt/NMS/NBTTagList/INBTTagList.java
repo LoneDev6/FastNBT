@@ -1,4 +1,4 @@
-package dev.lone.FastNBT.NBT.impl.NBTTagList;
+package dev.lone.fastnbt.nbt.NMS.NBTTagList;
 
 public interface INBTTagList<NBTTAGLIST, NBTBASE, NBTCOMPOUND>
 {
@@ -13,7 +13,7 @@ public interface INBTTagList<NBTTAGLIST, NBTBASE, NBTCOMPOUND>
     String getStringAt(NBTTAGLIST list, int i);
     int size(NBTTAGLIST list);
     NBTBASE get(NBTTAGLIST list, int i);
-    NBTBASE set(NBTTAGLIST list, int i, Object nbtBase);
+    NBTBASE set(NBTTAGLIST list, int i, Object any);
     void add(NBTTAGLIST list, int i, Object any);
     NBTBASE remove(NBTTAGLIST list, int i);
     String toString(NBTTAGLIST list);

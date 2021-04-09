@@ -1,4 +1,4 @@
-package dev.lone.FastNBT.NBT.impl.NBTTagList;
+package dev.lone.fastnbt.nbt.NMS.NBTTagList;
 
 import net.minecraft.server.v1_16_R3.*;
 

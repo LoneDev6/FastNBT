@@ -1,13 +1,14 @@
-package dev.lone.FastNBT.NBT.impl.NBT;
+package dev.lone.fastnbt.nbt.NMS.Compound;
 
-import net.minecraft.server.v1_16_R3.NBTTagCompound;
-import net.minecraft.server.v1_16_R3.NBTTagList;
+import net.minecraft.server.v1_14_R1.GameProfileSerializer;
+import net.minecraft.server.v1_14_R1.NBTTagCompound;
+import net.minecraft.server.v1_14_R1.NBTTagList;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.UUID;
 
-public class NBT_v1_16_R3 implements ICompound<NBTTagCompound, NBTTagList, NBTTagCompound>
+public class Compound_v1_14_R1 implements ICompound<NBTTagCompound, NBTTagList, NBTTagCompound>
 {
     @Override
     public void setByte(NBTTagCompound handle, String key, byte param)
@@ -36,7 +37,7 @@ public class NBT_v1_16_R3 implements ICompound<NBTTagCompound, NBTTagList, NBTTa
     @Override
     public void setUUID(NBTTagCompound handle, String key, UUID param)
     {
-        handle.setUUID(key, param);
+        handle.set(key, GameProfileSerializer.a(param));
     }
 
     @Override
@@ -106,13 +107,13 @@ public class NBT_v1_16_R3 implements ICompound<NBTTagCompound, NBTTagList, NBTTa
     {
         if (handle == null)
             return false;
-        return handle.hasUUID(key);
+        return handle.hasKey(key);
     }
 
     @Override
     public @Nullable UUID getUUID(NBTTagCompound handle, String key)
     {
-        return handle.getUUID(key);
+        return handle.a(key);
     }
 
     @Override

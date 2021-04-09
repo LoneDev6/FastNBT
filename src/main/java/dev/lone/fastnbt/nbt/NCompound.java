@@ -1,5 +1,6 @@
-package dev.lone.FastNBT.NBT;
+package dev.lone.fastnbt.nbt;
 
+import dev.lone.fastnbt.nbt.NMS.Compound.ICompound;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -7,188 +8,192 @@ import java.util.UUID;
 
 public class NCompound<T>
 {
+    ICompound handler;
     T handle;
+
+    public NCompound() { }
 
     public NCompound(T handle)
     {
         this.handle = handle;
+        this.handler = NBT.compound();
     }
 
     public void setByte(String key, byte param)
     {
-        NBT.compound().setByte(handle, key, param);
+        handler.setByte(handle, key, param);
     }
 
     public void setShort(String key, short param)
     {
-        NBT.compound().setShort(handle, key, param);
+        handler.setShort(handle, key, param);
     }
 
     public void setInt(String key, int param)
     {
-        NBT.compound().setInt(handle, key, param);
+        handler.setInt(handle, key, param);
     }
 
     public void setLong(String key, long param)
     {
-        NBT.compound().setLong(handle, key, param);
+        handler.setLong(handle, key, param);
     }
 
     public void setUUID(String key, UUID param)
     {
-        NBT.compound().setUUID(handle, key, param);
+        handler.setUUID(handle, key, param);
     }
 
     public void setFloat(String key, float param)
     {
-        NBT.compound().setFloat(handle, key, param);
+        handler.setFloat(handle, key, param);
     }
 
     public void setDouble(String key, double param)
     {
-        NBT.compound().setDouble(handle, key, param);
+        handler.setDouble(handle, key, param);
     }
 
     public void setString(String key, String param)
     {
-        NBT.compound().setString(handle, key, param);
+        handler.setString(handle, key, param);
     }
 
     public void setByteArray(String key, byte[] param)
     {
-        NBT.compound().setByteArray(handle, key, param);
+        handler.setByteArray(handle, key, param);
     }
 
     public void setIntArray(String key, int[] param)
     {
-        NBT.compound().setIntArray(handle, key, param);
+        handler.setIntArray(handle, key, param);
     }
 
     public void setIntegerList(String key, List<Integer> param)
     {
-        NBT.compound().setIntegerList(handle, key, param);
+        handler.setIntegerList(handle, key, param);
     }
 
     public void setLongArray(String key, long[] param)
     {
-        NBT.compound().setLongArray(handle, key, param);
+        handler.setLongArray(handle, key, param);
     }
 
     public void setLongList(String key, List<Long> param)
     {
-        NBT.compound().setLongList(handle, key, param);
+        handler.setLongList(handle, key, param);
     }
 
     public void setBoolean(String key, boolean param)
     {
-        NBT.compound().setBoolean(handle, key, param);
+        handler.setBoolean(handle, key, param);
     }
 
     public boolean hasKey(String key)
     {
-        return NBT.compound().hasKey(handle, key);
+        return handler.hasKey(handle, key);
     }
 
     public boolean hasUUID(String key)
     {
-        return NBT.compound().hasUUID(handle, key);
+        return handler.hasUUID(handle, key);
     }
 
     @Nullable
     public UUID getUUID(String key)
     {
-        return NBT.compound().getUUID(handle, key);
+        return handler.getUUID(handle, key);
     }
 
     public byte getByte(String key)
     {
-        return NBT.compound().getByte(handle, key);
+        return handler.getByte(handle, key);
     }
 
     public short getShort(String key)
     {
-        return NBT.compound().getShort(handle, key);
+        return handler.getShort(handle, key);
     }
 
     public int getInt(String key)
     {
-        return NBT.compound().getInt(handle, key);
+        return handler.getInt(handle, key);
     }
 
     public long getLong(String key)
     {
-        return NBT.compound().getLong(handle, key);
+        return handler.getLong(handle, key);
     }
 
     public float getFloat(String key)
     {
-        return NBT.compound().getFloat(handle, key);
+        return handler.getFloat(handle, key);
     }
 
     public double getDouble(String key)
     {
-        return NBT.compound().getDouble(handle, key);
+        return handler.getDouble(handle, key);
     }
 
     public String getString(String key)
     {
-        return NBT.compound().getString(handle, key);
+        return handler.getString(handle, key);
     }
 
     public byte[] getByteArray(String key)
     {
-        return NBT.compound().getByteArray(handle, key);
+        return handler.getByteArray(handle, key);
     }
 
     public int[] getIntArray(String key)
     {
-        return NBT.compound().getIntArray(handle, key);
+        return handler.getIntArray(handle, key);
     }
 
     public long[] getLongArray(String key)
     {
-        return NBT.compound().getLongArray(handle, key);
+        return handler.getLongArray(handle, key);
     }
 
     @Nullable
     public Object getCompound(String key)
     {
-        return NBT.compound().getCompound(handle, key);
+        return handler.getCompound(handle, key);
     }
 
-    public Object getOrAddCompound(String key)
+    public NCompound getOrAddCompound(String key)
     {
-        return NBT.compound().getOrAddCompound(handle, key);
+        return new NCompound(handler.getOrAddCompound(handle, key));
     }
 
     @Nullable
-    public Object getList(String key, int typeID)
+    public Object getList(String key, NBTTypeId type)
     {
-        return NBT.compound().getList(handle, key, typeID);
+        return handler.getList(handle, key, type.id);
     }
 
-    public Object getOrAddList(String key, int typeID)
+    public NTagList getOrAddList(String key, NBTTypeId type)
     {
-        return NBT.compound().getOrAddList(handle, key, typeID);
+        return new NTagList(handler.getOrAddList(handle, key, type.id));
     }
 
     public boolean getBoolean(String key)
     {
-        return NBT.compound().getBoolean(handle, key);
+        return handler.getBoolean(handle, key);
     }
 
     public boolean isEmpty()
     {
-        return NBT.compound().isEmpty(handle);
+        return handler.isEmpty(handle);
     }
 
     public void remove(String key)
     {
-        NBT.compound().remove(handle, key);
+        handler.remove(handle, key);
     }
 
     public String toString()
     {
-        return NBT.compound().toString();
+        return handler.toString();
     }
 }

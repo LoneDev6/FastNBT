@@ -1,4 +1,4 @@
-package dev.lone.FastNBT.NBT.impl.NBT;
+package dev.lone.fastnbt.nbt.NMS.Compound;
 
 import org.jetbrains.annotations.Nullable;
 

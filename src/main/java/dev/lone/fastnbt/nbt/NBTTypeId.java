@@ -1,4 +1,4 @@
-package dev.lone.FastNBT.NBT.impl;
+package dev.lone.fastnbt.nbt;
 
 public enum NBTTypeId {
     End(0),

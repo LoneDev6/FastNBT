@@ -1,4 +1,8 @@
 name: FastNBT
-version: ${project.version}
-main: dev.lone.FastNBT.Main
+version: 1.0
+main: dev.lone.fastnbt.Main
 api-version: 1.14
+commands:
+  fastnbttest:
+    description: Performance test of this plugin (use only if you know what you're doing. It will lag the server).
+    permission: fastnbttest
