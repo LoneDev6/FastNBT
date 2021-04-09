@@ -1,0 +1,4 @@
+name: FastNBT
+version: ${project.version}
+main: dev.lone.FastNBT.Main
+api-version: 1.14
