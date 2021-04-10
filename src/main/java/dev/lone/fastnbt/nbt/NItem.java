@@ -13,13 +13,13 @@ public class NItem extends NCompound<ItemStack>
     {
         if (!NBT.isInstanceOfCraftItemStack(itemStack))
         {
-            this.handle = NBT.item().convert(itemStack);
+            this.handle = NBT.item.convert(itemStack);
             this.original = itemStack;
             this.isConvertedCopy = true;
         }
         else
             this.handle = itemStack;
-        this.handler = NBT.item();
+        this.handler = NBT.item;
     }
 
     public ItemStack getItem()
@@ -54,12 +54,12 @@ public class NItem extends NCompound<ItemStack>
     public void refreshCopy()
     {
         if(isConvertedCopy)
-            this.handle = NBT.item().convert(original);
+            this.handle = NBT.item.convert(original);
     }
 
     public static boolean hasNBT(ItemStack itemStack)
     {
-        return NBT.item().hasNbt(itemStack);
+        return NBT.item.hasNbt(itemStack);
     }
 
     public void merge(ItemStack b)
@@ -73,21 +73,21 @@ public class NItem extends NCompound<ItemStack>
 
     public static ItemStack asBukkitMirror(ItemStack itemStack)
     {
-        return NBT.item().asBukkitMirror(itemStack);
+        return NBT.item.asBukkitMirror(itemStack);
     }
 
     public static Object asNMSCopy(ItemStack itemStack)
     {
-        return NBT.item().asNMSCopy(itemStack);
+        return NBT.item.asNMSCopy(itemStack);
     }
 
     public static ItemStack compoundToItemStack(NCompound compound)
     {
-        return NBT.item().compoundToItemStack(compound.getInternal());
+        return NBT.item.compoundToItemStack(compound.getInternal());
     }
 
     public static ItemStack compoundToItemStack(Object internalCompound)
     {
-        return NBT.item().compoundToItemStack(internalCompound);
+        return NBT.item.compoundToItemStack(internalCompound);
     }
 }

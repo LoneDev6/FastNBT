@@ -115,15 +115,15 @@ public class Test implements CommandExecutor
 
     private ItemStack test_fastNBTProc(ItemStack item)
     {
-        item = NBT.item().convert(item);
-        NBT.item().setString(item, "nice cock bro", "yea i know");
+        item = NBT.item.convert(item);
+        NBT.item.setString(item, "nice cock bro", "yea i know");
 
-        Object compoundTest = NBT.item().getOrAddCompound(item, "test");
-        NBT.compound().setString(compoundTest, "verygood", "hellyea");
+        Object compoundTest = NBT.item.getOrAddCompound(item, "test");
+        NBT.compound.setString(compoundTest, "verygood", "hellyea");
 
 
-        Object nbtList = NBT.compound().getOrAddList(compoundTest, "test_list", NBTTypeId.String.id);
-        NBT.nbtTagList().add(nbtList, 0, "bruh");
+        Object nbtList = NBT.compound.getOrAddList(compoundTest, "test_list", NBTTypeId.String.id);
+        NBT.nbtTagList.add(nbtList, 0, "bruh");
         return item;
     }
 
