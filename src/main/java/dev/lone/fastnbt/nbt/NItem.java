@@ -22,6 +22,11 @@ public class NItem extends NCompound<ItemStack>
         this.handler = NBT.item();
     }
 
+    public ItemStack getItem()
+    {
+        return handle;
+    }
+
     /**
      * Items in inventories and in the world are already implementing
      * CraftItemStack NMS class.

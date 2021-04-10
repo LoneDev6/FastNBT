@@ -111,7 +111,7 @@ public class NBTTagList_v1_16_R2 implements INBTTagList<NBTTagList, NBTBase, NBT
         else if(any instanceof Double)
             nbtBase = NBTTagDouble.a((double) any);
         else if(any instanceof String)
-            nbtBase = NBTTagString.create((String) any);
+            nbtBase = NBTTagString.a((String) any);
         return nbtBase;
     }
 
