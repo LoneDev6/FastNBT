@@ -6,4 +6,11 @@ import org.bukkit.inventory.ItemStack;
 public interface ICraftItemStack<NBTLIST, NBTCOMPOUND, CRAFTITEMSTACK extends ItemStack> extends ICompound<ItemStack, NBTLIST, NBTCOMPOUND>
 {
     CRAFTITEMSTACK convert(ItemStack itemStack);
+    boolean hasNbt(ItemStack itemStack);
+    void merge(ItemStack itemStack, ItemStack otherItem);
+
+    default boolean hasItemMeta(ItemStack itemStack)
+    {
+        return itemStack.hasItemMeta();
+    }
 }

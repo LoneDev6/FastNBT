@@ -10,6 +10,12 @@ import java.util.UUID;
 public class Compound_v1_16_R2 implements ICompound<NBTTagCompound, NBTTagList, NBTTagCompound>
 {
     @Override
+    public NBTTagCompound newCompoundInstance()
+    {
+        return new NBTTagCompound();
+    }
+
+    @Override
     public void setByte(NBTTagCompound handle, String key, byte param)
     {
         handle.setByte(key, param);
@@ -227,6 +233,12 @@ public class Compound_v1_16_R2 implements ICompound<NBTTagCompound, NBTTagList, 
         if (handle == null)
             return;
         handle.remove(key);
+    }
+
+    @Override
+    public void merge(NBTTagCompound handle, NBTTagCompound otherHandle)
+    {
+        handle.a(otherHandle);
     }
 
     @Override

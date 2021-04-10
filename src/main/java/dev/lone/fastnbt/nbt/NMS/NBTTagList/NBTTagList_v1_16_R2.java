@@ -77,7 +77,7 @@ public class NBTTagList_v1_16_R2 implements INBTTagList<NBTTagList, NBTBase, NBT
         if(nbtBase != null)
             return list.set(i, nbtBase);
 
-        //TODO: chatching errors
+        //TODO: catch and handle errors
         return list.set(i, (NBTBase) any);
     }
 
@@ -91,7 +91,7 @@ public class NBTTagList_v1_16_R2 implements INBTTagList<NBTTagList, NBTBase, NBT
             return;
         }
 
-        //TODO: chatching errors
+        //TODO: catch and handle errors
         list.add(i, (NBTBase) any);
     }
 

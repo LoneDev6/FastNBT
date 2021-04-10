@@ -8,10 +8,14 @@ import java.util.UUID;
 
 public class NCompound<T>
 {
-    ICompound handler;
-    T handle;
+    protected ICompound handler;
+    protected T handle;
 
-    public NCompound() { }
+    public NCompound()
+    {
+        this.handle = (T) NBT.compound().newCompoundInstance();
+        this.handler = NBT.compound();
+    }
 
     public NCompound(T handle)
     {
@@ -19,74 +23,93 @@ public class NCompound<T>
         this.handler = NBT.compound();
     }
 
-    public void setByte(String key, byte param)
+    public Object getInternal()
+    {
+        return handle;
+    }
+
+    public NCompound<T> setByte(String key, byte param)
     {
         handler.setByte(handle, key, param);
+        return this;
     }
 
-    public void setShort(String key, short param)
+    public NCompound<T> setShort(String key, short param)
     {
         handler.setShort(handle, key, param);
+        return this;
     }
 
-    public void setInt(String key, int param)
+    public NCompound<T> setInt(String key, int param)
     {
         handler.setInt(handle, key, param);
+        return this;
     }
 
-    public void setLong(String key, long param)
+    public NCompound<T> setLong(String key, long param)
     {
         handler.setLong(handle, key, param);
+        return this;
     }
 
-    public void setUUID(String key, UUID param)
+    public NCompound<T> setUUID(String key, UUID param)
     {
         handler.setUUID(handle, key, param);
+        return this;
     }
 
-    public void setFloat(String key, float param)
+    public NCompound<T> setFloat(String key, float param)
     {
         handler.setFloat(handle, key, param);
+        return this;
     }
 
-    public void setDouble(String key, double param)
+    public NCompound<T> setDouble(String key, double param)
     {
         handler.setDouble(handle, key, param);
+        return this;
     }
 
-    public void setString(String key, String param)
+    public NCompound<T> setString(String key, String param)
     {
         handler.setString(handle, key, param);
+        return this;
     }
 
-    public void setByteArray(String key, byte[] param)
+    public NCompound<T> setByteArray(String key, byte[] param)
     {
         handler.setByteArray(handle, key, param);
+        return this;
     }
 
-    public void setIntArray(String key, int[] param)
+    public NCompound<T> setIntArray(String key, int[] param)
     {
         handler.setIntArray(handle, key, param);
+        return this;
     }
 
-    public void setIntegerList(String key, List<Integer> param)
+    public NCompound<T> setIntegerList(String key, List<Integer> param)
     {
         handler.setIntegerList(handle, key, param);
+        return this;
     }
 
-    public void setLongArray(String key, long[] param)
+    public NCompound<T> setLongArray(String key, long[] param)
     {
         handler.setLongArray(handle, key, param);
+        return this;
     }
 
-    public void setLongList(String key, List<Long> param)
+    public NCompound<T> setLongList(String key, List<Long> param)
     {
         handler.setLongList(handle, key, param);
+        return this;
     }
 
-    public void setBoolean(String key, boolean param)
+    public NCompound<T> setBoolean(String key, boolean param)
     {
         handler.setBoolean(handle, key, param);
+        return this;
     }
 
     public boolean hasKey(String key)
@@ -158,7 +181,9 @@ public class NCompound<T>
     @Nullable
     public Object getCompound(String key)
     {
-        return handler.getCompound(handle, key);
+        if(handler.hasKey(handle, key))
+            return new NCompound(handler.getCompound(handle, key));
+        return null;
     }
 
     public NCompound getOrAddCompound(String key)
@@ -167,9 +192,11 @@ public class NCompound<T>
     }
 
     @Nullable
-    public Object getList(String key, NBTTypeId type)
+    public NTagList getList(String key, NBTTypeId type)
     {
-        return handler.getList(handle, key, type.id);
+        if(handler.hasKey(handle, key))
+            return new NTagList(handler.getList(handle, key, type.id));
+        return null;
     }
 
     public NTagList getOrAddList(String key, NBTTypeId type)
@@ -187,13 +214,20 @@ public class NCompound<T>
         return handler.isEmpty(handle);
     }
 
-    public void remove(String key)
+    public NCompound<T> remove(String key)
     {
         handler.remove(handle, key);
+        return this;
+    }
+
+    public NCompound<T> merge(NCompound b)
+    {
+        handler.merge(this, b);
+        return this;
     }
 
     public String toString()
     {
-        return handler.toString();
+        return handler.toString(handle);
     }
 }

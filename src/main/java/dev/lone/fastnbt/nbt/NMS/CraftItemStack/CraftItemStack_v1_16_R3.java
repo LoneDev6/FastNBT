@@ -13,11 +13,40 @@ import java.util.UUID;
 public class CraftItemStack_v1_16_R3 implements ICraftItemStack<NBTTagList, NBTTagCompound, CraftItemStack>
 {
     @Override
+    public NBTTagCompound newCompoundInstance()
+    {
+        return new NBTTagCompound();
+    }
+
+    @Override
     public CraftItemStack convert(ItemStack itemStack)
     {
         if (itemStack instanceof CraftItemStack)
             return ((CraftItemStack) itemStack);
         return CraftItemStack.asCraftCopy(itemStack);
+    }
+
+    @Override
+    public boolean hasNbt(ItemStack itemStack)
+    {
+        if(!NBT.isInstanceOfCraftItemStack(itemStack))
+        {
+            if(itemStack != null && itemStack.hasItemMeta())
+                return true;
+            return false;
+        }
+        net.minecraft.server.v1_16_R3.ItemStack handle = toCraftItemStack(itemStack).getHandle();
+        if(handle == null)
+            return false;
+        return handle.hasTag();
+    }
+
+    @Override
+    public void merge(ItemStack itemStack, ItemStack otherItem)
+    {
+        CraftItemStack craftItemStack = toCraftItemStack(itemStack);
+        CraftItemStack other = toCraftItemStack(otherItem);
+        this.merge(craftItemStack.getHandle().getOrCreateTag(), other.getHandle().getOrCreateTag());
     }
 
     private CraftItemStack toCraftItemStack(ItemStack itemStack)
@@ -269,6 +298,12 @@ public class CraftItemStack_v1_16_R3 implements ICraftItemStack<NBTTagList, NBTT
         if (!craftItemStack.getHandle().hasTag())
             return;
         NBT.compound().remove(craftItemStack.getHandle().getTag(), key);
+    }
+
+    @Override
+    public void merge(NBTTagCompound handle, NBTTagCompound otherHandle)
+    {
+        handle.a(otherHandle);
     }
 
     @Override

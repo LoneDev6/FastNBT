@@ -7,6 +7,8 @@ import java.util.UUID;
 
 public interface ICompound<T, NBTLIST, NBTCOMPOUND>
 {
+    <T> T newCompoundInstance();
+
     void setByte(T t, String key, byte param);
     void setShort(T t, String key, short param);
     void setInt(T t, String key, int param);
@@ -44,5 +46,6 @@ public interface ICompound<T, NBTLIST, NBTCOMPOUND>
     boolean getBoolean(T t, String key);
     boolean isEmpty(T t);
     void remove(T t, String key);
+    void merge(NBTCOMPOUND handle, NBTCOMPOUND otherHandle);
     String toString(T t);
 }

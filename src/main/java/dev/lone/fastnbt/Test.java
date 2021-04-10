@@ -62,8 +62,8 @@ public class Test implements CommandExecutor
 
         System.out.println("Processed items: " + iterations);
         System.out.println(" - NBTAPI:         " + dur3.toString().substring(2));
-        System.out.println(" - FastNBT (OO):   " + dur2.toString().substring(2) + " " + String.format("%.2f", ((double) (dur2.toMillis() - dur3.toMillis()) / (double) dur3.toMillis() * 100d)) + "%");
-        System.out.println(" - FastNBT (func): " + dur1.toString().substring(2) + " " + String.format("%.2f", (((double) (dur1.toMillis() - dur3.toMillis()) / (double) dur3.toMillis() * 100d))) + "%");
+        System.out.println(" - FastNBT (OO):   " + dur2.toString().substring(2) + " " + String.format("%.2f", ((dur2.toMillis() - dur3.toMillis()) / (double) dur3.toMillis() * 100)) + "%");
+        System.out.println(" - FastNBT (func): " + dur1.toString().substring(2) + " " + String.format("%.2f", (((dur1.toMillis() - dur3.toMillis()) / (double) dur3.toMillis() * 100))) + "%");
 
         return true;
     }

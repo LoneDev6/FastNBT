@@ -4,12 +4,10 @@ import dev.lone.fastnbt.nbt.NMS.NBTTagList.INBTTagList;
 
 public class NTagList<T>
 {
-    INBTTagList handler;
-    T handle;
+    protected INBTTagList handler;
+    protected T handle;
 
-    public NTagList()
-    {
-    }
+    public NTagList() {}
 
     public NTagList(T handle)
     {
@@ -17,10 +15,14 @@ public class NTagList<T>
         this.handler = NBT.nbtTagList();
     }
 
-    @Deprecated
-    public Object getCompoundAt(int i)
+    public Object getInternal()
     {
-        return handler.getCompoundAt(handle, i);
+        return handle;
+    }
+
+    public NCompound getCompoundAt(int i)
+    {
+        return new NCompound(handler.getCompoundAt(handle, i));
     }
 
     public NTagList getNBTTagListAt(int i)
@@ -58,7 +60,7 @@ public class NTagList<T>
         return handler.getStringAt(handle, i);
     }
 
-    public int size(T list)
+    public int size()
     {
         return handler.size(handle);
     }
@@ -78,7 +80,7 @@ public class NTagList<T>
         handler.add(handle, i, any);
     }
 
-    public Object remove(String key, int i)
+    public Object remove(int i)
     {
         return handler.remove(handle, i);
     }
