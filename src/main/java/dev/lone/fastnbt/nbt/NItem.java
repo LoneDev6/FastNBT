@@ -22,20 +22,6 @@ public class NItem extends NCompound<ItemStack>
         this.handler = NBT.item();
     }
 
-    public static boolean hasNBT(ItemStack itemStack)
-    {
-        return NBT.item().hasNbt(itemStack);
-    }
-
-    public void merge(ItemStack b)
-    {
-        this.merge(new NItem(b));
-    }
-    public void merge(NItem b)
-    {
-        this.merge(b);
-    }
-
     /**
      * Items in inventories and in the world are already implementing
      * CraftItemStack NMS class.
@@ -64,5 +50,29 @@ public class NItem extends NCompound<ItemStack>
     {
         if(isConvertedCopy)
             this.handle = NBT.item().convert(original);
+    }
+
+    public static boolean hasNBT(ItemStack itemStack)
+    {
+        return NBT.item().hasNbt(itemStack);
+    }
+
+    public void merge(ItemStack b)
+    {
+        this.merge(new NItem(b));
+    }
+    public void merge(NItem b)
+    {
+        this.merge(b);
+    }
+
+    public ItemStack asBukkitMirror(ItemStack itemStack)
+    {
+        return NBT.item().asBukkitMirror(itemStack);
+    }
+
+    public ItemStack compoundToItemStack(NCompound compound)
+    {
+        return NBT.item().compoundToItemStack(compound.getInternal());
     }
 }

@@ -2,9 +2,8 @@ package dev.lone.fastnbt.nbt;
 
 import dev.lone.fastnbt.nbt.NMS.Compound.*;
 import dev.lone.fastnbt.nbt.NMS.CraftItemStack.*;
-import dev.lone.fastnbt.nbt.NMS.NBTStreamTools.INBTStreamTools;
-import dev.lone.fastnbt.nbt.NMS.NBTStreamTools.NBTStreamTools_v1_16_R3;
 import dev.lone.fastnbt.nbt.NMS.NBTTagList.*;
+import dev.lone.fastnbt.nbt.NMS.NBTStreamTools.*;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
@@ -36,16 +35,19 @@ public class NBT
                 nbt = new Compound_v1_16_R2();
                 item = new CraftItemStack_v1_16_R2();
                 nbtTagList = new NBTTagList_v1_16_R2();
+                nbtStreamTools = new NBTStreamTools_v1_16_R2();
                 break;
             case "v1_15_R1":
                 nbt = new Compound_v1_15_R1();
                 item = new CraftItemStack_v1_15_R1();
                 nbtTagList = new NBTTagList_v1_15_R1();
+                nbtStreamTools = new NBTStreamTools_v1_15_R1();
                 break;
             case "v1_14_R1":
                 nbt = new Compound_v1_14_R1();
                 item = new CraftItemStack_v1_14_R1();
                 nbtTagList = new NBTTagList_v1_14_R1();
+                nbtStreamTools = new NBTStreamTools_v1_14_R1();
                 break;
         }
 

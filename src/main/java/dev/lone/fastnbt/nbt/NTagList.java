@@ -7,7 +7,7 @@ public class NTagList<T>
     protected INBTTagList handler;
     protected T handle;
 
-    public NTagList() {}
+    public NTagList() {}//TODO: init a new handle using NMS
 
     public NTagList(T handle)
     {

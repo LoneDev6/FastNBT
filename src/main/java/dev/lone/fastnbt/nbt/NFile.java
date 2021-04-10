@@ -1,60 +1,66 @@
 package dev.lone.fastnbt.nbt;
 
-import dev.lone.LoneLibs.nbt.nbtapi.NBTReflectionUtil;
-
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class NFile<T> extends NCompound<T>
 {
     private File file;
+    private final ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
+    private final Lock writeLock;
 
     public NFile(File file) throws IOException
     {
         super();
+        this.file = file;
         if (file == null)
         {
             throw new NullPointerException("File can't be null!");
         }
         else
         {
-            this.file = file;
-            if (file.exists())
+            this.writeLock = this.readWriteLock.writeLock();
+            try
             {
-                FileInputStream inputStream = new FileInputStream(file);
-                try
+                this.writeLock.lock();
+                if (!file.exists())
                 {
-                    this.handle = (T) NBT.getNbtStreamTools().read(inputStream);
-                } catch (Exception e)
-                {
-                    inputStream.close();
-                    throw new IOException("Error reading the NBT file: " + e.getMessage());
+                    file.getParentFile().mkdirs();
+                    if (!file.createNewFile()) {
+                        throw new IOException("Unable to create file at " + file.getAbsolutePath());
+                    }
+                    this.handle = (T) new NCompound().getInternal();
+                    NBT.getNbtStreamTools().save(this.handle, file);
                 }
-                finally
+                else
                 {
-                    inputStream.close();
+                    this.handle = (T) NBT.getNbtStreamTools().read(file);
                 }
+            } catch (Exception e)
+            {
+                throw e;
+            } finally
+            {
+                this.writeLock.unlock();
             }
         }
     }
 
-    public void save() throws IOException {
-        try {
-            this.getWriteLock().lock();
-            if (!this.file.exists()) {
-                this.file.getParentFile().mkdirs();
-                if (!this.file.createNewFile()) {
-                    throw new IOException("Unable to create file at " + this.file.getAbsolutePath());
-                }
-            }
-
-            FileOutputStream outStream = new FileOutputStream(this.file);
-            NBTReflectionUtil.writeNBT(this.nbt, outStream);
-        } finally {
-            this.getWriteLock().unlock();
+    public void save() throws IOException
+    {
+        try
+        {
+            this.writeLock.lock();
+            NBT.getNbtStreamTools().save(handle, file);
+        } catch (IOException e)
+        {
+            throw e;
+        } finally
+        {
+            this.writeLock.unlock();
         }
-
     }
 }

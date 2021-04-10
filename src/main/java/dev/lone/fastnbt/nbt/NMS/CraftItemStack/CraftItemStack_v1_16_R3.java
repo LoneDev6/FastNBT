@@ -8,6 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public class CraftItemStack_v1_16_R3 implements ICraftItemStack<NBTTagList, NBTTagCompound, CraftItemStack>
@@ -283,6 +284,13 @@ public class CraftItemStack_v1_16_R3 implements ICraftItemStack<NBTTagList, NBTT
     }
 
     @Override
+    public Set<String> getKeys(ItemStack itemStack)
+    {
+        CraftItemStack craftItemStack = toCraftItemStack(itemStack);
+        return craftItemStack.getHandle().getOrCreateTag().getKeys();
+    }
+
+    @Override
     public boolean isEmpty(ItemStack itemStack)
     {
         CraftItemStack craftItemStack = toCraftItemStack(itemStack);
@@ -304,6 +312,19 @@ public class CraftItemStack_v1_16_R3 implements ICraftItemStack<NBTTagList, NBTT
     public void merge(NBTTagCompound handle, NBTTagCompound otherHandle)
     {
         handle.a(otherHandle);
+    }
+
+    @Override
+    public ItemStack asBukkitMirror(ItemStack itemStack)
+    {
+        CraftItemStack craftItemStack = toCraftItemStack(itemStack);
+        return craftItemStack.getHandle().asBukkitMirror();
+    }
+
+    @Override
+    public ItemStack compoundToItemStack(NBTTagCompound compound)
+    {
+        return net.minecraft.server.v1_16_R3.ItemStack.fromCompound(compound).asBukkitMirror();
     }
 
     @Override

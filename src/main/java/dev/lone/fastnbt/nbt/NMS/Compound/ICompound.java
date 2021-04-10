@@ -3,6 +3,7 @@ package dev.lone.fastnbt.nbt.NMS.Compound;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public interface ICompound<T, NBTLIST, NBTCOMPOUND>
@@ -44,6 +45,7 @@ public interface ICompound<T, NBTLIST, NBTCOMPOUND>
     NBTLIST getList(T t, String key, int typeID);
     NBTLIST getOrAddList(T t, String key, int typeID);
     boolean getBoolean(T t, String key);
+    Set<String> getKeys(T t);
     boolean isEmpty(T t);
     void remove(T t, String key);
     void merge(NBTCOMPOUND handle, NBTCOMPOUND otherHandle);

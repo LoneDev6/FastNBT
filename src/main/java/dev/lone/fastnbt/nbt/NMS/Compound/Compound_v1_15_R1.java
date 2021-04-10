@@ -6,6 +6,7 @@ import net.minecraft.server.v1_15_R1.NBTTagList;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public class Compound_v1_15_R1 implements ICompound<NBTTagCompound, NBTTagList, NBTTagCompound>
@@ -218,6 +219,12 @@ public class Compound_v1_15_R1 implements ICompound<NBTTagCompound, NBTTagList, 
     public boolean getBoolean(NBTTagCompound handle, String key)
     {
         return handle.getBoolean(key);
+    }
+
+    @Override
+    public Set<String> getKeys(NBTTagCompound handle)
+    {
+        return handle.getKeys();
     }
 
     @Override

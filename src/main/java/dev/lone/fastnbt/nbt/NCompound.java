@@ -4,6 +4,7 @@ import dev.lone.fastnbt.nbt.NMS.Compound.ICompound;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public class NCompound<T>
@@ -179,7 +180,7 @@ public class NCompound<T>
     }
 
     @Nullable
-    public Object getCompound(String key)
+    public NCompound getCompound(String key)
     {
         if(handler.hasKey(handle, key))
             return new NCompound(handler.getCompound(handle, key));
@@ -207,6 +208,11 @@ public class NCompound<T>
     public boolean getBoolean(String key)
     {
         return handler.getBoolean(handle, key);
+    }
+
+    public Set<String> getKeys()
+    {
+        return handler.getKeys(handle);
     }
 
     public boolean isEmpty()
