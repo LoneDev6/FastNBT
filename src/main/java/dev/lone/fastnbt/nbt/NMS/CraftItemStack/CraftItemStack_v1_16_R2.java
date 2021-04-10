@@ -344,7 +344,13 @@ public class CraftItemStack_v1_16_R2 implements ICraftItemStack<NBTTagList, NBTT
     public ItemStack asBukkitMirror(ItemStack itemStack)
     {
         CraftItemStack craftItemStack = toCraftItemStack(itemStack);
-        return getHandle(craftItemStack).asBukkitMirror();
+        return CraftItemStack.asCraftMirror(getHandle(craftItemStack));
+    }
+
+    @Override
+    public Object asNMSCopy(ItemStack itemStack)
+    {
+        return CraftItemStack.asNMSCopy(itemStack);
     }
 
     @Override

@@ -14,5 +14,6 @@ public interface ICraftItemStack<NBTLIST, NBTCOMPOUND, CRAFTITEMSTACK extends It
         return itemStack.hasItemMeta();
     }
     ItemStack asBukkitMirror(ItemStack itemStack);
+    Object asNMSCopy(ItemStack itemStack);
     ItemStack compoundToItemStack(NBTCOMPOUND itemStack);
 }

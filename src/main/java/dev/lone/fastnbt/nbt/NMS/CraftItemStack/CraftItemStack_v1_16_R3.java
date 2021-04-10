@@ -322,6 +322,12 @@ public class CraftItemStack_v1_16_R3 implements ICraftItemStack<NBTTagList, NBTT
     }
 
     @Override
+    public Object asNMSCopy(ItemStack itemStack)
+    {
+        return CraftItemStack.asNMSCopy(itemStack);
+    }
+
+    @Override
     public ItemStack compoundToItemStack(NBTTagCompound compound)
     {
         return net.minecraft.server.v1_16_R3.ItemStack.fromCompound(compound).asBukkitMirror();

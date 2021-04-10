@@ -80,6 +80,11 @@ public class NTagList<T>
         handler.add(handle, i, any);
     }
 
+    public void add(Object any)
+    {
+        handler.add(handle, size(), any);
+    }
+
     public Object remove(int i)
     {
         return handler.remove(handle, i);

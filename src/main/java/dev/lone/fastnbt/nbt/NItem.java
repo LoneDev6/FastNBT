@@ -66,13 +66,23 @@ public class NItem extends NCompound<ItemStack>
         this.merge(b);
     }
 
-    public ItemStack asBukkitMirror(ItemStack itemStack)
+    public static ItemStack asBukkitMirror(ItemStack itemStack)
     {
         return NBT.item().asBukkitMirror(itemStack);
     }
 
-    public ItemStack compoundToItemStack(NCompound compound)
+    public static Object asNMSCopy(ItemStack itemStack)
+    {
+        return NBT.item().asNMSCopy(itemStack);
+    }
+
+    public static ItemStack compoundToItemStack(NCompound compound)
     {
         return NBT.item().compoundToItemStack(compound.getInternal());
+    }
+
+    public static ItemStack compoundToItemStack(Object internalCompound)
+    {
+        return NBT.item().compoundToItemStack(internalCompound);
     }
 }

@@ -43,7 +43,7 @@ public class NBTTagList_v1_16_R2 implements INBTTagList<NBTTagList, NBTBase, NBT
     @Override
     public double getDoubleAt(NBTTagList list, int i)
     {
-        return list.getDoubleAt(i);
+        return list.h(i);
     }
 
     @Override

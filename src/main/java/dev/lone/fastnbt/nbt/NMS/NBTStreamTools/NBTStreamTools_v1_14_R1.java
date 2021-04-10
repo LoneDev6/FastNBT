@@ -2,8 +2,8 @@ package dev.lone.fastnbt.nbt.NMS.NBTStreamTools;
 
 import net.minecraft.server.v1_14_R1.NBTCompressedStreamTools;
 import net.minecraft.server.v1_14_R1.NBTTagCompound;
+import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -11,73 +11,26 @@ import java.io.IOException;
 public class NBTStreamTools_v1_14_R1 implements INBTStreamTools<NBTTagCompound>
 {
     @Override
-    public NBTTagCompound read(File file) throws IOException
+    public NBTTagCompound read(FileInputStream inputStream) throws IOException
     {
-        FileInputStream fileinputstream = new FileInputStream(file);
-        Throwable throwable = null;
-
-        NBTTagCompound nbttagcompound;
         try
         {
-            nbttagcompound = NBTCompressedStreamTools.a(fileinputstream);
-        } catch (Throwable var12)
-        {
-            throwable = var12;
-            throw var12;
+            return NBTCompressedStreamTools.a(inputStream);
         } finally
         {
-            if (fileinputstream != null)
-            {
-                if (throwable != null)
-                {
-                    try
-                    {
-                        fileinputstream.close();
-                    } catch (Throwable var11)
-                    {
-                        throwable.addSuppressed(var11);
-                    }
-                }
-                else
-                {
-                    fileinputstream.close();
-                }
-            }
+            inputStream.close();
         }
-        return nbttagcompound;
     }
 
     @Override
-    public void save(NBTTagCompound nbt, File file) throws IOException
+    public void save(@NotNull NBTTagCompound nbt, FileOutputStream outputStream) throws IOException
     {
-        FileOutputStream fileoutputstream = new FileOutputStream(file);
-        Throwable throwable = null;
         try
         {
-            NBTCompressedStreamTools.a(nbt, fileoutputstream);
-        } catch (Throwable var12)
-        {
-            throwable = var12;
-            throw var12;
+            NBTCompressedStreamTools.a(nbt, outputStream);
         } finally
         {
-            if (fileoutputstream != null)
-            {
-                if (throwable != null)
-                {
-                    try
-                    {
-                        fileoutputstream.close();
-                    } catch (Throwable var11)
-                    {
-                        throwable.addSuppressed(var11);
-                    }
-                }
-                else
-                {
-                    fileoutputstream.close();
-                }
-            }
+            outputStream.close();
         }
     }
 }

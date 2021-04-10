@@ -2,21 +2,35 @@ package dev.lone.fastnbt.nbt.NMS.NBTStreamTools;
 
 import net.minecraft.server.v1_16_R2.NBTCompressedStreamTools;
 import net.minecraft.server.v1_16_R2.NBTTagCompound;
+import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class NBTStreamTools_v1_16_R2 implements INBTStreamTools<NBTTagCompound>
 {
     @Override
-    public NBTTagCompound read(File file) throws IOException
+    public NBTTagCompound read(FileInputStream inputStream) throws IOException
     {
-        return NBTCompressedStreamTools.a(file);
+        try
+        {
+            return NBTCompressedStreamTools.a(inputStream);
+        } finally
+        {
+            inputStream.close();
+        }
     }
 
     @Override
-    public void save(NBTTagCompound nbt, File file) throws IOException
+    public void save(@NotNull NBTTagCompound nbt, FileOutputStream outputStream) throws IOException
     {
-        NBTCompressedStreamTools.a(nbt, file);
+        try
+        {
+            NBTCompressedStreamTools.a(nbt, outputStream);
+        } finally
+        {
+            outputStream.close();
+        }
     }
 }

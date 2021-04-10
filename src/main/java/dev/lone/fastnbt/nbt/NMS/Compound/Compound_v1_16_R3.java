@@ -43,7 +43,7 @@ public class Compound_v1_16_R3 implements ICompound<NBTTagCompound, NBTTagList, 
     @Override
     public void setUUID(NBTTagCompound handle, String key, UUID param)
     {
-        handle.setUUID(key, param);
+        handle.a(key, param);
     }
 
     @Override
@@ -113,13 +113,13 @@ public class Compound_v1_16_R3 implements ICompound<NBTTagCompound, NBTTagList, 
     {
         if (handle == null)
             return false;
-        return handle.hasUUID(key);
+        return handle.b(key);
     }
 
     @Override
     public @Nullable UUID getUUID(NBTTagCompound handle, String key)
     {
-        return handle.getUUID(key);
+        return handle.a(key);
     }
 
     @Override

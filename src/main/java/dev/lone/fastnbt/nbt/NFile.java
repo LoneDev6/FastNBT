@@ -1,6 +1,8 @@
 package dev.lone.fastnbt.nbt;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
@@ -23,28 +25,14 @@ public class NFile<T> extends NCompound<T>
         else
         {
             this.writeLock = this.readWriteLock.writeLock();
-            try
+            if (file.exists())
             {
-                this.writeLock.lock();
-                if (!file.exists())
-                {
-                    file.getParentFile().mkdirs();
-                    if (!file.createNewFile()) {
-                        throw new IOException("Unable to create file at " + file.getAbsolutePath());
-                    }
-                    this.handle = (T) new NCompound().getInternal();
-                    NBT.getNbtStreamTools().save(this.handle, file);
-                }
-                else
-                {
-                    this.handle = (T) NBT.getNbtStreamTools().read(file);
-                }
-            } catch (Exception e)
+                this.handle = (T) NBT.getNbtStreamTools().read(new FileInputStream(file));
+            }
+            else
             {
-                throw e;
-            } finally
-            {
-                this.writeLock.unlock();
+                file.getParentFile().mkdirs();
+                this.handle = (T) NBT.compound().newCompoundInstance();
             }
         }
     }
@@ -54,11 +42,9 @@ public class NFile<T> extends NCompound<T>
         try
         {
             this.writeLock.lock();
-            NBT.getNbtStreamTools().save(handle, file);
-        } catch (IOException e)
-        {
-            throw e;
-        } finally
+            NBT.getNbtStreamTools().save(handle, new FileOutputStream(file));
+        }
+        finally
         {
             this.writeLock.unlock();
         }
