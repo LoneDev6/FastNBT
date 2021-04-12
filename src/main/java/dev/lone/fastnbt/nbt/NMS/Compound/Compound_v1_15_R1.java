@@ -1,5 +1,6 @@
 package dev.lone.fastnbt.nbt.NMS.Compound;
 
+import dev.lone.fastnbt.nbt.NTagList;
 import net.minecraft.server.v1_15_R1.GameProfileSerializer;
 import net.minecraft.server.v1_15_R1.NBTTagCompound;
 import net.minecraft.server.v1_15_R1.NBTTagList;

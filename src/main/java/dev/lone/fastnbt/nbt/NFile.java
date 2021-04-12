@@ -27,12 +27,12 @@ public class NFile<T> extends NCompound<T>
             this.writeLock = this.readWriteLock.writeLock();
             if (file.exists())
             {
-                this.handle = (T) NBT.getNbtStreamTools().read(new FileInputStream(file));
+                this.handle = (T) NBT.nbtStreamTools.read(new FileInputStream(file));
             }
             else
             {
                 file.getParentFile().mkdirs();
-                this.handle = (T) NBT.compound().newCompoundInstance();
+                this.handle = (T) NBT.compound.newCompoundInstance();
             }
         }
     }
@@ -42,7 +42,7 @@ public class NFile<T> extends NCompound<T>
         try
         {
             this.writeLock.lock();
-            NBT.getNbtStreamTools().save(handle, new FileOutputStream(file));
+            NBT.nbtStreamTools.save(handle, new FileOutputStream(file));
         }
         finally
         {

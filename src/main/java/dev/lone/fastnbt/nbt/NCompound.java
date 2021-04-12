@@ -14,14 +14,14 @@ public class NCompound<T>
 
     public NCompound()
     {
-        this.handle = (T) NBT.compound().newCompoundInstance();
-        this.handler = NBT.compound();
+        this.handle = (T) NBT.compound.newCompoundInstance();
+        this.handler = NBT.compound;
     }
 
     public NCompound(T handle)
     {
         this.handle = handle;
-        this.handler = NBT.compound();
+        this.handler = NBT.compound;
     }
 
     public Object getInternal()

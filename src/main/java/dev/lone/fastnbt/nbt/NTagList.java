@@ -12,7 +12,7 @@ public class NTagList<T>
     public NTagList(T handle)
     {
         this.handle = handle;
-        this.handler = NBT.nbtTagList();
+        this.handler = NBT.nbtTagList;
     }
 
     public Object getInternal()
