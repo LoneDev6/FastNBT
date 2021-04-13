@@ -70,17 +70,17 @@ public class NTagList<T>
         return handler.get(handle, i);
     }
 
-    public <T extends NCompound> void setCompound(int i, T any)
+    public <N extends NCompound> void setCompound(int i, N any)
     {
         handler.set(handle, i, any.handle);
     }
 
-    public <T extends NCompound> void addCompound(int i, T any)
+    public <N extends NCompound> void addCompound(int i, N any)
     {
         handler.add(handle, i, any.handle);
     }
 
-    public <T extends NCompound> void add(T any)
+    public <N extends NCompound> void add(N any)
     {
         handler.add(handle, handler.size(handle), any.handle);
     }
