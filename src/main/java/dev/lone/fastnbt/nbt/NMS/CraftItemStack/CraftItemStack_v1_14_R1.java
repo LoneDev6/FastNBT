@@ -20,6 +20,7 @@ public class CraftItemStack_v1_14_R1 implements ICraftItemStack<NBTTagList, NBTT
         try
         {
             field = CraftItemStack.class.getDeclaredField("handle");
+            field.setAccessible(true);
         } catch (NoSuchFieldException e)
         {
             e.printStackTrace();
@@ -67,6 +68,7 @@ public class CraftItemStack_v1_14_R1 implements ICraftItemStack<NBTTagList, NBTT
     {
         try
         {
+
             return (net.minecraft.server.v1_14_R1.ItemStack) field.get(craftItemStack);
         } catch (IllegalAccessException e)
         {

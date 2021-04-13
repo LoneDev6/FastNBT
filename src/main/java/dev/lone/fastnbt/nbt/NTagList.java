@@ -72,16 +72,22 @@ public class NTagList<T>
 
     public Object set(int i, Object any)
     {
+        if(any instanceof NCompound)
+            any = ((NCompound<?>) any).getInternal();
         return handler.set(handle, i, any);
     }
 
     public void add(int i, Object any)
     {
+        if(any instanceof NCompound)
+            any = ((NCompound<?>) any).getInternal();
         handler.add(handle, i, any);
     }
 
     public void add(Object any)
     {
+        if(any instanceof NCompound)
+            any = ((NCompound<?>) any).getInternal();
         handler.add(handle, size(), any);
     }
 

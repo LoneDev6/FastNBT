@@ -20,6 +20,7 @@ public class CraftItemStack_v1_15_R1 implements ICraftItemStack<NBTTagList, NBTT
         try
         {
             field = CraftItemStack.class.getDeclaredField("handle");
+            field.setAccessible(true);
         } catch (NoSuchFieldException e)
         {
             e.printStackTrace();

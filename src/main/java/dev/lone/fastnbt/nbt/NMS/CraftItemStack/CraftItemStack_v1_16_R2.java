@@ -19,7 +19,8 @@ public class CraftItemStack_v1_16_R2 implements ICraftItemStack<NBTTagList, NBTT
     {
         try
         {
-            field = org.bukkit.craftbukkit.v1_16_R2.inventory.CraftItemStack.class.getDeclaredField("handle");
+            field = CraftItemStack.class.getDeclaredField("handle");
+            field.setAccessible(true);
         } catch (NoSuchFieldException e)
         {
             e.printStackTrace();
