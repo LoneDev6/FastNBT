@@ -1,6 +1,5 @@
 package dev.lone.fastnbt;
 
-import dev.lone.LoneLibs.nbt.nbtapi.NBTCompoundList;
 import dev.lone.LoneLibs.nbt.nbtapi.NBTFile;
 import dev.lone.fastnbt.nbt.*;
 import dev.lone.LoneLibs.nbt.nbtapi.NBTItem;

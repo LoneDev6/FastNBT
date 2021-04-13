@@ -70,25 +70,34 @@ public class NTagList<T>
         return handler.get(handle, i);
     }
 
-    public Object set(int i, Object any)
+    public <T extends NCompound> void setCompound(int i, T any)
     {
-        if(any instanceof NCompound)
-            any = ((NCompound<?>) any).getInternal();
-        return handler.set(handle, i, any);
+        handler.set(handle, i, any.handle);
+    }
+
+    public <T extends NCompound> void addCompound(int i, T any)
+    {
+        handler.add(handle, i, any.handle);
+    }
+
+    public <T extends NCompound> void add(T any)
+    {
+        handler.add(handle, handler.size(handle), any.handle);
     }
 
     public void add(int i, Object any)
     {
-        if(any instanceof NCompound)
-            any = ((NCompound<?>) any).getInternal();
         handler.add(handle, i, any);
     }
 
     public void add(Object any)
     {
-        if(any instanceof NCompound)
-            any = ((NCompound<?>) any).getInternal();
-        handler.add(handle, size(), any);
+        handler.add(handle, handler.size(handle), any);
+    }
+
+    public void set(int i, Object any)
+    {
+        handler.set(handle, i, any);
     }
 
     public Object remove(int i)
