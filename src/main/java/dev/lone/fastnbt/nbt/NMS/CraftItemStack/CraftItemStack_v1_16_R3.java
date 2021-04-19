@@ -322,7 +322,7 @@ public class CraftItemStack_v1_16_R3 implements ICraftItemStack<NBTTagList, NBTT
     }
 
     @Override
-    public Object asNMSCopy(ItemStack itemStack)
+    public net.minecraft.server.v1_16_R3.ItemStack asNMSCopy(ItemStack itemStack)
     {
         return CraftItemStack.asNMSCopy(itemStack);
     }
@@ -331,6 +331,15 @@ public class CraftItemStack_v1_16_R3 implements ICraftItemStack<NBTTagList, NBTT
     public ItemStack compoundToItemStack(NBTTagCompound compound)
     {
         return net.minecraft.server.v1_16_R3.ItemStack.fromCompound(compound).asBukkitMirror();
+    }
+
+    @Override
+    public NBTTagCompound itemStackToCompound(ItemStack itemStack)
+    {
+        NBTTagCompound nbtTagCompound = new NBTTagCompound();
+        net.minecraft.server.v1_16_R3.ItemStack nmsCopy = asNMSCopy(itemStack);
+        nmsCopy.save(nbtTagCompound);
+        return nbtTagCompound;
     }
 
     @Override

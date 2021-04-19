@@ -81,13 +81,19 @@ public class NItem extends NCompound<ItemStack>
         return NBT.item.asNMSCopy(itemStack);
     }
 
-    public static ItemStack compoundToItemStack(NCompound compound)
+    public static ItemStack nmsCompoundToItemStack(NCompound compound)
     {
         return NBT.item.compoundToItemStack(compound.getInternal());
     }
 
-    public static ItemStack compoundToItemStack(Object internalCompound)
+    public static ItemStack nmsCompoundToItemStack(Object internalCompound)
     {
         return NBT.item.compoundToItemStack(internalCompound);
+    }
+
+
+    public static Object asNMSCompound(ItemStack itemStack)
+    {
+        return NBT.item.itemStackToCompound(itemStack);
     }
 }

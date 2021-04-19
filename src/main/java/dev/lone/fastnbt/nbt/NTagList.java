@@ -1,6 +1,7 @@
 package dev.lone.fastnbt.nbt;
 
 import dev.lone.fastnbt.nbt.NMS.NBTTagList.INBTTagList;
+import org.bukkit.inventory.ItemStack;
 
 public class NTagList<T>
 {
@@ -87,16 +88,28 @@ public class NTagList<T>
 
     public void add(int i, Object any)
     {
+        if(any instanceof NCompound)
+            any = ((NCompound<?>) any).getInternal();
+        else if(any instanceof ItemStack)
+            any = NItem.asNMSCompound((ItemStack) any);
         handler.add(handle, i, any);
     }
 
     public void add(Object any)
     {
-        handler.add(handle, handler.size(handle), any);
+        if(any instanceof NCompound)
+            any = ((NCompound<?>) any).getInternal();
+        else if(any instanceof ItemStack)
+            any = NItem.asNMSCompound((ItemStack) any);
+        handler.add(handle, size(), any);
     }
 
     public void set(int i, Object any)
     {
+        if(any instanceof NCompound)
+            any = ((NCompound<?>) any).getInternal();
+        else if(any instanceof ItemStack)
+            any = NItem.asNMSCompound((ItemStack) any);
         handler.set(handle, i, any);
     }
 
