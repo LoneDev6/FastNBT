@@ -1,5 +1,6 @@
 package dev.lone.fastnbt.nbt.NMS.CraftItemStack;
 
+import com.comphenix.protocol.reflect.FieldUtils;
 import dev.lone.fastnbt.nbt.NBT;
 import net.minecraft.server.v1_15_R1.NBTTagCompound;
 import net.minecraft.server.v1_15_R1.NBTTagList;
@@ -14,18 +15,7 @@ import java.util.UUID;
 
 public class CraftItemStack_v1_15_R1 implements ICraftItemStack<NBTTagList, NBTTagCompound, CraftItemStack>
 {
-    public static Field field;
-    static
-    {
-        try
-        {
-            field = CraftItemStack.class.getDeclaredField("handle");
-            field.setAccessible(true);
-        } catch (NoSuchFieldException e)
-        {
-            e.printStackTrace();
-        }
-    }
+    public static Field FIELD_HANDLE = FieldUtils.getField(CraftItemStack.class, "handle", true);
 
     @Override
     public NBTTagCompound newCompoundInstance()
@@ -68,7 +58,7 @@ public class CraftItemStack_v1_15_R1 implements ICraftItemStack<NBTTagList, NBTT
     {
         try
         {
-            return (net.minecraft.server.v1_15_R1.ItemStack) field.get(craftItemStack);
+            return (net.minecraft.server.v1_15_R1.ItemStack) FIELD_HANDLE.get(craftItemStack);
         } catch (IllegalAccessException e)
         {
             e.printStackTrace();

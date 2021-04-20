@@ -66,9 +66,10 @@ public class NItem extends NCompound<ItemStack>
     {
         this.merge(new NItem(b));
     }
+
     public void merge(NItem b)
     {
-        this.merge(b);
+        NBT.item.merge(this.handle, b.handle);
     }
 
     public static ItemStack asBukkitMirror(ItemStack itemStack)
@@ -90,7 +91,6 @@ public class NItem extends NCompound<ItemStack>
     {
         return NBT.item.compoundToItemStack(internalCompound);
     }
-
 
     public static Object asNMSCompound(ItemStack itemStack)
     {
