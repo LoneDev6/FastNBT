@@ -76,18 +76,6 @@
     <build>
         <!--        <directory>R:\MavenBuildTarget\NmsTests\${project.artifactId}\target\</directory>-->
         <directory>${project.basedir}/../.cache/targets/${project.artifactId}/target/</directory>
-        <extensions>
-            <extension>
-                <groupId>org.apache.maven.extensions</groupId>
-                <artifactId>maven-build-cache-extension</artifactId>
-                <version>1.0.1-SNAPSHOT-unofficial-1.0.0</version>
-            </extension>
-            <extension>
-                <groupId>co.leantechniques</groupId>
-                <artifactId>maven-buildtime-extension</artifactId>
-                <version>2.0.3</version>
-            </extension>
-        </extensions>
         <pluginManagement>
             <plugins>
                 <plugin>

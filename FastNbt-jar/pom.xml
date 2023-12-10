@@ -12,6 +12,59 @@
     <artifactId>FastNbt-jar</artifactId>
     <packaging>jar</packaging>
 
+    <profiles>
+        <profile>
+            <id>local_build</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+                <os>
+                    <family>Windows</family>
+                </os>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>1.2.1</version>
+                        <executions>
+                            <execution>
+                                <id>RemoveMetaInf</id>
+                                <phase>package</phase>
+                                <configuration>
+                                    <executable>cmd</executable>
+                                    <workingDirectory>${project.parent.basedir}</workingDirectory>
+                                    <arguments>
+                                        <argument>/C</argument>
+                                        <argument>.mvn-exec\RemoveMetaInf.bat</argument>
+                                    </arguments>
+                                </configuration>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>CopyFile</id>
+                                <phase>package</phase>
+                                <configuration>
+                                    <executable>cmd</executable>
+                                    <workingDirectory>${project.parent.basedir}</workingDirectory>
+                                    <arguments>
+                                        <argument>/C</argument>
+                                        <argument>.mvn-exec\CopyFile.bat</argument>
+                                    </arguments>
+                                </configuration>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
     <build>
         <plugins>
             <!-- To remove the manifest files-->
@@ -44,43 +97,6 @@
                     </descriptors>
                     <appendAssemblyId>false</appendAssemblyId>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>1.2.1</version>
-                <executions>
-                    <execution>
-                        <id>RemoveMetaInf</id>
-                        <phase>package</phase>
-                        <configuration>
-                            <executable>cmd</executable>
-                            <workingDirectory>${project.parent.basedir}</workingDirectory>
-                            <arguments>
-                                <argument>/C</argument>
-                                <argument>.mvn-exec\RemoveMetaInf.bat</argument>
-                            </arguments>
-                        </configuration>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>CopyFile</id>
-                        <phase>package</phase>
-                        <configuration>
-                            <executable>cmd</executable>
-                            <workingDirectory>${project.parent.basedir}</workingDirectory>
-                            <arguments>
-                                <argument>/C</argument>
-                                <argument>.mvn-exec\CopyFile.bat</argument>
-                            </arguments>
-                        </configuration>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
