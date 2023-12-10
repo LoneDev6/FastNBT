@@ -4,71 +4,142 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>NBT-NMS-API</groupId>
-    <artifactId>NBT-NMS-API</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <artifactId>FastNbt</artifactId>
+    <groupId>dev.lone</groupId>
+    <version>VERSION</version>
 
-    <name>NBT NMS API</name>
+    <name>FastNbt</name>
+    <packaging>pom</packaging>
 
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>9</java.version>
+        <maven.compiler.source>9</maven.compiler.source>
+        <maven.compiler.target>9</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <paper-nms-maven-plugin-version>1.4.2</paper-nms-maven-plugin-version>
+        <jars_libs_folder>C:/Progetti/Minecraft/Spigot/_jars</jars_libs_folder>
+        <targets_prefix_folder>R:\maven-target</targets_prefix_folder>
     </properties>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
-                <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.4</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <createDependencyReducedPom>false</createDependencyReducedPom>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-            </resource>
-        </resources>
-    </build>
+    <modules>
+        <module>FastNbt-core</module>
+        <module>FastNbt-jar</module>
+        <module>fastnbt_nms_v1_15</module>
+        <module>fastnbt_nms_v1_16</module>
+        <module>fastnbt_nms_v1_17</module>
+        <module>fastnbt_nms_v1_18_R2</module>
+        <module>fastnbt_nms_v1_19_R1_2</module>
+        <module>fastnbt_nms_v1_19_R2</module>
+        <module>fastnbt_nms_v1_19_R3</module>
+        <module>fastnbt_nms_v1_20_R1</module>
+        <module>fastnbt_nms_v1_20_R2</module>
+        <module>fastnbt_nms_v1_20_R3</module>
+    </modules>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>bytecode.space</id>
+            <url>https://repo.bytecode.space/repository/maven-public/</url>
+        </pluginRepository>
+    </pluginRepositories>
 
     <repositories>
         <repository>
-            <id>spigotmc-repo</id>
-            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+        <repository>
+            <id>maven.apache.org</id>
+            <url>https://repo.maven.apache.org/maven2/</url>
+        </repository>
+        <!--adventure-->
+        <repository>
+            <id>sonatype-oss-snapshots1</id>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
+        </repository>
+        <!--adventure-->
+        <repository>
+            <id>papermc</id>
+            <url>https://papermc.io/repo/repository/maven-public/</url>
         </repository>
         <repository>
             <id>sonatype</id>
             <url>https://oss.sonatype.org/content/groups/public/</url>
         </repository>
+        <repository>
+            <id>spigotmc-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
+        </repository>
     </repositories>
+
+    <build>
+        <!--        <directory>R:\MavenBuildTarget\NmsTests\${project.artifactId}\target\</directory>-->
+        <directory>${project.basedir}/../.cache/targets/${project.artifactId}/target/</directory>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.extensions</groupId>
+                <artifactId>maven-build-cache-extension</artifactId>
+                <version>1.0.1-SNAPSHOT-unofficial-1.0.0</version>
+            </extension>
+            <extension>
+                <groupId>co.leantechniques</groupId>
+                <artifactId>maven-buildtime-extension</artifactId>
+                <version>2.0.3</version>
+            </extension>
+        </extensions>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.12.4</version>
+                    <configuration>
+                        <skipTests>true</skipTests>
+                        <skip>true</skip>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <!-- Disable useless maven plugins -->
+        <!-- https://developer.jboss.org/people/ozizka/blog/2013/07/06/how-to-speed-up-maven-builds-disabling-unused-plugins -->
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>2.5</version>
+                <executions> <execution> <id>default-clean</id> <phase>none</phase> </execution> </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M4</version>
+                <executions> <execution> <id>default-test</id> <phase>none</phase> </execution> </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.3.1</version>
+                <executions>
+                    <execution> <id>default-testResources</id> <phase>none</phase> </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
 
     <dependencies>
         <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
-            <version>1.14.4-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>24.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>dev.lone.LoneLibs</groupId>
+            <artifactId>LoneLibs</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${jars_libs_folder}/LoneLibs.jar</systemPath>
         </dependency>
     </dependencies>
 </project>

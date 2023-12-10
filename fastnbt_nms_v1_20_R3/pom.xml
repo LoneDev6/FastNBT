@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>fastnbt_nms_v1_20_R3</artifactId>
+    <version>VERSION</version>
+    <packaging>jar</packaging>
+
+    <parent>
+        <artifactId>FastNbt</artifactId>
+        <groupId>dev.lone</groupId>
+        <version>VERSION</version>
+    </parent>
+
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+    </properties>
+
+   <build>
+       <plugins>
+           <plugin>
+               <groupId>ca.bkaw</groupId>
+               <artifactId>paper-nms-maven-plugin</artifactId>
+               <version>${paper-nms-maven-plugin-version}</version>
+               <executions>
+                   <execution>
+                       <phase>process-classes</phase>
+                       <goals>
+                           <goal>remap</goal>
+                       </goals>
+                   </execution>
+               </executions>
+           </plugin>
+       </plugins>
+   </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>ca.bkaw</groupId>
+            <artifactId>paper-nms</artifactId>
+            <version>1.20.3-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>dev.lone</groupId>
+            <artifactId>FastNbt-core</artifactId>
+            <version>VERSION</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+</project>

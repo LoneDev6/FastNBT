@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>fastnbt_nms_v1_15</artifactId>
+    <version>VERSION</version>
+    <packaging>jar</packaging>
+
+    <parent>
+        <artifactId>FastNbt</artifactId>
+        <groupId>dev.lone</groupId>
+        <version>VERSION</version>
+    </parent>
+
+    <dependencies>
+        <dependency>
+            <groupId>libs</groupId>
+            <artifactId>patched_1.15.2</artifactId>
+            <version>VERSION</version>
+            <scope>system</scope>
+            <systemPath>${jars_libs_folder}/patched_1.15.2.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>libs</groupId>
+            <artifactId>spigot_1.15.2</artifactId>
+            <version>VERSION</version>
+            <scope>system</scope>
+            <systemPath>${jars_libs_folder}/spigot_1.15.2.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>dev.lone</groupId>
+            <artifactId>FastNbt-core</artifactId>
+            <version>VERSION</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+</project>
