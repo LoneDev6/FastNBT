@@ -172,12 +172,12 @@ public class NItem extends NCompound<ItemStack>
         return Nbt.item.bukkitItemToCompoundStr(bukkitItem);
     }
 
-    public void setDisplayName(String compoundString)
+    public void setDisplayNameCompound(String compoundString)
     {
         getOrAddCompound("display").setString("Name", compoundString);
     }
 
-    public void setLore(List<String> compoundStrings)
+    public void setLoreCompounds(List<String> compoundStrings)
     {
         NCompound<?> display = getOrAddCompound("display");
         NTagList<?> lore = display.getOrAddList("Lore", NbtType.String);
