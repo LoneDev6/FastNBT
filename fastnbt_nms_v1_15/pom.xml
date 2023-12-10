@@ -5,27 +5,27 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>fastnbt_nms_v1_15</artifactId>
-    <version>VERSION</version>
+    <version>${revision}</version>
     <packaging>jar</packaging>
 
     <parent>
         <artifactId>FastNbt</artifactId>
         <groupId>dev.lone</groupId>
-        <version>VERSION</version>
+        <version>${revision}</version>
     </parent>
 
     <dependencies>
         <dependency>
             <groupId>libs</groupId>
             <artifactId>patched_1.15.2</artifactId>
-            <version>VERSION</version>
+            <version>${revision}</version>
             <scope>system</scope>
             <systemPath>${jars_libs_folder}/patched_1.15.2.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>libs</groupId>
             <artifactId>spigot_1.15.2</artifactId>
-            <version>VERSION</version>
+            <version>${revision}</version>
             <scope>system</scope>
             <systemPath>${jars_libs_folder}/spigot_1.15.2.jar</systemPath>
         </dependency>
@@ -33,7 +33,7 @@
         <dependency>
             <groupId>dev.lone</groupId>
             <artifactId>FastNbt-core</artifactId>
-            <version>VERSION</version>
+            <version>${revision}</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

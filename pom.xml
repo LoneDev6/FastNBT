@@ -6,12 +6,13 @@
 
     <artifactId>FastNbt</artifactId>
     <groupId>dev.lone</groupId>
-    <version>VERSION</version>
+    <version>${revision}</version>
 
     <name>FastNbt</name>
     <packaging>pom</packaging>
 
     <properties>
+        <revision>1.1.2</revision>
         <java.version>9</java.version>
         <maven.compiler.source>9</maven.compiler.source>
         <maven.compiler.target>9</maven.compiler.target>

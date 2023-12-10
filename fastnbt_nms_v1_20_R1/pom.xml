@@ -5,13 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>fastnbt_nms_v1_20_R1</artifactId>
-    <version>VERSION</version>
+    <version>${revision}</version>
     <packaging>jar</packaging>
 
     <parent>
         <artifactId>FastNbt</artifactId>
         <groupId>dev.lone</groupId>
-        <version>VERSION</version>
+        <version>${revision}</version>
     </parent>
 
     <properties>
@@ -47,7 +47,7 @@
         <dependency>
             <groupId>dev.lone</groupId>
             <artifactId>FastNbt-core</artifactId>
-            <version>VERSION</version>
+            <version>${revision}</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
