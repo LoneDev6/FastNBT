@@ -126,7 +126,7 @@ public class Compound_v1_20_R3 implements ICompoundTag<CompoundTag, ListTag, Com
     @Override
     public UUID getUUID(CompoundTag handle, String key)
     {
-        if (!handle.contains(key, NbtType.IntArray.id) && handle.contains(key + "Most", NbtType.AnyNumeric.id) && handle.contains(key + "Least", NbtType.AnyNumeric.id))
+        if (!handle.contains(key, NBTType.IntArray.id) && handle.contains(key + "Most", NBTType.AnyNumeric.id) && handle.contains(key + "Least", NBTType.AnyNumeric.id))
             return new UUID(handle.getLong(key + "Most"), handle.getLong(key + "Least"));
 
         Tag tag = handle.get(key);

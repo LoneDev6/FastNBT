@@ -18,19 +18,18 @@ public class NItem extends NCompound
 {
     private boolean isConvertedCopy;
     private ItemStack original;
-    private boolean changed = false;
 
     public NItem(@NotNull ItemStack itemStack)
     {
-        if (!Nbt.isInstanceOfCraftItemStack(itemStack))
+        if (!NBT.isInstanceOfCraftItemStack(itemStack))
         {
-            this.handle = Nbt.item.convertToCraft(itemStack);
+            this.handle = NBT.item.convertToCraft(itemStack);
             this.original = itemStack;
             this.isConvertedCopy = true;
         }
         else
             this.handle = itemStack;
-        this.handler = Nbt.item;
+        this.handler = NBT.item;
     }
 
     @Nullable
@@ -82,12 +81,12 @@ public class NItem extends NCompound
     public void refreshCopy()
     {
         if (isConvertedCopy)
-            this.handle = Nbt.item.convertToCraft(original);
+            this.handle = NBT.item.convertToCraft(original);
     }
 
     public static boolean hasNBT(ItemStack itemStack)
     {
-        return Nbt.item.hasNBT(itemStack);
+        return NBT.item.hasNBT(itemStack);
     }
 
     public void merge(ItemStack b)
@@ -97,7 +96,7 @@ public class NItem extends NCompound
 
     public void merge(NItem b)
     {
-        Nbt.item.merge(this.handle, b.handle);
+        NBT.item.merge(this.handle, b.handle);
     }
 
     public boolean merge(String tag) throws JsonSyntaxException
@@ -136,42 +135,42 @@ public class NItem extends NCompound
 
     public static ItemStack asCraftMirror(ItemStack itemStack)
     {
-        return Nbt.item.asCraftMirror(itemStack);
+        return NBT.item.asCraftMirror(itemStack);
     }
 
     @Nullable
     public static ItemStack compoundToBukkitItem(NCompound compound)
     {
-        return Nbt.item.compoundToItemStack(compound.getInternal());
+        return NBT.item.compoundToItemStack(compound.getInternal());
     }
 
     @ApiStatus.Internal
     public static Object bukkitItemToNmsItem(ItemStack itemStack)
     {
-        return Nbt.item.asNmsCopy(itemStack);
+        return NBT.item.asNmsCopy(itemStack);
     }
 
     @ApiStatus.Internal
     public static ItemStack nmsCompoundToBukkitItem(Object internalCompound)
     {
-        return Nbt.item.compoundToItemStack(internalCompound);
+        return NBT.item.compoundToItemStack(internalCompound);
     }
 
     @ApiStatus.Internal
     public static Object bukkitItemToNmsCompound(ItemStack itemStack)
     {
-        return Nbt.item.itemStackToCompound(itemStack);
+        return NBT.item.itemStackToCompound(itemStack);
     }
 
     @Nullable
     public static ItemStack compoundStrToBukkitItem(String compoundString)
     {
-        return Nbt.item.compoundStrToBukkit(compoundString);
+        return NBT.item.compoundStrToBukkit(compoundString);
     }
 
     public static String bukkitItemToCompoundStr(ItemStack bukkitItem)
     {
-        return Nbt.item.bukkitItemToCompoundStr(bukkitItem);
+        return NBT.item.bukkitItemToCompoundStr(bukkitItem);
     }
 
     public void setDisplayNameCompound(String compoundString)
@@ -182,9 +181,9 @@ public class NItem extends NCompound
     public void setLoreCompounds(List<String> compoundStrings)
     {
         NCompound display = getOrAddCompound("display");
-        NRawList lore = display.getOrAddList("Lore", NbtType.String);
+        NList lore = display.getOrAddList("Lore", NBTType.String);
         for (String compound : compoundStrings)
-            lore.add(compound);
+            lore.addString(compound);
     }
 
     public void setAttributeModifier(String attributeName,
@@ -195,7 +194,7 @@ public class NItem extends NCompound
                                      int uuidLeast,
                                      int uuidMost)
     {
-        NRawList attributes = getOrAddList("AttributeModifiers", NbtType.Compound);
+        NList attributes = getOrAddList("AttributeModifiers", NBTType.Compound);
         NCompound attribute = attributes.addCompound();
         attribute.setString("AttributeName", attributeName);
         attribute.setInt("Operation", operation);
@@ -208,7 +207,7 @@ public class NItem extends NCompound
 
     public void setEnchantment(String id, short level)
     {
-        NRawList compoundList = getOrAddList("Enchantments", NbtType.Compound);
+        NList compoundList = getOrAddList("Enchantments", NBTType.Compound);
         setEnchantment(compoundList, id, level);
     }
 
@@ -233,12 +232,12 @@ public class NItem extends NCompound
         if(!hasKey("Enchantments"))
             return;
 
-        NRawList compoundList = getOrAddList("Enchantments", NbtType.Compound);
+        NList compoundList = getOrAddList("Enchantments", NBTType.Compound);
         if(!compoundList.isEmpty())
         {
             for (int i = 0; i < compoundList.size(); i++)
             {
-                NCompound enchant = compoundList.getOrAddCompoundAt(i);
+                NCompound enchant = compoundList.getOrAddCompound(i);
                 if(!enchant.getString("id").equals(id))
                     continue;
 
@@ -250,7 +249,7 @@ public class NItem extends NCompound
 
     private void addEnchantments0(Map<String, Short> enchantments)
     {
-        NRawList compoundList = getOrAddList("Enchantments", NbtType.Compound);
+        NList compoundList = getOrAddList("Enchantments", NBTType.Compound);
         for (Map.Entry<String, Short> entry : enchantments.entrySet())
         {
             String id = entry.getKey();
@@ -259,13 +258,13 @@ public class NItem extends NCompound
         }
     }
 
-    private void setEnchantment(NRawList compoundList, String id, Short level)
+    private void setEnchantment(NList compoundList, String id, Short level)
     {
         if(!compoundList.isEmpty())
         {
             for (int i = 0; i < compoundList.size(); i++)
             {
-                NCompound enchant = compoundList.getOrAddCompoundAt(i);
+                NCompound enchant = compoundList.getOrAddCompound(i);
                 if(!enchant.getString("id").equals(id))
                     continue;
                 if(enchant.getShort("lvl") == level)
@@ -277,7 +276,7 @@ public class NItem extends NCompound
         }
 
         NCompound enchant = new NCompound();
-        compoundList.add(enchant);
+        compoundList.addCompound(enchant);
         enchant.setString("id", id);
         enchant.setShort("lvl", level);
     }
@@ -289,9 +288,9 @@ public class NItem extends NCompound
         owner.setString("Name", name);
         owner.setUUID("Id", uuid);
 
-        NRawList textures = owner.getOrAddCompound("Properties").getOrAddList("textures", NbtType.Compound);
+        NList textures = owner.getOrAddCompound("Properties").getOrAddList("textures", NBTType.Compound);
         NCompound profile = new NCompound();
-        textures.add(profile);
+        textures.addCompound(profile);
         profile.setString("Value", value);
         profile.setString("Signature", signature);
     }
@@ -303,9 +302,9 @@ public class NItem extends NCompound
         owner.setString("Name", name);
         owner.setUUID("Id", UUID.nameUUIDFromBytes(name.getBytes()));
 
-        NRawList textures = owner.getOrAddCompound("Properties").getOrAddList("textures", NbtType.Compound);
+        NList textures = owner.getOrAddCompound("Properties").getOrAddList("textures", NBTType.Compound);
         NCompound profile = new NCompound();
-        textures.add(profile);
+        textures.addCompound(profile);
         profile.setString("Value", value);
     }
 
@@ -371,13 +370,11 @@ public class NItem extends NCompound
         NCompound properties = compound.getCompound("Properties");
         if(properties == null)
             return null;
-        NRawList textures = properties.getList("textures", NbtType.Compound);
+        NList textures = properties.getList("textures", NBTType.Compound);
         if(textures == null)
             return null;
         if(textures.isEmpty())
             return null;
-        return textures.getOrAddCompoundAt(0);
+        return textures.getOrAddCompound(0);
     }
-
-    //TODO: benchmark the two NBT libs to showcase that mine is faster.
 }

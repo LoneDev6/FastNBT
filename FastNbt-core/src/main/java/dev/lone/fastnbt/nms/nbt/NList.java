@@ -8,29 +8,28 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 /**
- * Version without boxing and safety checks.
- * It's probably faster than the other classes due to the fact that it limits inheritance.
+ * Version without boxing and safety checks and limits inheritance.
  */
 @SuppressWarnings({"unchecked", "rawtypes", "UnusedReturnValue", "unused"})
-public class NRawList
+public class NList
 {
     protected IListTag handler;
     protected Object handle;
 
-    public NRawList()
+    public NList()
     {
-        this((Object) newInstance());
+        this(newInstance());
     }
 
-    public NRawList(Object handle)
+    public NList(Object handle)
     {
         this.handle = handle;
-        this.handler = Nbt.list;
+        this.handler = NBT.list;
     }
 
     public static Object newInstance()
     {
-        return Nbt.list.newNmsInstance();
+        return NBT.list.newNmsInstance();
     }
 
     public Object getInternal()
@@ -39,7 +38,7 @@ public class NRawList
     }
 
     @Nullable
-    public NCompound getCompoundAt(int i)
+    public NCompound getCompound(int i)
     {
         Object handle = handler.getCompoundAt(this.handle, i);
         if(handle == null)
@@ -47,75 +46,75 @@ public class NRawList
         return new NCompound(handle);
     }
 
-    public NCompound getOrAddCompoundAt(int i)
+    public NCompound getOrAddCompound(int i)
     {
         Object handle = handler.getCompoundAt(this.handle, i);
         if (handle != null)
             return new NCompound(handle);
 
-        return addCompoundAt(i);
+        return addCompound(i);
     }
 
-    public NCompound addCompoundAt(int i)
+    public NCompound addCompound(int i)
     {
         NCompound wrapped = new NCompound();
-        add(i, wrapped);
+        addCompound(i, wrapped);
         return wrapped;
     }
 
     public NCompound addCompound()
     {
         NCompound wrapped = new NCompound();
-        add(size(), wrapped);
+        addCompound(size(), wrapped);
         return wrapped;
     }
 
     @Nullable
-    public NRawList getListAt(int i)
+    public NList getList(int i)
     {
         Object handle = handler.getListAt(this.handle, i);
         if(handle == null)
             return null;
-        return new NRawList(handle);
+        return new NList(handle);
     }
 
-    public NRawList getOrAddListAt(int i)
+    public NList getOrAddList(int i)
     {
         Object handle = handler.getListAt(this.handle, i);
         if (handle != null)
-            return new NRawList(handle);
+            return new NList(handle);
 
-        return addListAt(i);
+        return addList(i);
     }
 
-    public NRawList addListAt(int i)
+    public NList addList(int i)
     {
-        NRawList wrapped = new NRawList();
-        add(i, wrapped);
+        NList wrapped = new NList();
+        addRaw(i, wrapped.handle);
         return wrapped;
     }
 
-    public short getShortAt(int i)
+    public short getShort(int i)
     {
         return handler.getShortAt(handle, i);
     }
 
-    public int getIntAt(int i)
+    public int getInt(int i)
     {
         return handler.getIntAt(handle, i);
     }
 
-    public int @Nullable [] getIntArrayAt(int i)
+    public int @Nullable [] getIntArray(int i)
     {
         return handler.getIntArrayAt(this.handle, i);
     }
 
-    public double getDoubleAt(int i)
+    public double getDouble(int i)
     {
         return handler.getDoubleAt(handle, i);
     }
 
-    public float getFloatAt(int i)
+    public float getFloat(int i)
     {
         return handler.getFloatAt(handle, i);
     }
@@ -125,23 +124,24 @@ public class NRawList
         return handler.size(handle);
     }
 
+    @ApiStatus.Internal
     public Object getRaw(int i)
     {
         return handler.get(handle, i);
     }
 
     @ApiStatus.Internal
-    private void add(int i, Object any)
+    private void addRaw(int i, Object any)
     {
         handler.add(handle, i, any);
     }
 
-    public void add(int i, ItemStack bukkitItemStack)
+    public void addItemStack(int i, ItemStack bukkitItemStack)
     {
         handler.add(handle, i,  NItem.bukkitItemToNmsCompound(bukkitItemStack));
     }
 
-    public <N extends NCompound> void add(N nCompound)
+    public <N extends NCompound> void addCompound(N nCompound)
     {
         handler.add(handle, handler.size(handle), nCompound.handle);
     }
@@ -152,67 +152,67 @@ public class NRawList
         handler.add(handle, size(), any);
     }
 
-    public void add(ItemStack bukkitItemStack)
+    public void addItemStack(ItemStack bukkitItemStack)
     {
         handler.add(handle, size(), NItem.bukkitItemToNmsCompound(bukkitItemStack));
     }
 
-    public <N extends NCompound> void add(int i, N nCompound)
+    public <N extends NCompound> void addCompound(int i, N nCompound)
     {
         handler.add(handle, i, nCompound.handle);
     }
 
-    public void add(byte value)
+    public void addByte(byte value)
     {
         addRaw(value);
     }
 
-    public void add(short value)
+    public void addShort(short value)
     {
         addRaw(value);
     }
 
-    public void add(int value)
+    public void addInt(int value)
     {
         addRaw(value);
     }
 
-    public void add(long value)
+    public void addLong(long value)
     {
         addRaw(value);
     }
 
-    public void add(float value)
+    public void addFloat(float value)
     {
         addRaw(value);
     }
 
-    public void add(double value)
+    public void addDouble(double value)
     {
         addRaw(value);
     }
 
-    public void add(byte[] value)
+    public void addByte(byte[] value)
     {
         addRaw(value);
     }
 
-    public void add(String value)
+    public void addString(String value)
     {
         addRaw(value);
     }
 
-    public void add(List<?> value)
+    public void addList(List<?> value)
     {
         addRaw(value);
     }
 
-    public void add(int[] value)
+    public void addIntArray(int[] value)
     {
         addRaw(value);
     }
 
-    public void add(long[] value)
+    public void addLongArray(long[] value)
     {
         addRaw(value);
     }
@@ -223,67 +223,67 @@ public class NRawList
         handler.set(handle, i, any);
     }
 
-    public void set(int i, ItemStack bukkitItemStack)
+    public void setItem(int i, ItemStack bukkitItemStack)
     {
         handler.set(handle, i, NItem.bukkitItemToNmsCompound(bukkitItemStack));
     }
 
-    public <N extends NCompound> void set(int i, N nCompound)
+    public <N extends NCompound> void setCompound(int i, N nCompound)
     {
         handler.set(handle, i, nCompound.handle);
     }
 
-    public void set(int i, byte value)
+    public void setByte(int i, byte value)
     {
         setRaw(i, value);
     }
 
-    public void set(int i, short value)
+    public void setShort(int i, short value)
     {
         setRaw(i, value);
     }
 
-    public void set(int i, int value)
+    public void setInt(int i, int value)
     {
         setRaw(i, value);
     }
 
-    public void set(int i, long value)
+    public void setLong(int i, long value)
     {
         setRaw(i, value);
     }
 
-    public void set(int i, float value)
+    public void setFloat(int i, float value)
     {
         setRaw(i, value);
     }
 
-    public void set(int i, double value)
+    public void setDouble(int i, double value)
     {
         setRaw(i, value);
     }
 
-    public void set(int i, byte[] value)
+    public void setByteArray(int i, byte[] value)
     {
         setRaw(i, value);
     }
 
-    public void set(int i, String value)
+    public void setString(int i, String value)
     {
         setRaw(i, value);
     }
 
-    public void set(int i, List<?> value)
+    public void setList(int i, List<?> value)
     {
         setRaw(i, value);
     }
 
-    public void set(int i, int[] value)
+    public void setIntArray(int i, int[] value)
     {
         setRaw(i, value);
     }
 
-    public void set(int i, long[] value)
+    public void setLongArray(int i, long[] value)
     {
         setRaw(i, value);
     }

@@ -17,18 +17,18 @@ public class NCompound
 
     public NCompound()
     {
-        this(Nbt.compound.newInstance());
+        this(NBT.compound.newInstance());
     }
 
     public NCompound(Object handle)
     {
         this.handle = handle;
-        this.handler = Nbt.compound;
+        this.handler = NBT.compound;
     }
 
     public static Object newNmsInstance()
     {
-        return Nbt.compound.newInstance();
+        return NBT.compound.newInstance();
     }
 
     public Object getInternal()
@@ -213,109 +213,25 @@ public class NCompound
     }
 
     @Nullable
-    public NRawList getList(String key, NbtType type)
+    public NList getList(String key, NBTType type)
     {
         if (handler.hasKey(handle, key))
-            return new NRawList(handler.getList(handle, key, type.id));
+            return new NList(handler.getList(handle, key, type.id));
         return null;
     }
 
-    @Nullable
-    public NListDouble getListDouble(String key)
+    public NList getOrAddList(String key, NBTType type)
     {
-        if (handler.hasKey(handle, key))
-        {
-            Object internal = handler.getList(handle, key, NbtType.Double.id);
-            if(internal == null)
-                return null;
-            return new NListDouble(internal);
-        }
-        return null;
+        return new NList(handler.getOrAddList(handle, key, type.id));
     }
 
-    @Nullable
-    public NListFloat getListFloat(String key)
-    {
-        if (handler.hasKey(handle, key))
-        {
-            Object internal = handler.getList(handle, key, NbtType.Float.id);
-            if(internal == null)
-                return null;
-            return new NListFloat(internal);
-        }
-        return null;
-    }
-
-    @Nullable
-    public NListInt getListInt(String key)
-    {
-        if (handler.hasKey(handle, key))
-        {
-            Object internal = handler.getList(handle, key, NbtType.Float.id);
-            if(internal == null)
-                return null;
-            return new NListInt(internal);
-        }
-        return null;
-    }
-
-    @Nullable
-    public NListShort getListShort(String key)
-    {
-        if (handler.hasKey(handle, key))
-        {
-            Object internal = handler.getList(handle, key, NbtType.Float.id);
-            if(internal == null)
-                return null;
-            return new NListShort(internal);
-        }
-        return null;
-    }
-
-    @Nullable
-    public NListString getListString(String key)
-    {
-        if (handler.hasKey(handle, key))
-        {
-            Object internal = handler.getList(handle, key, NbtType.Float.id);
-            if(internal == null)
-                return null;
-            return new NListString(internal);
-        }
-        return null;
-    }
-
-    @Nullable
-    public NListList getListList(String key)
-    {
-        if (handler.hasKey(handle, key))
-        {
-            Object internal = handler.getList(handle, key, NbtType.Float.id);
-            if(internal == null)
-                return null;
-            return new NListList(internal);
-        }
-        return null;
-    }
-
-    public NRawList getOrAddList(String key, NbtType type)
-    {
-        return new NRawList(handler.getOrAddList(handle, key, type.id));
-    }
-
-    public NRawList addList(String key, NbtType type)
+    public NList addList(String key, NBTType type)
     {
         remove(key);
         return getOrAddList(key, type);
     }
 
-    public void setList(String key, NRawList list)
-    {
-        remove(key);
-        putInternalTag(key, list.handle);
-    }
-
-    public <T extends NSafeTagList> void setList(String key, T list)
+    public void setList(String key, NList list)
     {
         remove(key);
         putInternalTag(key, list.handle);

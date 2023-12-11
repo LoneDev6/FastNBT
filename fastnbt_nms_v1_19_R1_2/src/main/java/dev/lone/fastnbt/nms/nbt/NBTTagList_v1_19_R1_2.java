@@ -30,8 +30,8 @@ public class NBTTagList_v1_19_R1_2 implements IListTag<ListTag, Tag, CompoundTag
         if (i >= 0 && i < list.size())
         {
             Tag tag = list.get(i);
-            if (tag.getId() != NbtType.Compound.id)
-                throw new IllegalArgumentException("Tag at " + i + " is not a Compound: " + NbtType.byId(tag.getId()));
+            if (tag.getId() != NBTType.Compound.id)
+                throw new IllegalArgumentException("Tag at " + i + " is not a Compound: " + NBTType.byId(tag.getId()));
             return (CompoundTag) tag;
         }
 
@@ -44,8 +44,8 @@ public class NBTTagList_v1_19_R1_2 implements IListTag<ListTag, Tag, CompoundTag
         if (i >= 0 && i < list.size())
         {
             Tag tag = list.get(i);
-            if (tag.getId() != NbtType.List.id)
-                throw new IllegalArgumentException("Tag at " + i + " is not a ListTag: " + NbtType.byId(tag.getId()));
+            if (tag.getId() != NBTType.List.id)
+                throw new IllegalArgumentException("Tag at " + i + " is not a ListTag: " + NBTType.byId(tag.getId()));
             return (ListTag) tag;
         }
 
@@ -70,8 +70,8 @@ public class NBTTagList_v1_19_R1_2 implements IListTag<ListTag, Tag, CompoundTag
         if (i >= 0 && i < list.size())
         {
             Tag tag = list.get(i);
-            if (tag.getId() != NbtType.IntArray.id)
-                throw new IllegalArgumentException("Tag at " + i + " is not a IntArrayTag: " + NbtType.byId(tag.getId()));
+            if (tag.getId() != NBTType.IntArray.id)
+                throw new IllegalArgumentException("Tag at " + i + " is not a IntArrayTag: " + NBTType.byId(tag.getId()));
             return ((IntArrayTag) tag).getAsIntArray();
         }
 

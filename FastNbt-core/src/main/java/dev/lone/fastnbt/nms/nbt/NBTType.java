@@ -1,6 +1,6 @@
 package dev.lone.fastnbt.nms.nbt;
 
-public enum NbtType
+public enum NBTType
 {
     End(0),
     Byte(1),
@@ -18,16 +18,16 @@ public enum NbtType
     AnyNumeric(99),
     UNKNOWN(-1337);
 
-    NbtType(int i)
+    NBTType(int i)
     {
         id = i;
     }
 
     public final int id;
 
-    public static NbtType byId(byte id)
+    public static NBTType byId(byte id)
     {
-        for (NbtType value : NbtType.values())
+        for (NBTType value : NBTType.values())
         {
             if(value.id == id)
                 return value;

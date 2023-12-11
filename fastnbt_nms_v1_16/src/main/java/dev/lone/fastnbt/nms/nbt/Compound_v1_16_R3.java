@@ -126,7 +126,7 @@ public class Compound_v1_16_R3 implements ICompoundTag<NBTTagCompound, NBTTagLis
     @Override
     public UUID getUUID(NBTTagCompound handle, String key)
     {
-        if (!handle.hasKeyOfType(key, 11) && handle.hasKeyOfType(key + "Most", NbtType.AnyNumeric.id) && handle.hasKeyOfType(key + "Least", NbtType.AnyNumeric.id))
+        if (!handle.hasKeyOfType(key, 11) && handle.hasKeyOfType(key + "Most", NBTType.AnyNumeric.id) && handle.hasKeyOfType(key + "Least", NBTType.AnyNumeric.id))
             return new UUID(handle.getLong(key + "Most"), handle.getLong(key + "Least"));
 
         NBTBase tag = handle.get(key);

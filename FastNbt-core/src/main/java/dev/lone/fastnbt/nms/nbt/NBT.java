@@ -6,7 +6,7 @@ import dev.lone.fastnbt.nms.Version;
 import dev.lone.fastnbt.nms.nbt.nms.ICompoundTag;
 import dev.lone.fastnbt.nms.nbt.nms.ICraftItemStack;
 import dev.lone.fastnbt.nms.nbt.nms.IListTag;
-import dev.lone.fastnbt.nms.nbt.nms.INbtIo;
+import dev.lone.fastnbt.nms.nbt.nms.INBTIO;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
@@ -19,12 +19,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 @SuppressWarnings("rawtypes")
-class Nbt
+class NBT
 {
     public static ICompoundTag compound;
     public static ICraftItemStack item;
     public static IListTag list;
-    public static INbtIo streamTools;
+    public static INBTIO streamTools;
 
     static
     {
@@ -35,7 +35,7 @@ class Nbt
             compound = Implementation.find(ICompoundTag.class, Version.get());
             item = Implementation.find(ICraftItemStack.class, Version.get());
             list = Implementation.find(IListTag.class, Version.get());
-            streamTools = Implementation.find(INbtIo.class, Version.get());
+            streamTools = Implementation.find(INBTIO.class, Version.get());
         }
         catch (Throwable ex)
         {
@@ -70,7 +70,7 @@ class Nbt
 
     protected static @Nullable Plugin getPlugin()
     {
-        ClassLoader classLoader = Nbt.class.getClassLoader();
+        ClassLoader classLoader = NBT.class.getClassLoader();
         InputStream stream = classLoader.getResourceAsStream("plugin.yml");
         if (stream != null)
         {

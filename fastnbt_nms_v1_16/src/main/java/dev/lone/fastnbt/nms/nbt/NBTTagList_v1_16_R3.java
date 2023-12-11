@@ -30,8 +30,8 @@ public class NBTTagList_v1_16_R3 implements IListTag<NBTTagList, NBTBase, NBTTag
         if (i >= 0 && i < list.size())
         {
             NBTBase tag = list.get(i);
-            if (tag.getTypeId() != NbtType.Compound.id)
-                throw new IllegalArgumentException("Tag at " + i + " is not a Compound: " + NbtType.byId(tag.getTypeId()));
+            if (tag.getTypeId() != NBTType.Compound.id)
+                throw new IllegalArgumentException("Tag at " + i + " is not a Compound: " + NBTType.byId(tag.getTypeId()));
             return (NBTTagCompound) tag;
         }
 
@@ -44,8 +44,8 @@ public class NBTTagList_v1_16_R3 implements IListTag<NBTTagList, NBTBase, NBTTag
         if (i >= 0 && i < list.size())
         {
             NBTBase tag = list.get(i);
-            if (tag.getTypeId() != NbtType.List.id)
-                throw new IllegalArgumentException("Tag at " + i + " is not a ListTag: " + NbtType.byId(tag.getTypeId()));
+            if (tag.getTypeId() != NBTType.List.id)
+                throw new IllegalArgumentException("Tag at " + i + " is not a ListTag: " + NBTType.byId(tag.getTypeId()));
             return (NBTTagList) tag;
         }
 
