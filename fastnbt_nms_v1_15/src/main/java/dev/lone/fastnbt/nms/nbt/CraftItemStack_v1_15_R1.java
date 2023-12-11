@@ -4,7 +4,6 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import org.jetbrains.annotations.Nullable;
 import dev.lone.fastnbt.nms.Implementation;
 import dev.lone.fastnbt.nms.Version;
-import dev.lone.fastnbt.nms.nbt.nms.ICraftItemStack;
 import net.minecraft.server.v1_15_R1.MojangsonParser;
 import net.minecraft.server.v1_15_R1.NBTTagCompound;
 import net.minecraft.server.v1_15_R1.NBTTagList;

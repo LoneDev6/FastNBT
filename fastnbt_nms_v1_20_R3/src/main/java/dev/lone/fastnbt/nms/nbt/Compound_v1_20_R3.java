@@ -2,7 +2,6 @@ package dev.lone.fastnbt.nms.nbt;
 
 import dev.lone.fastnbt.nms.Implementation;
 import dev.lone.fastnbt.nms.Version;
-import dev.lone.fastnbt.nms.nbt.nms.ICompoundTag;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;

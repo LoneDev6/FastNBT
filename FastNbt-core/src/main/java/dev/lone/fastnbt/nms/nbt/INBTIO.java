@@ -1,4 +1,4 @@
-package dev.lone.fastnbt.nms.nbt.nms;
+package dev.lone.fastnbt.nms.nbt;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;

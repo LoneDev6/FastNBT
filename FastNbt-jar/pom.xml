@@ -5,7 +5,7 @@
     <parent>
         <artifactId>FastNbt</artifactId>
         <groupId>dev.lone</groupId>
-        <version>1.1.5</version>
+        <version>1.1.6</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -105,42 +105,42 @@
         <dependency>
             <groupId>dev.lone</groupId>
             <artifactId>FastNbt-core</artifactId>
-            <version>1.1.5</version>
+            <version>1.1.6</version>
         </dependency>
         <dependency>
             <groupId>dev.lone</groupId>
             <artifactId>fastnbt_nms_v1_20_R3</artifactId>
-            <version>1.1.5</version>
+            <version>1.1.6</version>
         </dependency>
         <dependency>
             <groupId>dev.lone</groupId>
             <artifactId>fastnbt_nms_v1_20_R2</artifactId>
-            <version>1.1.5</version>
+            <version>1.1.6</version>
         </dependency>
         <dependency>
             <groupId>dev.lone</groupId>
             <artifactId>fastnbt_nms_v1_19_R3</artifactId>
-            <version>1.1.5</version>
+            <version>1.1.6</version>
         </dependency>
         <dependency>
             <groupId>dev.lone</groupId>
             <artifactId>fastnbt_nms_v1_19_R2</artifactId>
-            <version>1.1.5</version>
+            <version>1.1.6</version>
         </dependency>
         <dependency>
             <groupId>dev.lone</groupId>
             <artifactId>fastnbt_nms_v1_19_R1_2</artifactId>
-            <version>1.1.5</version>
+            <version>1.1.6</version>
         </dependency>
         <dependency>
             <groupId>dev.lone</groupId>
             <artifactId>fastnbt_nms_v1_16</artifactId>
-            <version>1.1.5</version>
+            <version>1.1.6</version>
         </dependency>
         <dependency>
             <groupId>dev.lone</groupId>
             <artifactId>fastnbt_nms_v1_15</artifactId>
-            <version>1.1.5</version>
+            <version>1.1.6</version>
         </dependency>
     </dependencies>
 

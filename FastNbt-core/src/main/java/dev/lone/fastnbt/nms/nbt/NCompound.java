@@ -1,6 +1,5 @@
 package dev.lone.fastnbt.nms.nbt;
 
-import dev.lone.fastnbt.nms.nbt.nms.ICompoundTag;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;

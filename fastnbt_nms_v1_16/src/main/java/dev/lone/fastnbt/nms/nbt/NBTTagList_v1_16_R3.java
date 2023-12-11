@@ -2,7 +2,6 @@ package dev.lone.fastnbt.nms.nbt;
 
 import dev.lone.fastnbt.nms.Implementation;
 import dev.lone.fastnbt.nms.Version;
-import dev.lone.fastnbt.nms.nbt.nms.IListTag;
 import net.minecraft.server.v1_16_R3.*;
 import org.jetbrains.annotations.Nullable;
 

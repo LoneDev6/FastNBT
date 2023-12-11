@@ -1,4 +1,4 @@
-package dev.lone.fastnbt.nms.nbt.nms;
+package dev.lone.fastnbt.nms.nbt;
 
 import org.jetbrains.annotations.Nullable;
 

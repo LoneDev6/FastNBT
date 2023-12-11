@@ -50,4 +50,8 @@ attributes.add(attribute);
 
 # Limitations
 
-Currently supports only items.
+Currently, supports only items.
+
+# LoneDev's Notes
+## How to deploy
+`mvn deploy`
