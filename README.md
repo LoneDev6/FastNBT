@@ -1,22 +1,3 @@
-<<<<<<< HEAD
-=======
-# Maven
-
-```xml
- <repository>
-    <id>matteodev</id>
-    <url>https://www.matteodev.it/spigot/public/maven/</url>
-</repository>
-```
-```xml
-<dependency>
-    <groupId>dev.lone</groupId>
-    <artifactId>FastNbt-jar</artifactId>
-    <version>RELEASE_VERSION</version>
-</dependency>
-```
-
->>>>>>> origin/master
 # Comparison to NBT API
 
 ## Benchmark
