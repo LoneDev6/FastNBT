@@ -1,11 +1,12 @@
 package dev.lone.fastnbt.nms.nbt.nms;
 
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
-public interface ICraftItemStack<NBTLIST, NBTCOMPOUND, CRAFTITEMSTACK extends ItemStack> extends ICompound<ItemStack, NBTLIST, NBTCOMPOUND>
+public interface ICraftItemStack<ListTag, CompoundTag, CraftItemStack extends ItemStack> extends ICompoundTag<ItemStack, ListTag, CompoundTag>
 {
-    CRAFTITEMSTACK convertToCraft(ItemStack itemStack);
-    boolean hasNbt(ItemStack itemStack);
+    CraftItemStack convertToCraft(ItemStack itemStack);
+    boolean hasNBT(ItemStack itemStack);
     void merge(ItemStack itemStack, ItemStack otherItem);
 
     default boolean hasItemMeta(ItemStack itemStack)
@@ -14,9 +15,9 @@ public interface ICraftItemStack<NBTLIST, NBTCOMPOUND, CRAFTITEMSTACK extends It
     }
     ItemStack asCraftMirror(ItemStack itemStack);
     Object asNmsCopy(ItemStack itemStack);
-    ItemStack compoundToItemStack(NBTCOMPOUND itemStack);
-    NBTCOMPOUND itemStackToCompound(ItemStack itemStack);
-    ItemStack compoundStrToBukkit(String json);
+    @Nullable ItemStack compoundToItemStack(CompoundTag itemStack);
+    CompoundTag itemStackToCompound(ItemStack itemStack);
+    @Nullable ItemStack compoundStrToBukkit(String json);
     default String bukkitItemToCompoundStr(ItemStack bukkitItem)
     {
         return toString(bukkitItem);

@@ -37,7 +37,7 @@ nItem.setAttributeModifier(
 ### Setting an attribute modifier (manual method)
 ```java
 NTagList<?> attributes = getOrAddList("AttributeModifiers", NbtType.Compound);
-NCompound<?> attribute = attributes.getOrAddCompound();
+NCompound attribute = attributes.getOrAddCompound();
 attribute.setString("AttributeName", attributeName);
 attribute.setInt("Operation", operation);
 attribute.setInt("UUIDLeast", uuidLeast);

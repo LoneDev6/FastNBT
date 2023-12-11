@@ -5,7 +5,6 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>fastnbt_nms_v1_20_R2</artifactId>
-    <version>${revision}</version>
     <packaging>jar</packaging>
 
     <parent>

@@ -10,10 +10,13 @@ public enum NbtType
     Float(5),
     Double(6),
     ByteArray(7),
-    IntArray(11),
     String(8),
     List(9),
-    Compound(10);
+    Compound(10),
+    IntArray(11),
+    LongArray(12),
+    AnyNumeric(99),
+    UNKNOWN(-1337);
 
     NbtType(int i)
     {
@@ -21,4 +24,14 @@ public enum NbtType
     }
 
     public final int id;
+
+    public static NbtType byId(byte id)
+    {
+        for (NbtType value : NbtType.values())
+        {
+            if(value.id == id)
+                return value;
+        }
+        return UNKNOWN;
+    }
 }

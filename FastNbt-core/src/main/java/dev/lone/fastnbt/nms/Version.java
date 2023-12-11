@@ -46,11 +46,6 @@ public enum Version
         return id;
     }
 
-    public static void init(JavaPlugin plugin)
-    {
-        new Metrics(plugin, 10);
-    }
-
     /**
      * Determines if the current version meets or exceeds the specified version
      *

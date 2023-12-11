@@ -6,7 +6,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 @SuppressWarnings({"unchecked", "unused"})
-public class NFile<T> extends NCompound<T>
+public class NFile<T> extends NCompound
 {
     protected File file;
     private final Lock writeLock;
@@ -24,12 +24,12 @@ public class NFile<T> extends NCompound<T>
             this.writeLock = new ReentrantReadWriteLock().writeLock();
             if (file.exists())
             {
-                this.handle = (T) Nbt.nbtStreamTools.read(new FileInputStream(file));
+                this.handle = (T) Nbt.streamTools.read(new FileInputStream(file));
             }
             else
             {
                 Files.createDirectories(file.getParentFile().toPath());
-                this.handle = (T) Nbt.compound.newCompoundInstance();
+                this.handle = (T) Nbt.compound.newInstance();
             }
         }
     }
@@ -39,7 +39,7 @@ public class NFile<T> extends NCompound<T>
         try
         {
             this.writeLock.lock();
-            Nbt.nbtStreamTools.save(handle, new FileOutputStream(file));
+            Nbt.streamTools.save(handle, new FileOutputStream(file));
         }
         catch (FileNotFoundException ignored) { } // File deleted by another plugin or manually.
         finally

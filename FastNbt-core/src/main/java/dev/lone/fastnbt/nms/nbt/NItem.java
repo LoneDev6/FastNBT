@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @SuppressWarnings({"unchecked", "deprecation", "unused"})
-public class NItem extends NCompound<ItemStack>
+public class NItem extends NCompound
 {
     private boolean isConvertedCopy;
     private ItemStack original;
@@ -43,7 +43,7 @@ public class NItem extends NCompound<ItemStack>
 
     public ItemStack getItem()
     {
-        return handle;
+        return (ItemStack) handle;
     }
 
     public void setType(Material type)
@@ -73,7 +73,7 @@ public class NItem extends NCompound<ItemStack>
     public void save()
     {
         if (isConvertedCopy)
-            original.setItemMeta(handle.getItemMeta());
+            original.setItemMeta(getItem().getItemMeta());
     }
 
     /**
@@ -85,9 +85,9 @@ public class NItem extends NCompound<ItemStack>
             this.handle = Nbt.item.convertToCraft(original);
     }
 
-    public static boolean hasNbt(ItemStack itemStack)
+    public static boolean hasNBT(ItemStack itemStack)
     {
-        return Nbt.item.hasNbt(itemStack);
+        return Nbt.item.hasNBT(itemStack);
     }
 
     public void merge(ItemStack b)
@@ -139,7 +139,8 @@ public class NItem extends NCompound<ItemStack>
         return Nbt.item.asCraftMirror(itemStack);
     }
 
-    public static ItemStack compoundToBukkitItem(NCompound<?> compound)
+    @Nullable
+    public static ItemStack compoundToBukkitItem(NCompound compound)
     {
         return Nbt.item.compoundToItemStack(compound.getInternal());
     }
@@ -162,6 +163,7 @@ public class NItem extends NCompound<ItemStack>
         return Nbt.item.itemStackToCompound(itemStack);
     }
 
+    @Nullable
     public static ItemStack compoundStrToBukkitItem(String compoundString)
     {
         return Nbt.item.compoundStrToBukkit(compoundString);
@@ -179,8 +181,8 @@ public class NItem extends NCompound<ItemStack>
 
     public void setLoreCompounds(List<String> compoundStrings)
     {
-        NCompound<?> display = getOrAddCompound("display");
-        NTagList<?> lore = display.getOrAddList("Lore", NbtType.String);
+        NCompound display = getOrAddCompound("display");
+        NRawList lore = display.getOrAddList("Lore", NbtType.String);
         for (String compound : compoundStrings)
             lore.add(compound);
     }
@@ -193,8 +195,8 @@ public class NItem extends NCompound<ItemStack>
                                      int uuidLeast,
                                      int uuidMost)
     {
-        NTagList<?> attributes = getOrAddList("AttributeModifiers", NbtType.Compound);
-        NCompound<?> attribute = attributes.getOrAddCompound();
+        NRawList attributes = getOrAddList("AttributeModifiers", NbtType.Compound);
+        NCompound attribute = attributes.addCompound();
         attribute.setString("AttributeName", attributeName);
         attribute.setInt("Operation", operation);
         attribute.setInt("UUIDLeast", uuidLeast);
@@ -202,12 +204,11 @@ public class NItem extends NCompound<ItemStack>
         attribute.setDouble("Amount", amount);
         attribute.setString("Name", name);
         attribute.setString("Slot", slot);
-        attributes.add(attribute);
     }
 
     public void setEnchantment(String id, short level)
     {
-        NTagList<?> compoundList = getOrAddList("Enchantments", NbtType.Compound);
+        NRawList compoundList = getOrAddList("Enchantments", NbtType.Compound);
         setEnchantment(compoundList, id, level);
     }
 
@@ -232,12 +233,12 @@ public class NItem extends NCompound<ItemStack>
         if(!hasKey("Enchantments"))
             return;
 
-        NTagList<?> compoundList = getOrAddList("Enchantments", NbtType.Compound);
+        NRawList compoundList = getOrAddList("Enchantments", NbtType.Compound);
         if(!compoundList.isEmpty())
         {
             for (int i = 0; i < compoundList.size(); i++)
             {
-                NCompound<?> enchant = compoundList.getOrAddCompoundAt(i);
+                NCompound enchant = compoundList.getOrAddCompoundAt(i);
                 if(!enchant.getString("id").equals(id))
                     continue;
 
@@ -249,7 +250,7 @@ public class NItem extends NCompound<ItemStack>
 
     private void addEnchantments0(Map<String, Short> enchantments)
     {
-        NTagList<?> compoundList = getOrAddList("Enchantments", NbtType.Compound);
+        NRawList compoundList = getOrAddList("Enchantments", NbtType.Compound);
         for (Map.Entry<String, Short> entry : enchantments.entrySet())
         {
             String id = entry.getKey();
@@ -258,13 +259,13 @@ public class NItem extends NCompound<ItemStack>
         }
     }
 
-    private void setEnchantment(NTagList<?> compoundList, String id, Short level)
+    private void setEnchantment(NRawList compoundList, String id, Short level)
     {
         if(!compoundList.isEmpty())
         {
             for (int i = 0; i < compoundList.size(); i++)
             {
-                NCompound<?> enchant = compoundList.getOrAddCompoundAt(i);
+                NCompound enchant = compoundList.getOrAddCompoundAt(i);
                 if(!enchant.getString("id").equals(id))
                     continue;
                 if(enchant.getShort("lvl") == level)
@@ -275,8 +276,8 @@ public class NItem extends NCompound<ItemStack>
             }
         }
 
-        NCompound<?> enchant = new NCompound<>();
-        compoundList.addCompound(enchant);
+        NCompound enchant = new NCompound();
+        compoundList.add(enchant);
         enchant.setString("id", id);
         enchant.setShort("lvl", level);
     }
@@ -284,13 +285,13 @@ public class NItem extends NCompound<ItemStack>
     public void setSkull(String name, UUID uuid, String value, String signature)
     {
         setType(Material.PLAYER_HEAD);
-        NCompound<?> owner = getOrAddCompound("SkullOwner");
+        NCompound owner = getOrAddCompound("SkullOwner");
         owner.setString("Name", name);
         owner.setUUID("Id", uuid);
 
-        NTagList<?> textures = owner.getOrAddCompound("Properties").getOrAddList("textures", NbtType.Compound);
-        NCompound<Object> profile = new NCompound<>();
-        textures.addCompound(profile);
+        NRawList textures = owner.getOrAddCompound("Properties").getOrAddList("textures", NbtType.Compound);
+        NCompound profile = new NCompound();
+        textures.add(profile);
         profile.setString("Value", value);
         profile.setString("Signature", signature);
     }
@@ -298,20 +299,20 @@ public class NItem extends NCompound<ItemStack>
     public void setSkull(String name, String value)
     {
         setType(Material.PLAYER_HEAD);
-        NCompound<?> owner = getOrAddCompound("SkullOwner");
+        NCompound owner = getOrAddCompound("SkullOwner");
         owner.setString("Name", name);
         owner.setUUID("Id", UUID.nameUUIDFromBytes(name.getBytes()));
 
-        NTagList<?> textures = owner.getOrAddCompound("Properties").getOrAddList("textures", NbtType.Compound);
-        NCompound<Object> profile = new NCompound<>();
-        textures.addCompound(profile);
+        NRawList textures = owner.getOrAddCompound("Properties").getOrAddList("textures", NbtType.Compound);
+        NCompound profile = new NCompound();
+        textures.add(profile);
         profile.setString("Value", value);
     }
 
     @Nullable
     public String getSkullTextureName()
     {
-        NCompound<?> compound = getSkullOwnerCompound();
+        NCompound compound = getSkullOwnerCompound();
         if(compound == null)
             return null;
         String name = compound.getString("Name");
@@ -323,7 +324,7 @@ public class NItem extends NCompound<ItemStack>
     @Nullable
     public UUID getSkullTextureUUID()
     {
-        NCompound<?> compound = getSkullOwnerCompound();
+        NCompound compound = getSkullOwnerCompound();
         if(compound == null)
             return null;
         return compound.getUUID("Id");
@@ -332,7 +333,7 @@ public class NItem extends NCompound<ItemStack>
     @Nullable
     public String getSkullTextureSignature()
     {
-        NCompound<?> compound = getSkullTexturesCompound();
+        NCompound compound = getSkullTexturesCompound();
         if(compound == null)
             return null;
         String signature = compound.getString("Signature");
@@ -344,7 +345,7 @@ public class NItem extends NCompound<ItemStack>
     @Nullable
     public String getSkullTextureValue()
     {
-        NCompound<?> compound = getSkullTexturesCompound();
+        NCompound compound = getSkullTexturesCompound();
         if(compound == null)
             return null;
         String value = compound.getString("Value");
@@ -354,7 +355,7 @@ public class NItem extends NCompound<ItemStack>
     }
 
     @Nullable
-    private NCompound<?> getSkullOwnerCompound()
+    private NCompound getSkullOwnerCompound()
     {
         if(!hasKey("SkullOwner"))
             return null;
@@ -362,15 +363,15 @@ public class NItem extends NCompound<ItemStack>
     }
 
     @Nullable
-    private NCompound<?> getSkullTexturesCompound()
+    private NCompound getSkullTexturesCompound()
     {
-        NCompound<?> compound = getSkullOwnerCompound();
+        NCompound compound = getSkullOwnerCompound();
         if(compound == null)
             return null;
-        NCompound<?> properties = compound.getCompound("Properties");
+        NCompound properties = compound.getCompound("Properties");
         if(properties == null)
             return null;
-        NTagList<?> textures = properties.getList("textures", NbtType.Compound);
+        NRawList textures = properties.getList("textures", NbtType.Compound);
         if(textures == null)
             return null;
         if(textures.isEmpty())

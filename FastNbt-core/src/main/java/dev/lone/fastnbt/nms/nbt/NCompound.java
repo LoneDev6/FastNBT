@@ -1,6 +1,7 @@
 package dev.lone.fastnbt.nms.nbt;
 
-import dev.lone.fastnbt.nms.nbt.nms.ICompound;
+import dev.lone.fastnbt.nms.nbt.nms.ICompoundTag;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
@@ -9,21 +10,25 @@ import java.util.Set;
 import java.util.UUID;
 
 @SuppressWarnings({"unchecked", "rawtypes"})
-public class NCompound<T>
+public class NCompound
 {
-    protected ICompound handler;
-    protected T handle;
+    protected ICompoundTag handler;
+    protected Object handle;
 
     public NCompound()
     {
-        this.handle = (T) Nbt.compound.newCompoundInstance();
-        this.handler = Nbt.compound;
+        this(Nbt.compound.newInstance());
     }
 
-    public NCompound(T handle)
+    public NCompound(Object handle)
     {
         this.handle = handle;
         this.handler = Nbt.compound;
+    }
+
+    public static Object newNmsInstance()
+    {
+        return Nbt.compound.newInstance();
     }
 
     public Object getInternal()
@@ -31,85 +36,85 @@ public class NCompound<T>
         return handle;
     }
 
-    public NCompound<T> setByte(String key, byte param)
+    public NCompound setByte(String key, byte param)
     {
         handler.setByte(handle, key, param);
         return this;
     }
 
-    public NCompound<T> setShort(String key, short param)
+    public NCompound setShort(String key, short param)
     {
         handler.setShort(handle, key, param);
         return this;
     }
 
-    public NCompound<T> setInt(String key, int param)
+    public NCompound setInt(String key, int param)
     {
         handler.setInt(handle, key, param);
         return this;
     }
 
-    public NCompound<T> setLong(String key, long param)
+    public NCompound setLong(String key, long param)
     {
         handler.setLong(handle, key, param);
         return this;
     }
 
-    public NCompound<T> setUUID(String key, UUID param)
+    public NCompound setUUID(String key, UUID param)
     {
         handler.setUUID(handle, key, param);
         return this;
     }
 
-    public NCompound<T> setFloat(String key, float param)
+    public NCompound setFloat(String key, float param)
     {
         handler.setFloat(handle, key, param);
         return this;
     }
 
-    public NCompound<T> setDouble(String key, double param)
+    public NCompound setDouble(String key, double param)
     {
         handler.setDouble(handle, key, param);
         return this;
     }
 
-    public NCompound<T> setString(String key, String param)
+    public NCompound setString(String key, String param)
     {
         handler.setString(handle, key, param);
         return this;
     }
 
-    public NCompound<T> setByteArray(String key, byte[] param)
+    public NCompound setByteArray(String key, byte[] param)
     {
         handler.setByteArray(handle, key, param);
         return this;
     }
 
-    public NCompound<T> setIntArray(String key, int[] param)
+    public NCompound setIntArray(String key, int[] param)
     {
         handler.setIntArray(handle, key, param);
         return this;
     }
 
-    public NCompound<T> setIntegerList(String key, List<Integer> param)
+    public NCompound setIntegerList(String key, List<Integer> param)
     {
         handler.setIntegerList(handle, key, param);
         return this;
     }
 
-    public NCompound<T> setLongArray(String key, long[] param)
+    public NCompound setLongArray(String key, long[] param)
     {
         handler.setLongArray(handle, key, param);
         return this;
     }
 
-    public NCompound<T> setLongList(String key, List<Long> param)
+    public NCompound setLongList(String key, List<Long> param)
     {
         handler.setLongList(handle, key, param);
         return this;
     }
 
-    public NCompound<T> setBoolean(String key, boolean param)
+    public NCompound setBoolean(String key, boolean param)
     {
         handler.setBoolean(handle, key, param);
         return this;
@@ -182,29 +187,138 @@ public class NCompound<T>
     }
 
     @Nullable
-    public NCompound<?> getCompound(String key)
+    public NCompound getCompound(String key)
     {
         if (handler.hasKey(handle, key))
             return new NCompound(handler.getCompound(handle, key));
         return null;
     }
 
-    public NCompound<?> getOrAddCompound(String key)
+    public NCompound getOrAddCompound(String key)
     {
         return new NCompound(handler.getOrAddCompound(handle, key));
     }
 
+    public NCompound addCompound(String key)
+    {
+        remove(key);
+        return getOrAddCompound(key);
+    }
+
+    public NCompound setCompound(String key, NCompound compound)
+    {
+        remove(key);
+        putInternalTag(key, compound.handle);
+        return compound;
+    }
+
     @Nullable
-    public NTagList getList(String key, NbtType type)
+    public NRawList getList(String key, NbtType type)
     {
         if (handler.hasKey(handle, key))
-            return new NTagList(handler.getList(handle, key, type.id));
+            return new NRawList(handler.getList(handle, key, type.id));
         return null;
     }
 
-    public NTagList getOrAddList(String key, NbtType type)
+    @Nullable
+    public NListDouble getListDouble(String key)
     {
-        return new NTagList(handler.getOrAddList(handle, key, type.id));
+        if (handler.hasKey(handle, key))
+        {
+            Object internal = handler.getList(handle, key, NbtType.Double.id);
+            if(internal == null)
+                return null;
+            return new NListDouble(internal);
+        }
+        return null;
+    }
+
+    @Nullable
+    public NListFloat getListFloat(String key)
+    {
+        if (handler.hasKey(handle, key))
+        {
+            Object internal = handler.getList(handle, key, NbtType.Float.id);
+            if(internal == null)
+                return null;
+            return new NListFloat(internal);
+        }
+        return null;
+    }
+
+    @Nullable
+    public NListInt getListInt(String key)
+    {
+        if (handler.hasKey(handle, key))
+        {
+            Object internal = handler.getList(handle, key, NbtType.Float.id);
+            if(internal == null)
+                return null;
+            return new NListInt(internal);
+        }
+        return null;
+    }
+
+    @Nullable
+    public NListShort getListShort(String key)
+    {
+        if (handler.hasKey(handle, key))
+        {
+            Object internal = handler.getList(handle, key, NbtType.Float.id);
+            if(internal == null)
+                return null;
+            return new NListShort(internal);
+        }
+        return null;
+    }
+
+    @Nullable
+    public NListString getListString(String key)
+    {
+        if (handler.hasKey(handle, key))
+        {
+            Object internal = handler.getList(handle, key, NbtType.Float.id);
+            if(internal == null)
+                return null;
+            return new NListString(internal);
+        }
+        return null;
+    }
+
+    @Nullable
+    public NListList getListList(String key)
+    {
+        if (handler.hasKey(handle, key))
+        {
+            Object internal = handler.getList(handle, key, NbtType.Float.id);
+            if(internal == null)
+                return null;
+            return new NListList(internal);
+        }
+        return null;
+    }
+
+    public NRawList getOrAddList(String key, NbtType type)
+    {
+        return new NRawList(handler.getOrAddList(handle, key, type.id));
+    }
+
+    public NRawList addList(String key, NbtType type)
+    {
+        remove(key);
+        return getOrAddList(key, type);
+    }
+
+    public void setList(String key, NRawList list)
+    {
+        remove(key);
+        putInternalTag(key, list.handle);
+    }
+
+    public <T extends NSafeTagList> void setList(String key, T list)
+    {
+        remove(key);
+        putInternalTag(key, list.handle);
     }
 
     public boolean getBoolean(String key)
@@ -222,13 +336,13 @@ public class NCompound<T>
         return handler.isEmpty(handle);
     }
 
-    public NCompound<T> remove(String key)
+    public NCompound remove(String key)
     {
         handler.remove(handle, key);
         return this;
     }
 
-    public NCompound<T> merge(NCompound<?> b)
+    public NCompound merge(NCompound b)
     {
         handler.merge(this, b);
         return this;
@@ -240,8 +354,19 @@ public class NCompound<T>
     }
 
     @ApiStatus.Internal
-    public void putTag(String key, Object nmsTag)
+    public void putInternalTag(String key, Object nmsTag)
     {
         handler.putTag(handle, key, nmsTag);
+    }
+
+    /**
+     * Attempts to convert this Compound to a Bukkit ItemStack.
+     *
+     * @return A Bukkit ItemsStack. Returns null if the Compound is not an item.
+     */
+    @Nullable
+    public ItemStack toBukkitItem()
+    {
+        return NItem.compoundToBukkitItem(this);
     }
 }

@@ -66,7 +66,7 @@ public class Metrics
     private static String serverUUID;
 
     // The plugin
-    private final Plugin plugin;
+    private Plugin plugin = null;
 
     // The plugin id
     private final int pluginId;
@@ -77,7 +77,6 @@ public class Metrics
     /**
      * Class constructor.
      *
-     * @param plugin The plugin which stats should be submitted.
      * @param pluginId The id of the plugin.
      *                 It can be found at <a href="https://pstats.devs.beer/what-is-my-plugin-id">What is my plugin id?</a>
      */
@@ -96,7 +95,6 @@ public class Metrics
                 break;
         }
 
-        this.plugin = plugin;
         this.pluginId = pluginId;
 
         // Get the config file
