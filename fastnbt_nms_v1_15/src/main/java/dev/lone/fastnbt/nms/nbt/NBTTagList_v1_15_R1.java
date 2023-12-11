@@ -6,6 +6,7 @@ import dev.lone.fastnbt.nms.nbt.nms.IListTag;
 import net.minecraft.server.v1_15_R1.*;
 import org.jetbrains.annotations.Nullable;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 @Implementation.CyclicDependency(type = IListTag.class, version = Version.v1_15_R1)
@@ -31,7 +32,7 @@ public class NBTTagList_v1_15_R1 implements IListTag<NBTTagList, NBTBase, NBTTag
         {
             NBTBase tag = list.get(i);
             if (tag.getTypeId() != NBTType.Compound.id)
-                throw new IllegalArgumentException("Tag at " + i + " is not a Compound: " + NBTType.byId(tag.getTypeId()));
+                throwIllegalArgumentException(i, tag, "Compound");
             return (NBTTagCompound) tag;
         }
 
@@ -45,10 +46,9 @@ public class NBTTagList_v1_15_R1 implements IListTag<NBTTagList, NBTBase, NBTTag
         {
             NBTBase tag = list.get(i);
             if (tag.getTypeId() != NBTType.List.id)
-                throw new IllegalArgumentException("Tag at " + i + " is not a ListTag: " + NBTType.byId(tag.getTypeId()));
+                throwIllegalArgumentException(i, tag, "ListTag");
             return (NBTTagList) tag;
         }
-
         return null;
     }
 
@@ -65,9 +65,29 @@ public class NBTTagList_v1_15_R1 implements IListTag<NBTTagList, NBTBase, NBTTag
     }
 
     @Override
-    public int[] getIntArrayAt(NBTTagList list, int i)
+    public int @Nullable [] getIntArrayAt(NBTTagList list, int i)
     {
-        return list.f(i);
+        if (i >= 0 && i < list.size())
+        {
+            NBTBase tag = list.get(i);
+            if (tag.getTypeId() != NBTType.IntArray.id)
+                throwIllegalArgumentException(i, tag, "IntArrayTag");
+            return ((NBTTagIntArray) tag).getInts();
+        }
+        return null;
+    }
+
+    @Override
+    public long @Nullable [] getLongArrayAt(NBTTagList list, int i)
+    {
+        if (i >= 0 && i < list.size())
+        {
+            NBTBase tag = list.get(i);
+            if (tag.getTypeId() != NBTType.LongArray.id)
+                throwIllegalArgumentException(i, tag, "LongArrayTag");
+            return ((NBTTagLongArray) tag).getLongs();
+        }
+        return null;
     }
 
     @Override
@@ -183,5 +203,10 @@ public class NBTTagList_v1_15_R1 implements IListTag<NBTTagList, NBTBase, NBTTag
     public String toString(NBTTagList list)
     {
         return list.toString();
+    }
+
+    private static void throwIllegalArgumentException(int i, NBTBase tag, String typeName)
+    {
+        throw new IllegalArgumentException(MessageFormat.format("Tag at {0} is not a {1}: {2}", i, typeName, NBTType.byId(tag.getTypeId())));
     }
 }

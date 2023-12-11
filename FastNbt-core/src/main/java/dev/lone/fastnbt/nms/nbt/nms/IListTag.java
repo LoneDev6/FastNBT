@@ -13,6 +13,7 @@ public interface IListTag<ListTag, Tag, CompoundTag>
     short getShortAt(ListTag list, int i);
     int getIntAt(ListTag list, int i);
     int @Nullable [] getIntArrayAt(ListTag list, int i);
+    long @Nullable [] getLongArrayAt(ListTag list, int i);
     double getDoubleAt(ListTag list, int i);
     float getFloatAt(ListTag list, int i);
     String getStringAt(ListTag list, int i);

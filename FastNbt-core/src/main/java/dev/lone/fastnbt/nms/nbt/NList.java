@@ -3,9 +3,13 @@ package dev.lone.fastnbt.nms.nbt;
 import dev.lone.fastnbt.nms.nbt.nms.IListTag;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.function.Function;
 
 /**
  * Version without boxing and safety checks and limits inheritance.
@@ -32,9 +36,84 @@ public class NList
         return NBT.list.newNmsInstance();
     }
 
+    public static NList ofItemStackList(List<ItemStack> list)
+    {
+        NList nList = new NList(newInstance());
+        for (ItemStack e : list)
+            nList.addItemStack(e);
+        return nList;
+    }
+
+    public static NList ofShortList(List<Short> list)
+    {
+        NList nList = new NList(newInstance());
+        for (Short e : list)
+            nList.addShort(e);
+        return nList;
+    }
+
+    public static NList ofIntList(List<Integer> list)
+    {
+        NList nList = new NList(newInstance());
+        for (Integer e : list)
+            nList.addInt(e);
+        return nList;
+    }
+
+    public static NList ofIntArrayList(List<int[]> list)
+    {
+        NList nList = new NList(newInstance());
+        for (int[] e : list)
+            nList.addIntArray(e);
+        return nList;
+    }
+
+    public static NList ofLongArrayList(List<long[]> list)
+    {
+        NList nList = new NList(newInstance());
+        for (long[] e : list)
+            nList.addLongArray(e);
+        return nList;
+    }
+
+    public static NList ofDouble(List<Double> list)
+    {
+        NList nList = new NList(newInstance());
+        for (Double e : list)
+            nList.addDouble(e);
+        return nList;
+    }
+
+    public static NList ofFloat(List<Float> list)
+    {
+        NList nList = new NList(newInstance());
+        for (Float e : list)
+            nList.addFloat(e);
+        return nList;
+    }
+
+    public static NList ofString(List<String> list)
+    {
+        NList nList = new NList(newInstance());
+        for (String e : list)
+            nList.addString(e);
+        return nList;
+    }
+
     public Object getInternal()
     {
         return handle;
+    }
+
+    public int size()
+    {
+        return handler.size(handle);
+    }
+
+    @ApiStatus.Internal
+    public Object getRaw(int i)
+    {
+        return handler.get(handle, i);
     }
 
     @Nullable
@@ -55,18 +134,12 @@ public class NList
         return addCompound(i);
     }
 
-    public NCompound addCompound(int i)
+    public @Nullable ItemStack getItemStack(int i)
     {
-        NCompound wrapped = new NCompound();
-        addCompound(i, wrapped);
-        return wrapped;
-    }
-
-    public NCompound addCompound()
-    {
-        NCompound wrapped = new NCompound();
-        addCompound(size(), wrapped);
-        return wrapped;
+        String string = getString(i);
+        if (string.isEmpty())
+            return null;
+        return NItem.compoundStrToBukkitItem(string);
     }
 
     @Nullable
@@ -87,13 +160,6 @@ public class NList
         return addList(i);
     }
 
-    public NList addList(int i)
-    {
-        NList wrapped = new NList();
-        addRaw(i, wrapped.handle);
-        return wrapped;
-    }
-
     public short getShort(int i)
     {
         return handler.getShortAt(handle, i);
@@ -109,6 +175,11 @@ public class NList
         return handler.getIntArrayAt(this.handle, i);
     }
 
+    public long @Nullable [] getLongArray(int i)
+    {
+        return handler.getLongArrayAt(this.handle, i);
+    }
+
     public double getDouble(int i)
     {
         return handler.getDoubleAt(handle, i);
@@ -119,15 +190,9 @@ public class NList
         return handler.getFloatAt(handle, i);
     }
 
-    public int size()
+    public String getString(int i)
     {
-        return handler.size(handle);
-    }
-
-    @ApiStatus.Internal
-    public Object getRaw(int i)
-    {
-        return handler.get(handle, i);
+        return handler.getStringAt(handle, i);
     }
 
     @ApiStatus.Internal
@@ -136,30 +201,54 @@ public class NList
         handler.add(handle, i, any);
     }
 
-    public void addItemStack(int i, ItemStack bukkitItemStack)
-    {
-        handler.add(handle, i,  NItem.bukkitItemToNmsCompound(bukkitItemStack));
-    }
-
-    public <N extends NCompound> void addCompound(N nCompound)
-    {
-        handler.add(handle, handler.size(handle), nCompound.handle);
-    }
-
     @ApiStatus.Internal
     protected void addRaw(Object any)
     {
-        handler.add(handle, size(), any);
-    }
-
-    public void addItemStack(ItemStack bukkitItemStack)
-    {
-        handler.add(handle, size(), NItem.bukkitItemToNmsCompound(bukkitItemStack));
+        addRaw(size(), any);
     }
 
     public <N extends NCompound> void addCompound(int i, N nCompound)
     {
         handler.add(handle, i, nCompound.handle);
+    }
+
+    public <N extends NCompound> void addCompound(N nCompound)
+    {
+        addCompound(size(), nCompound);
+    }
+
+    public NCompound addCompound(int i)
+    {
+        NCompound wrapped = new NCompound();
+        addCompound(i, wrapped);
+        return wrapped;
+    }
+
+    public NCompound addCompound()
+    {
+        return addCompound(size());
+    }
+
+    public void addItemStack(int i, ItemStack bukkitItemStack)
+    {
+        handler.add(handle, i,  NItem.bukkitItemToNmsCompound(bukkitItemStack));
+    }
+
+    public void addItemStack(ItemStack bukkitItemStack)
+    {
+        addItemStack(size(), bukkitItemStack);
+    }
+
+    public NList addList(int i)
+    {
+        NList wrapped = new NList();
+        addRaw(i, wrapped.handle);
+        return wrapped;
+    }
+
+    public NList addList()
+    {
+        return addList(size());
     }
 
     public void addByte(byte value)
@@ -223,7 +312,7 @@ public class NList
         handler.set(handle, i, any);
     }
 
-    public void setItem(int i, ItemStack bukkitItemStack)
+    public void setItemStack(int i, ItemStack bukkitItemStack)
     {
         handler.set(handle, i, NItem.bukkitItemToNmsCompound(bukkitItemStack));
     }
@@ -231,6 +320,16 @@ public class NList
     public <N extends NCompound> void setCompound(int i, N nCompound)
     {
         handler.set(handle, i, nCompound.handle);
+    }
+
+    public void setList(int i, List<?> value)
+    {
+        setRaw(i, value);
+    }
+
+    public void setList(int i, NList list)
+    {
+        addRaw(i, list.handle);
     }
 
     public void setByte(int i, byte value)
@@ -273,11 +372,6 @@ public class NList
         setRaw(i, value);
     }
 
-    public void setList(int i, List<?> value)
-    {
-        setRaw(i, value);
-    }
-
     public void setIntArray(int i, int[] value)
     {
         setRaw(i, value);
@@ -302,5 +396,70 @@ public class NList
     public boolean isEmpty()
     {
         return handler.isEmpty(handle);
+    }
+
+    @NotNull
+    public Iterator<NCompound> compoundIterator()
+    {
+        return iterator(this::getCompound);
+    }
+
+    @NotNull
+    public Iterator<String> stringIterator()
+    {
+        return iterator(this::getString);
+    }
+
+    @NotNull
+    public Iterator<ItemStack> itemIterator()
+    {
+        return iterator(this::getItemStack);
+    }
+
+    @NotNull
+    public Iterator<NList> listIterator()
+    {
+        return iterator(this::getList);
+    }
+
+    @NotNull
+    public Iterator<Short> shortIterator()
+    {
+        return iterator(this::getShort);
+    }
+
+    @NotNull
+    public Iterator<Integer> intIterator()
+    {
+        return iterator(this::getInt);
+    }
+
+    @NotNull
+    public Iterator<int[]> intArrayIterator()
+    {
+        return iterator(this::getIntArray);
+    }
+
+    private <Q, R extends Class<Q>> Iterator<Q> iterator(Function<Integer, Q> consumer)
+    {
+        if (size() == 0)
+            return Collections.emptyIterator();
+
+        return new Iterator<>()
+        {
+            int index = 0;
+
+            @Override
+            public boolean hasNext()
+            {
+                return index < size();
+            }
+
+            @Override
+            public Q next()
+            {
+                return consumer.apply(index++);
+            }
+        };
     }
 }
