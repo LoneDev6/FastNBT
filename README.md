@@ -1,4 +1,18 @@
-# FastNBT
+# Maven
+
+```xml
+ <repository>
+    <id>matteodev</id>
+    <url>https://www.matteodev.it/spigot/public/maven/</url>
+</repository>
+```
+```xml
+<dependency>
+    <groupId>dev.lone</groupId>
+    <artifactId>FastNbt-jar</artifactId>
+    <version>1.1.5</version>
+</dependency>
+```
 
 # Comparison to NBT API
 
@@ -17,6 +31,8 @@ nItem.setSkull("dummy", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJ
 ```
 
 ### Renaming an item
+NOTE: FastNBT supports only Compound strings.
+If you want to use legacy notation you have to call the Spigot API as usual.
 ```java
 NItem nItem = new nItem(new ItemStack(Material.STONE));
 nItem.setDisplayNameCompound("{\"text\":\"Example Compound Name\",\"color\":\"blue\"}");
@@ -36,8 +52,8 @@ nItem.setAttributeModifier(
 ```
 ### Setting an attribute modifier (manual method)
 ```java
-NTagList<?> attributes = getOrAddList("AttributeModifiers", NbtType.Compound);
-NCompound attribute = attributes.getOrAddCompound();
+NList attributes = nItem.getOrAddList("AttributeModifiers", NBTType.Compound);
+NCompound attribute = new NCompound();
 attribute.setString("AttributeName", attributeName);
 attribute.setInt("Operation", operation);
 attribute.setInt("UUIDLeast", uuidLeast);
@@ -45,7 +61,7 @@ attribute.setInt("UUIDMost", uuidMost);
 attribute.setDouble("Amount", amount);
 attribute.setString("Name", name);
 attribute.setString("Slot", slot);
-attributes.add(attribute);
+attributes.addCompound(attribute);
 ```
 
 # Limitations
