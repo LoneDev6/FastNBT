@@ -10,7 +10,7 @@
 <dependency>
     <groupId>dev.lone</groupId>
     <artifactId>FastNbt-jar</artifactId>
-    <version>1.1.5</version>
+    <version>RELEASE_VERSION</version>
 </dependency>
 ```
 
