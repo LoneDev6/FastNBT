@@ -1,19 +1,3 @@
-# Maven
-
-```xml
- <repository>
-    <id>matteodev</id>
-    <url>https://www.matteodev.it/spigot/public/maven/</url>
-</repository>
-```
-```xml
-<dependency>
-    <groupId>dev.lone</groupId>
-    <artifactId>FastNbt-jar</artifactId>
-    <version>1.1.5</version>
-</dependency>
-```
-
 # Comparison to NBT API
 
 ## Benchmark
@@ -67,6 +51,47 @@ attributes.addCompound(attribute);
 # Limitations
 
 Currently, supports only items.
+
+# Maven
+## Adding it to your project
+```xml
+ <repository>
+    <id>matteodev</id>
+    <url>https://www.matteodev.it/spigot/public/maven/</url>
+</repository>
+```
+```xml
+<dependency>
+    <groupId>dev.lone</groupId>
+    <artifactId>FastNbt-jar</artifactId>
+    <version>1.1.5</version>
+</dependency>
+```
+
+## Shading
+```xml
+ <plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-shade-plugin</artifactId>
+    <version>3.5.0</version>
+    <executions>
+        <execution>
+            <phase>package</phase>
+            <goals>
+                <goal>shade</goal>
+            </goals>
+            <configuration>
+                <relocations>
+                    <relocation>
+                        <pattern>dev.lone.fastnbt.</pattern>
+                        <shadedPattern>YOUR_PACKAGE_HERE.libs.dev.lone.fastnbt.</shadedPattern>
+                    </relocation>
+                </relocations>
+            </configuration>
+        </execution>
+    </executions>
+</plugin>
+```
 
 # LoneDev's Notes
 ## How to deploy
