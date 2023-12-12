@@ -159,6 +159,11 @@ public class NList
         return addList(i);
     }
 
+    public short getByte(int i)
+    {
+        return handler.getByteAt(handle, i);
+    }
+
     public short getShort(int i)
     {
         return handler.getShortAt(handle, i);
@@ -167,6 +172,11 @@ public class NList
     public int getInt(int i)
     {
         return handler.getIntAt(handle, i);
+    }
+
+    public byte @Nullable [] getByteArray(int i)
+    {
+        return handler.getByteArrayAt(this.handle, i);
     }
 
     public int @Nullable [] getIntArray(int i)
@@ -206,16 +216,25 @@ public class NList
         addRaw(size(), any);
     }
 
+    /**
+     * Adds a NCompound at a specified index.
+     */
     public <N extends NCompound> void addCompound(int i, N nCompound)
     {
         handler.add(handle, i, nCompound.handle);
     }
 
+    /**
+     * Adds a NCompound at the end of the list.
+     */
     public <N extends NCompound> void addCompound(N nCompound)
     {
         addCompound(size(), nCompound);
     }
 
+    /**
+     * Adds a new NCompound at a specified index.
+     */
     public NCompound addCompound(int i)
     {
         NCompound wrapped = new NCompound();
@@ -223,21 +242,33 @@ public class NList
         return wrapped;
     }
 
+    /**
+     * Adds a new NCompound at the end of the list.
+     */
     public NCompound addCompound()
     {
         return addCompound(size());
     }
 
+    /**
+     * Adds a ItemStack at a specified index.
+     */
     public void addItemStack(int i, ItemStack bukkitItemStack)
     {
         handler.add(handle, i,  NItem.bukkitItemToNmsCompound(bukkitItemStack));
     }
 
+    /**
+     * Adds a ItemStack at the end of the list.
+     */
     public void addItemStack(ItemStack bukkitItemStack)
     {
         addItemStack(size(), bukkitItemStack);
     }
 
+    /**
+     * Adds a new NList at a specified index.
+     */
     public NList addList(int i)
     {
         NList wrapped = new NList();
@@ -245,61 +276,97 @@ public class NList
         return wrapped;
     }
 
+    /**
+     * Adds a new NList at the end of the list.
+     */
     public NList addList()
     {
         return addList(size());
     }
 
+    /**
+     * Adds a byte at the end of the list.
+     */
     public void addByte(byte value)
     {
         addRaw(value);
     }
 
+    /**
+     * Adds a short at the end of the list.
+     */
     public void addShort(short value)
     {
         addRaw(value);
     }
 
+    /**
+     * Adds an int at the end of the list.
+     */
     public void addInt(int value)
     {
         addRaw(value);
     }
 
+    /**
+     * Adds a long at the end of the list.
+     */
     public void addLong(long value)
     {
         addRaw(value);
     }
 
+    /**
+     * Adds a float at the end of the list.
+     */
     public void addFloat(float value)
     {
         addRaw(value);
     }
 
+    /**
+     * Adds a double at the end of the list.
+     */
     public void addDouble(double value)
     {
         addRaw(value);
     }
 
-    public void addByte(byte[] value)
+    /**
+     * Adds a byte[] at the end of the list.
+     */
+    public void addByteArray(byte[] value)
     {
         addRaw(value);
     }
 
+    /**
+     * Adds a String at the end of the list.
+     */
     public void addString(String value)
     {
         addRaw(value);
     }
 
+    /**
+     * Adds a List at the end of the list.
+     */
     public void addList(List<?> value)
     {
         addRaw(value);
     }
 
+    /**
+     * Adds an int[] at the end of the list.
+     */
     public void addIntArray(int[] value)
     {
         addRaw(value);
     }
 
+    /**
+     * Adds a long[] at the end of the list.
+     */
     public void addLongArray(long[] value)
     {
         addRaw(value);
@@ -311,76 +378,121 @@ public class NList
         handler.set(handle, i, any);
     }
 
+    /**
+     * Replaces the ItemStack at a specified index.
+     */
     public void setItemStack(int i, ItemStack bukkitItemStack)
     {
         handler.set(handle, i, NItem.bukkitItemToNmsCompound(bukkitItemStack));
     }
 
+    /**
+     * Replaces the ItemStack at a specified index.
+     */
     public <N extends NCompound> void setCompound(int i, N nCompound)
     {
         handler.set(handle, i, nCompound.handle);
     }
 
+    /**
+     * Replaces the List at a specified index.
+     */
     public void setList(int i, List<?> value)
     {
         setRaw(i, value);
     }
 
+    /**
+     * Replaces the NList at a specified index.
+     */
     public void setList(int i, NList list)
     {
         addRaw(i, list.handle);
     }
 
+    /**
+     * Replaces the byte at a specified index.
+     */
     public void setByte(int i, byte value)
     {
         setRaw(i, value);
     }
 
+    /**
+     * Replaces the short at a specified index.
+     */
     public void setShort(int i, short value)
     {
         setRaw(i, value);
     }
 
+    /**
+     * Replaces the int at a specified index.
+     */
     public void setInt(int i, int value)
     {
         setRaw(i, value);
     }
 
+    /**
+     * Replaces the long at a specified index.
+     */
     public void setLong(int i, long value)
     {
         setRaw(i, value);
     }
 
+    /**
+     * Replaces the float at a specified index.
+     */
     public void setFloat(int i, float value)
     {
         setRaw(i, value);
     }
 
+    /**
+     * Replaces the double at a specified index.
+     */
     public void setDouble(int i, double value)
     {
         setRaw(i, value);
     }
 
-    public void setByteArray(int i, byte[] value)
-    {
-        setRaw(i, value);
-    }
-
+    /**
+     * Replaces the String at a specified index.
+     */
     public void setString(int i, String value)
     {
         setRaw(i, value);
     }
 
+    /**
+     * Replaces the byte[] at a specified index.
+     */
+    public void setByteArray(int i, byte[] value)
+    {
+        setRaw(i, value);
+    }
+
+    /**
+     * Replaces the int[] at a specified index.
+     */
     public void setIntArray(int i, int[] value)
     {
         setRaw(i, value);
     }
 
+    /**
+     * Replaces the long[] at a specified index.
+     */
     public void setLongArray(int i, long[] value)
     {
         setRaw(i, value);
     }
 
+    /**
+     * Removed the element at a specified index.
+     */
     public Object remove(int i)
     {
         return handler.remove(handle, i);

@@ -10,8 +10,10 @@ public interface IListTag<ListTag, Tag, CompoundTag>
     CompoundTag getCompoundAt(ListTag list, int i);
     @Nullable
     ListTag getListAt(ListTag list, int i);
+    byte getByteAt(ListTag list, int i);
     short getShortAt(ListTag list, int i);
     int getIntAt(ListTag list, int i);
+    byte @Nullable [] getByteArrayAt(ListTag list, int i);
     int @Nullable [] getIntArrayAt(ListTag list, int i);
     long @Nullable [] getLongArrayAt(ListTag list, int i);
     double getDoubleAt(ListTag list, int i);

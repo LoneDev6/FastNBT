@@ -17,24 +17,18 @@ public class NBTStreamTools_v1_17_R1 implements INBTIO<CompoundTag>
     @Override
     public CompoundTag read(FileInputStream inputStream) throws IOException
     {
-        try
+        try (inputStream)
         {
             return NbtIo.readCompressed(inputStream);
-        } finally
-        {
-            inputStream.close();
         }
     }
 
     @Override
     public void save(@NotNull CompoundTag nbt, FileOutputStream outputStream) throws IOException
     {
-        try
+        try (outputStream)
         {
             NbtIo.writeCompressed(nbt, outputStream);
-        } finally
-        {
-            outputStream.close();
         }
     }
 }

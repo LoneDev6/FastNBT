@@ -52,6 +52,19 @@ public class NBTTagList_v1_16_R3 implements IListTag<NBTTagList, NBTBase, NBTTag
     }
 
     @Override
+    public byte getByteAt(NBTTagList list, int i)
+    {
+        if (i >= 0 && i < list.size())
+        {
+            NBTBase tag = list.get(i);
+            if (tag.getTypeId() != NBTType.Byte.id)
+                throwIllegalArgumentException(i, tag, "ByteTag");
+            return ((NBTTagByte) tag).asByte();
+        }
+        return 0;
+    }
+
+    @Override
     public short getShortAt(NBTTagList list, int i)
     {
         return list.d(i);
@@ -61,6 +74,19 @@ public class NBTTagList_v1_16_R3 implements IListTag<NBTTagList, NBTBase, NBTTag
     public int getIntAt(NBTTagList list, int i)
     {
         return list.e(i);
+    }
+
+    @Override
+    public byte @Nullable [] getByteArrayAt(NBTTagList list, int i)
+    {
+        if (i >= 0 && i < list.size())
+        {
+            NBTBase tag = list.get(i);
+            if (tag.getTypeId() != NBTType.ByteArray.id)
+                throwIllegalArgumentException(i, tag, "ByteArrayTag");
+            return ((NBTTagByteArray) tag).getBytes();
+        }
+        return null;
     }
 
     @Override
