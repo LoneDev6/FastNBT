@@ -14,7 +14,7 @@ import java.util.UUID;
 
 @Implementation.CyclicDependency(type = ICompoundTag.class, version = Version.v1_20_R3)
 @SuppressWarnings({"unchecked", "unused"})
-public class Compound_v1_20_R3 implements ICompoundTag<CompoundTag, ListTag, CompoundTag>
+public class CompoundTag_v1_20_R3 implements ICompoundTag<CompoundTag, ListTag, CompoundTag>
 {
     @Override
     public CompoundTag newInstance()

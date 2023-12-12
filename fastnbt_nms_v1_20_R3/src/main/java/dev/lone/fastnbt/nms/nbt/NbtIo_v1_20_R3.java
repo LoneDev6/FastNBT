@@ -13,7 +13,7 @@ import java.io.IOException;
 
 @Implementation.CyclicDependency(type = INBTIO.class, version = Version.v1_20_R3)
 @SuppressWarnings({"unused"})
-public class NBTStreamTools_v1_20_R3 implements INBTIO<CompoundTag>
+public class NbtIo_v1_20_R3 implements INBTIO<CompoundTag>
 {
     @Override
     public CompoundTag read(FileInputStream inputStream) throws IOException

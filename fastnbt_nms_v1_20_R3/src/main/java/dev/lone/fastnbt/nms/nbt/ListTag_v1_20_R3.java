@@ -10,7 +10,7 @@ import java.util.List;
 
 @Implementation.CyclicDependency(type = IListTag.class, version = Version.v1_20_R3)
 @SuppressWarnings({"unused"})
-public class NBTTagList_v1_20_R3 implements IListTag<ListTag, Tag, CompoundTag>
+public class ListTag_v1_20_R3 implements IListTag<ListTag, Tag, CompoundTag>
 {
     @Override
     public ListTag newNmsInstance()
