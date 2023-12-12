@@ -96,11 +96,11 @@ Currently, supports only items.
 # Updating
 
 - Create a new module for the new NMS version and add the correct `paper-nms` **dependency**.
-- Add the new module src folder into the `.gitignore`.
 - Add the new NMS version to the `Version` enum.
 - Add the new module in the modules list of `FastNbt` module and as dependency in the `FastNbt-jar` module.
 - Edit `.mvn-exec/GenerateNms.js` file if needed.
-- Generate the NMS methods using `mvn validate -DgenerateNms`
+- Generate the NMS classes using `mvn validate -DgenerateNms`
+- Add the new module `CraftItemStack_vxxx.java` file into the `.gitignore` since this file will auto genereate, no need to include it into the version control.
 
 Should be all.
 

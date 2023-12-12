@@ -1,24 +1,24 @@
 package dev.lone.fastnbt.nms.nbt;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import org.jetbrains.annotations.Nullable;
 import dev.lone.fastnbt.nms.Implementation;
 import dev.lone.fastnbt.nms.Version;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.TagParser;
 import org.apache.commons.lang.reflect.FieldUtils;
-import org.bukkit.craftbukkit.v1_20_R3.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_18_R2.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-@Implementation.CyclicDependency(type = ICraftItemStack.class, version = Version.v1_20_R3)
+@Implementation.CyclicDependency(type = ICraftItemStack.class, version = Version.v1_18_R2)
 @SuppressWarnings({"unchecked", "DataFlowIssue", "CallToPrintStackTrace", "unused"})
-public class CraftItemStack_v1_20_R3 implements ICraftItemStack<ListTag, CompoundTag, CraftItemStack>
+public class CraftItemStack_v1_18_R2 implements ICraftItemStack<ListTag, CompoundTag, CraftItemStack>
 {
     public static Field FIELD_HANDLE = FieldUtils.getField(CraftItemStack.class, "handle", true);
 

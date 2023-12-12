@@ -110,16 +110,13 @@ buildNumber.properties
 # Common working directory
 run/
 
-# These files are automatically generated, no need to include them in the versioning.
-/fastnbt_nms_v1_20_R2/src/
-/fastnbt_nms_v1_20_R1/src/
-/fastnbt_nms_v1_19_R3/src/
-/fastnbt_nms_v1_19_R2/src/
-/fastnbt_nms_v1_19_R1/src/
-/fastnbt_nms_v1_18_R2/src/
-
 # Other
 /.paper-nms/
 /.cache/
 target/
 /output/
+/fastnbt_nms_v1_19_R1/src/main/java/dev/lone/fastnbt/nms/nbt/CraftItemStack_v1_19_R1.java
+/fastnbt_nms_v1_19_R2/src/main/java/dev/lone/fastnbt/nms/nbt/CraftItemStack_v1_19_R2.java
+/fastnbt_nms_v1_19_R3/src/main/java/dev/lone/fastnbt/nms/nbt/CraftItemStack_v1_19_R3.java
+/fastnbt_nms_v1_20_R1/src/main/java/dev/lone/fastnbt/nms/nbt/CraftItemStack_v1_20_R1.java
+/fastnbt_nms_v1_20_R2/src/main/java/dev/lone/fastnbt/nms/nbt/CraftItemStack_v1_20_R2.java
