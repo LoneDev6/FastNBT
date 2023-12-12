@@ -11,7 +11,9 @@ import java.lang.annotation.Target;
 import java.net.URL;
 import java.security.CodeSource;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -28,34 +30,61 @@ public abstract class Implementation
 
     private static final String basePackageNonObf = Implementation.class.getPackageName();
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    public static <T> T find(Class<T> type, Version Version)
+    public static <IType> IType find(Class<IType> type, Version version)
     {
-        Class implementationClass = null;
-        for (Class clazz : listAllClasses())
+        Map<Class<?>, CyclicDependency> cache = new HashMap<>();
+        for (Class<?> clazz : listAllClasses())
         {
             if (!clazz.isAnnotationPresent(CyclicDependency.class))
                 continue;
 
-            CyclicDependency annotation = (CyclicDependency) clazz.getAnnotation(CyclicDependency.class);
-            if (type.equals(annotation.type()) && annotation.version() == Version)
-                implementationClass = clazz;
+            CyclicDependency annotation = clazz.getAnnotation(CyclicDependency.class);
+            cache.put(clazz, annotation);
         }
 
-        if(implementationClass == null)
+        Class<IType> implClass = findInCache(cache, type, version);
+        if (implClass != null)
+            return newInstance(implClass);
+
+        // Try to find the closest compatible version.
+        Version[] versions = Version.values();
+        for (int i = version.ordinal(); i >= 0; i--)
         {
-            throw new RuntimeException("This server is not compatible with this plugin.");
+            implClass = findInCache(cache, type, versions[i]);
+            if (implClass != null)
+            {
+                return newInstance(implClass);
+            }
         }
 
+        throw new RuntimeException("This server is not compatible with this plugin.");
+    }
+
+    private static <ImplType> ImplType newInstance(Class<ImplType> implClass)
+    {
         try
         {
-            return (T) implementationClass.getDeclaredConstructor().newInstance();
+            return implClass.getDeclaredConstructor().newInstance();
         }
         catch (Throwable e)
         {
             Bukkit.getLogger().severe("FastNBT failed to instantiate nms wrapper");
             throw new RuntimeException(e);
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <ImplType, IType> Class<ImplType> findInCache(Map<Class<?>, CyclicDependency> cache, Class<IType> type, Version version)
+    {
+        Class<ImplType> implementationClass = null;
+        for (Map.Entry<Class<?>, CyclicDependency> entry : cache.entrySet())
+        {
+            Class<?> clazz = entry.getKey();
+            CyclicDependency annotation = entry.getValue();
+            if (type.equals(annotation.type()) && annotation.version() == version)
+                implementationClass = (Class<ImplType>) clazz;
+        }
+        return implementationClass;
     }
 
     /**

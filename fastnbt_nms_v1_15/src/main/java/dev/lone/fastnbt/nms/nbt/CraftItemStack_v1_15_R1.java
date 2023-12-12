@@ -55,12 +55,14 @@ public class CraftItemStack_v1_15_R1 implements ICraftItemStack<NBTTagList, NBTT
         this.merge(getHandle(craftItemStack).getOrCreateTag(), getHandle(other).getOrCreateTag());
     }
 
+    @Nullable
     public static net.minecraft.server.v1_15_R1.ItemStack getHandle(CraftItemStack craftItemStack)
     {
         try
         {
             return (net.minecraft.server.v1_15_R1.ItemStack) FIELD_HANDLE.get(craftItemStack);
-        } catch (IllegalAccessException e)
+        }
+        catch (IllegalAccessException e)
         {
             e.printStackTrace();
         }

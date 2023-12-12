@@ -6,7 +6,7 @@
 
     <artifactId>FastNbt</artifactId>
     <groupId>dev.lone</groupId>
-    <version>1.1.7</version>
+    <version>1.1.8</version>
 
     <name>FastNbt</name>
     <packaging>pom</packaging>
@@ -73,8 +73,17 @@
     </repositories>
 
     <build>
-        <!--        <directory>R:\MavenBuildTarget\NmsTests\${project.artifactId}\target\</directory>-->
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ftp</artifactId>
+                <version>3.5.2</version>
+            </extension>
+        </extensions>
+
         <directory>${project.basedir}/../.cache/targets/${project.artifactId}/target/</directory>
+        <!-- Disable useless maven plugins -->
+        <!-- https://developer.jboss.org/people/ozizka/blog/2013/07/06/how-to-speed-up-maven-builds-disabling-unused-plugins -->
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -112,15 +121,47 @@
                     <execution> <id>default-testResources</id> <phase>none</phase> </execution>
                 </executions>
             </plugin>
-        </plugins>
 
-        <extensions>
-            <extension>
-                <groupId>org.apache.maven.wagon</groupId>
-                <artifactId>wagon-ftp</artifactId>
-                <version>3.5.2</version>
-            </extension>
-        </extensions>
+            <!-- Shading -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.5.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <artifactSet>
+                                <excludes>
+                                    <exclude>junit:junit</exclude>
+                                    <exclude>*:xml-apis</exclude>
+                                    <exclude>org.apache.maven:lib:tests</exclude>
+                                    <exclude>log4j:log4j:jar:</exclude>
+                                    <exclude>com.google.gson:*</exclude>
+                                    <exclude>com.google.common:*</exclude>
+                                    <exclude>com.google.thirdparty:*</exclude>
+                                    <exclude>com.google.guava:*</exclude>
+                                    <exclude>org.javassist:*</exclude>
+                                </excludes>
+                            </artifactSet>
+                            <relocations>
+                                <relocation>
+                                    <pattern>org.intellij.</pattern>
+                                    <shadedPattern>dev.lone.fastnbt_benchmark.libs.org.intellij.</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.jetbrains.</pattern>
+                                    <shadedPattern>dev.lone.fastnbt_benchmark.libs.org.jetbrains.</shadedPattern>
+                                </relocation>
+                            </relocations>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
 
     <distributionManagement>

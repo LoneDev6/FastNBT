@@ -55,12 +55,14 @@ public class CraftItemStack_v1_18_R2 implements ICraftItemStack<ListTag, Compoun
         this.merge(getHandle(craftItemStack).getOrCreateTag(), getHandle(other).getOrCreateTag());
     }
 
+    @Nullable
     public static net.minecraft.world.item.ItemStack getHandle(CraftItemStack craftItemStack)
     {
         try
         {
-            return ( net.minecraft.world.item.ItemStack) FIELD_HANDLE.get(craftItemStack);
-        } catch (IllegalAccessException e)
+            return (net.minecraft.world.item.ItemStack) FIELD_HANDLE.get(craftItemStack);
+        } 
+        catch (IllegalAccessException e)
         {
             e.printStackTrace();
         }

@@ -178,10 +178,8 @@ public class NBTTagList_v1_17_R1 implements IListTag<ListTag, Tag, CompoundTag>
     private Tag anyToTag(Object any)
     {
         Tag tag = null;
-        if(any instanceof Tag)
-        {
-            return (Tag) any;
-        }
+        if(any instanceof Tag tt)
+            return tt;
         if (any instanceof Byte)
             tag = ByteTag.valueOf((byte) any);
         else if (any instanceof Short)
@@ -202,9 +200,8 @@ public class NBTTagList_v1_17_R1 implements IListTag<ListTag, Tag, CompoundTag>
             tag = new IntArrayTag((int[]) any);
         else if (any instanceof long[])
             tag = new LongArrayTag((long[]) any);
-        else if (any instanceof List<?>)
+        else if (any instanceof List<?> anySubList)
         {
-            List<?> anySubList = (List<?>) any;
             tag = new ListTag();
             ListTag listTag = (ListTag) tag;
             for (Object anyListEntry : anySubList)

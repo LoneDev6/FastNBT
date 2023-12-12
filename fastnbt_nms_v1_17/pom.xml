@@ -10,8 +10,13 @@
     <parent>
         <artifactId>FastNbt</artifactId>
         <groupId>dev.lone</groupId>
-        <version>1.1.7</version>
+        <version>1.1.8</version>
     </parent>
+
+    <properties>
+        <maven.compiler.source>16</maven.compiler.source>
+        <maven.compiler.target>16</maven.compiler.target>
+    </properties>
 
    <build>
        <plugins>
@@ -41,7 +46,7 @@
         <dependency>
             <groupId>dev.lone</groupId>
             <artifactId>FastNbt-core</artifactId>
-            <version>1.1.7</version>
+            <version>1.1.8</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
