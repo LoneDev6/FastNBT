@@ -6,7 +6,7 @@
 
     <artifactId>FastNbt</artifactId>
     <groupId>dev.lone</groupId>
-    <version>1.1.9</version>
+    <version>1.1.11</version>
 
     <name>FastNbt</name>
     <packaging>pom</packaging>
@@ -163,19 +163,10 @@
             </plugin>
         </plugins>
     </build>
-
     <distributionManagement>
         <repository>
             <id>ftp-matteodev</id>
             <url>ftp://ftp.matteodev.it/htdocs/spigot/public/maven/</url>
         </repository>
     </distributionManagement>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.jetbrains</groupId>
-            <artifactId>annotations</artifactId>
-            <version>24.1.0</version>
-        </dependency>
-    </dependencies>
 </project>

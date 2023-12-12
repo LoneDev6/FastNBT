@@ -267,6 +267,24 @@ public class NList
     }
 
     /**
+     * Adds a NList at a specified index.
+     */
+    public NList addList(int i, NList list)
+    {
+        addRaw(i, list.handle);
+        return list;
+    }
+
+    /**
+     * Adds a NList at the end of the list.
+     */
+    public NList addList(NList list)
+    {
+        addRaw(size(), list.handle);
+        return list;
+    }
+
+    /**
      * Adds a new NList at a specified index.
      */
     public NList addList(int i)
@@ -293,11 +311,27 @@ public class NList
     }
 
     /**
+     * Adds a byte at a specified index.
+     */
+    public void addByte(int i, byte value)
+    {
+        addRaw(i, value);
+    }
+
+    /**
      * Adds a short at the end of the list.
      */
     public void addShort(short value)
     {
         addRaw(value);
+    }
+
+    /**
+     * Adds a short at a specified index.
+     */
+    public void addShort(int i, short value)
+    {
+        addRaw(i, value);
     }
 
     /**
@@ -309,11 +343,27 @@ public class NList
     }
 
     /**
+     * Adds an int at a specified index.
+     */
+    public void addInt(int i, int value)
+    {
+        addRaw(i, value);
+    }
+
+    /**
      * Adds a long at the end of the list.
      */
     public void addLong(long value)
     {
         addRaw(value);
+    }
+
+    /**
+     * Adds a long at a specified index.
+     */
+    public void addLong(int i, long value)
+    {
+        addRaw(i, value);
     }
 
     /**
@@ -325,11 +375,27 @@ public class NList
     }
 
     /**
+     * Adds a float at a specified index.
+     */
+    public void addFloat(int i, float value)
+    {
+        addRaw(i, value);
+    }
+
+    /**
      * Adds a double at the end of the list.
      */
     public void addDouble(double value)
     {
         addRaw(value);
+    }
+
+    /**
+     * Adds a double at a specified index.
+     */
+    public void addDouble(int i, double value)
+    {
+        addRaw(i, value);
     }
 
     /**
@@ -341,11 +407,27 @@ public class NList
     }
 
     /**
+     * Adds a byte[] at a specified index.
+     */
+    public void addByteArray(int i, byte[] value)
+    {
+        addRaw(i, value);
+    }
+
+    /**
      * Adds a String at the end of the list.
      */
     public void addString(String value)
     {
         addRaw(value);
+    }
+
+    /**
+     * Adds a String at a specified index.
+     */
+    public void addString(int i, String value)
+    {
+        addRaw(i, value);
     }
 
     /**
@@ -357,6 +439,14 @@ public class NList
     }
 
     /**
+     * Adds a List at a specified index.
+     */
+    public void addList(int i, List<?> value)
+    {
+        addRaw(i, value);
+    }
+
+    /**
      * Adds an int[] at the end of the list.
      */
     public void addIntArray(int[] value)
@@ -365,11 +455,27 @@ public class NList
     }
 
     /**
+     * Adds an int[] at a specified index.
+     */
+    public void addIntArray(int i, int[] value)
+    {
+        addRaw(i, value);
+    }
+
+    /**
      * Adds a long[] at the end of the list.
      */
     public void addLongArray(long[] value)
     {
         addRaw(value);
+    }
+
+    /**
+     * Adds a long[] at a specified index.
+     */
+    public void addLongArray(int i, long[] value)
+    {
+        addRaw(i, value);
     }
 
     @ApiStatus.Internal
