@@ -114,3 +114,4 @@ run/
 /.paper-nms/
 /.cache/
 target/
+/output/

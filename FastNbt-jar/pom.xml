@@ -134,7 +134,7 @@
         </dependency>
         <dependency>
             <groupId>dev.lone</groupId>
-            <artifactId>fastnbt_nms_v1_19_R1_2</artifactId>
+            <artifactId>fastnbt_nms_v1_19_R1</artifactId>
             <version>1.1.8</version>
         </dependency>
         <dependency>
