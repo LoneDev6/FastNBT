@@ -16,8 +16,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-@SuppressWarnings({"unchecked", "DataFlowIssue"})
 @Implementation.CyclicDependency(type = ICraftItemStack.class, version = Version.v1_20_R3)
+@SuppressWarnings({"unchecked", "DataFlowIssue", "CallToPrintStackTrace", "unused"})
 public class CraftItemStack_v1_20_R3 implements ICraftItemStack<ListTag, CompoundTag, CraftItemStack>
 {
     public static Field FIELD_HANDLE = FieldUtils.getField(CraftItemStack.class, "handle", true);

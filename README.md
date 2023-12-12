@@ -93,6 +93,22 @@ Currently, supports only items.
 </plugin>
 ```
 
+# Updating
+
+- Create a new module for the new NMS version and add the correct `paper-nms` **dependency**.
+- Add the new module src folder into the `.gitignore`.
+- Add the new NMS version to the `Version` enum.
+- Add the new module in the modules list of `FastNbt` module and as dependency in the `FastNbt-jar` module.
+- Edit `.mvn-exec/GenerateNms.js` file if needed.
+- Generate the NMS methods using `mvn validate -DgenerateNms`
+
+Should be all.
+
 # LoneDev's Notes
+
+## How to generate NMS automatically
+`mvn validate -DgenerateNms`\
+NOTE: remember to edit the `.mvn-exec/GenerateNms.js` file if needed
+
 ## How to deploy
 `mvn deploy`
