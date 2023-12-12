@@ -11,7 +11,11 @@ function handle(name, prevVersion, newVersion)
     content = content.replaceAll(prevVersion, newVersion)
 
     try {
-        let path = `./fastnbt_nms_${newVersion}/src/main/java/dev/lone/fastnbt/nms/nbt/${name}_${newVersion}.java`;
+        let dir = `./fastnbt_nms_${newVersion}/src/main/java/dev/lone/fastnbt/nms/nbt/`
+        let path = `${dir}${name}_${newVersion}.java`;
+        if (!fs.existsSync(dir)){
+            fs.mkdirSync(dir, { recursive: true });
+        }
         // Remove read-only from file if exists.
         if(fs.existsSync(path)) {
             fs.chmodSync(path, "666");
