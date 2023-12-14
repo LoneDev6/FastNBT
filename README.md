@@ -99,16 +99,10 @@ Currently, supports only items.
 - Add the new NMS version to the `Version` enum.
 - Add the new module in the modules list of `FastNbt` module and as dependency in the `FastNbt-jar` module.
 - Edit `.mvn-exec/GenerateNms.js` file if needed.
-- Generate the NMS classes using `mvn validate -DgenerateNms`
-- Add the new module `CraftItemStack_vxxx.java` file into the `.gitignore` since this file will auto genereate, no need to include it into the version control.
 
 Should be all.
 
 # LoneDev's Notes
-
-## How to generate NMS automatically
-`mvn validate -DgenerateNms`\
-NOTE: remember to edit the `.mvn-exec/GenerateNms.js` file if needed
 
 ## How to deploy
 `mvn deploy`
