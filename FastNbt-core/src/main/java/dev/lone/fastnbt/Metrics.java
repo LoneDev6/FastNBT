@@ -85,6 +85,8 @@ public class Metrics
             throw new IllegalArgumentException("Plugin cannot be null!");
         }
 
+        this.plugin = plugin;
+
         switch (pluginId)
         {
             case 8217:

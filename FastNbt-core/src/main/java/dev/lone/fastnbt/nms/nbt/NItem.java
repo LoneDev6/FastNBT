@@ -96,7 +96,7 @@ public class NItem extends NCompound
 
     public void merge(NItem b)
     {
-        NBT.item.merge(this.handle, b.handle);
+        NBT.item.merge((ItemStack) this.handle, (ItemStack) b.handle);
     }
 
     public boolean merge(String tag) throws JsonSyntaxException
