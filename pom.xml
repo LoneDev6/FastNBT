@@ -6,7 +6,7 @@
 
     <artifactId>FastNbt</artifactId>
     <groupId>dev.lone</groupId>
-    <version>1.1.13</version>
+    <version>1.1.14</version>
 
     <name>FastNbt</name>
     <packaging>pom</packaging>
@@ -161,6 +161,34 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.1.0</version>
+                <inherited>false</inherited>
+                <executions>
+                    <!--
+                    Spigot to Mojang mapping is different on each version,
+                    so I use this trick to generate the files on demand.
+                    -->
+                    <execution>
+                        <id>GenerateNms</id>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <executable>cmd</executable>
+                            <workingDirectory>${project.basedir}</workingDirectory>
+                            <workingDirectory>${project.basedir}</workingDirectory>
+                            <arguments>
+                                <argument>/C</argument>
+                                <argument>"node .mvn-exec/GenerateNms.js"</argument>
+                            </arguments>
+                        </configuration>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
     <distributionManagement>
@@ -169,48 +197,4 @@
             <url>ftp://ftp.matteodev.it/htdocs/spigot/public/maven/</url>
         </repository>
     </distributionManagement>
-
-    <profiles>
-        <profile>
-            <id>generate_nms</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-                <property>
-                    <name>generateNms</name>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <version>3.1.0</version>
-                        <inherited>false</inherited>
-                        <executions>
-                            <!--
-                            Spigot to Mojang mapping is different on each version,
-                            so I use this trick to generate the files on demand.
-                            -->
-                            <execution>
-                                <id>GenerateNms</id>
-                                <phase>validate</phase>
-                                <configuration>
-                                    <executable>cmd</executable>
-                                    <workingDirectory>${project.basedir}</workingDirectory>
-                                    <workingDirectory>${project.basedir}</workingDirectory>
-                                    <arguments>
-                                        <argument>/C</argument>
-                                        <argument>"node .mvn-exec/GenerateNms.js"</argument>
-                                    </arguments>
-                                </configuration>
-                                <goals>
-                                    <goal>exec</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 </project>

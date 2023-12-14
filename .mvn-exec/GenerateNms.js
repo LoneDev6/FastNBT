@@ -31,15 +31,10 @@ function handle(name, prevVersion, newVersion)
 
 function handleGroup(newVersion){
     console.log(`Generating NMS for ${newVersion}`)
-    // Spigot -> Mojang mapping seems to be the same for all classes,
-    // so I can be safe skipping generation for these classes.
-    // handle("CompoundTag", "v1_17_R1", newVersion)
-    // handle("ListTag", "v1_17_R1", newVersion)
-    // handle("NbtIo", "v1_17_R1", newVersion)
-
-    // Package for the Bukkit class CraftItemStack is always different on each version,
-    // so I have to generate this file for all versions.
+    handle("CompoundTag", "v1_17_R1", newVersion)
     handle("CraftItemStack", "v1_17_R1", newVersion)
+    handle("ListTag", "v1_17_R1", newVersion)
+    handle("NbtIo", "v1_17_R1", newVersion)
 }
 
 const lines = fs.readFileSync('./pom.xml').toString().split("\n");
