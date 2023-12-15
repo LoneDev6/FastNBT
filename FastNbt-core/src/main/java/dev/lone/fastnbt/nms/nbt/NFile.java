@@ -34,6 +34,11 @@ public class NFile extends NCompound
         }
     }
 
+    public File getFile()
+    {
+        return file;
+    }
+
     public void save() throws IOException
     {
         try
@@ -41,7 +46,7 @@ public class NFile extends NCompound
             this.writeLock.lock();
             NBT.streamTools.save(handle, new FileOutputStream(file));
         }
-        catch (FileNotFoundException ignored) { } // File deleted by another plugin or manually.
+        catch (FileNotFoundException ignored) {} // File deleted by another plugin or manually.
         finally
         {
             this.writeLock.unlock();

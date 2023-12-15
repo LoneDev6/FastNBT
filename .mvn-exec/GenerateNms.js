@@ -1,9 +1,6 @@
 const fs = require('fs');
 
-let skip = [
-    "v1_20_R3", // Because it has some changes in NbtIo methods signature and I can't auto generate.
-    "v1_17_R1", // Base module.
-]
+const BASE_MODULE_NAME = "v1_17_R1";
 
 function handle(name, prevVersion, newVersion)
 {
@@ -34,7 +31,10 @@ function handleGroup(newVersion){
     handle("CompoundTag", "v1_17_R1", newVersion)
     handle("CraftItemStack", "v1_17_R1", newVersion)
     handle("ListTag", "v1_17_R1", newVersion)
-    handle("NbtIo", "v1_17_R1", newVersion)
+
+    // Because it has some changes in NbtIo methods signature and I can't auto generate.
+    if(newVersion !== "v1_20_R3")
+        handle("NbtIo", "v1_17_R1", newVersion)
 }
 
 const lines = fs.readFileSync('./pom.xml').toString().split("\n");
@@ -47,7 +47,7 @@ for (let i in lines) {
             continue;
         }
 
-        if(skip.includes(matches[1])) {
+        if(matches[1] === BASE_MODULE_NAME) {
             continue;
         }
 
