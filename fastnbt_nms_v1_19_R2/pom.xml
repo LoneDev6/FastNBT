@@ -10,7 +10,7 @@
     <parent>
         <artifactId>FastNbt</artifactId>
         <groupId>dev.lone</groupId>
-        <version>1.1.17</version>
+        <version>1.1.18</version>
     </parent>
 
     <properties>
@@ -47,7 +47,7 @@
         <dependency>
             <groupId>dev.lone</groupId>
             <artifactId>FastNbt-core</artifactId>
-            <version>1.1.17</version>
+            <version>1.1.18</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

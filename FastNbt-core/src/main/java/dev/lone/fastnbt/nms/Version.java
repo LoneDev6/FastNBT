@@ -17,7 +17,7 @@ public enum Version
     v1_18_R2(758),
     v1_19_R1(760),
     v1_19_R2(761),
-    v1_19_R3(162),
+    v1_19_R3(762),
     v1_20_R1(763),
     v1_20_R2(764),
     v1_20_R3(765);
@@ -54,6 +54,17 @@ public enum Version
     public static boolean isNewerThan(Version version)
     {
         return get().id > version.id;
+    }
+
+    /**
+     * Verifies if the current version is a lower version compared to the specified version.
+     *
+     * @param version The maximum version
+     * @return true if the current version is lower than the specified version, false otherwise.
+     */
+    public static boolean isOlderThan(Version version)
+    {
+        return get().id < version.id;
     }
 
     public static Version get()
