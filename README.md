@@ -12,6 +12,7 @@
 ```java
 NItem nItem = new nItem(new ItemStack(Material.PLAYER_HEAD));
 nItem.setSkull("dummy", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjc4ZWYyZTRjZjJjNDFhMmQxNGJmZGU5Y2FmZjEwMjE5ZjViMWJmNWIzNWE0OWViNTFjNjQ2Nzg4MmNiNWYwIn19fQ==");
+nItem.save(); // If finished editing
 ```
 
 ### Renaming an item
@@ -20,6 +21,7 @@ If you want to use legacy notation you have to call the Spigot API as usual.
 ```java
 NItem nItem = new nItem(new ItemStack(Material.STONE));
 nItem.setDisplayNameCompound("{\"text\":\"Example Compound Name\",\"color\":\"blue\"}");
+nItem.save(); // If finished editing
 ```
 
 ### Setting an attribute modifier
@@ -33,6 +35,7 @@ nItem.setAttributeModifier(
         1337,
         1337
 );
+nItem.save(); // If finished editing
 ```
 ### Setting an attribute modifier (manual method)
 ```java
