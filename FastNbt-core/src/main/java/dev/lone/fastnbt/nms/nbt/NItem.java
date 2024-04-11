@@ -173,11 +173,13 @@ public class NItem extends NCompound
         return NBT.item.bukkitItemToCompoundStr(bukkitItem);
     }
 
+    // TODO: update to 1.20.5 new NBT shit
     public void setDisplayNameCompound(String compoundString)
     {
         getOrAddCompound("display").setString("Name", compoundString);
     }
 
+    // TODO: update to 1.20.5 new NBT shit
     public void setLoreCompounds(List<String> compoundStrings)
     {
         NCompound display = getOrAddCompound("display");
@@ -186,6 +188,7 @@ public class NItem extends NCompound
             lore.addString(compound);
     }
 
+    // TODO: update to 1.20.5 new NBT shit
     public void setAttributeModifier(String attributeName,
                                      int operation,
                                      double amount,
@@ -205,6 +208,7 @@ public class NItem extends NCompound
         attribute.setString("Slot", slot);
     }
 
+    // TODO: update to 1.20.5 new NBT shit
     public void setEnchantment(String id, short level)
     {
         NList compoundList = getOrAddList("Enchantments", NBTType.Compound);
@@ -222,11 +226,13 @@ public class NItem extends NCompound
         addEnchantments0(enchantments);
     }
 
+    // TODO: update to 1.20.5 new NBT shit
     public void removeEnchantments()
     {
         remove("Enchantments");
     }
 
+    // TODO: update to 1.20.5 new NBT shit
     public void removeEnchantment(String id)
     {
         if(!hasKey("Enchantments"))
@@ -247,6 +253,7 @@ public class NItem extends NCompound
         }
     }
 
+    // TODO: update to 1.20.5 new NBT shit
     private void addEnchantments0(Map<String, Short> enchantments)
     {
         NList compoundList = getOrAddList("Enchantments", NBTType.Compound);
@@ -258,6 +265,7 @@ public class NItem extends NCompound
         }
     }
 
+    // TODO: update to 1.20.5 new NBT shit
     private void setEnchantment(NList compoundList, String id, Short level)
     {
         if(!compoundList.isEmpty())
@@ -281,6 +289,7 @@ public class NItem extends NCompound
         enchant.setShort("lvl", level);
     }
 
+    // TODO: update to 1.20.5 new NBT shit
     public void setSkull(String name, UUID uuid, String value, String signature)
     {
         setType(Material.PLAYER_HEAD);
@@ -295,6 +304,7 @@ public class NItem extends NCompound
         profile.setString("Signature", signature);
     }
 
+    // TODO: update to 1.20.5 new NBT shit
     public void setSkull(String name, String value)
     {
         setType(Material.PLAYER_HEAD);
@@ -308,6 +318,7 @@ public class NItem extends NCompound
         profile.setString("Value", value);
     }
 
+    // TODO: update to 1.20.5 new NBT shit
     @Nullable
     public String getSkullTextureName()
     {
@@ -320,6 +331,7 @@ public class NItem extends NCompound
         return name;
     }
 
+    // TODO: update to 1.20.5 new NBT shit
     @Nullable
     public UUID getSkullTextureUUID()
     {
@@ -329,6 +341,7 @@ public class NItem extends NCompound
         return compound.getUUID("Id");
     }
 
+    // TODO: update to 1.20.5 new NBT shit
     @Nullable
     public String getSkullTextureSignature()
     {
@@ -341,6 +354,7 @@ public class NItem extends NCompound
         return signature;
     }
 
+    // TODO: update to 1.20.5 new NBT shit
     @Nullable
     public String getSkullTextureValue()
     {
@@ -353,6 +367,7 @@ public class NItem extends NCompound
         return value;
     }
 
+    // TODO: update to 1.20.5 new NBT shit
     @Nullable
     private NCompound getSkullOwnerCompound()
     {
@@ -361,6 +376,7 @@ public class NItem extends NCompound
         return getCompound("SkullOwner");
     }
 
+    // TODO: update to 1.20.5 new NBT shit
     @Nullable
     private NCompound getSkullTexturesCompound()
     {

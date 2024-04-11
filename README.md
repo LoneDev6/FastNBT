@@ -107,5 +107,16 @@ Should be all.
 
 # LoneDev's Notes
 
-## How to deploy
+## How to publish to the maven repository
 `mvn deploy`
+
+## How to install locally
+`mvn install`
+
+## Editing to the repository
+- Clone it
+- Change paths in `.mvn-exec/CopyFile.bat` and `RemoveMetaInf.bat` based on your directories
+- Make your changes
+- Run `node .\.mvn-exec\GenerateNms.js` (run it each time you edit something in the NMS files)
+- Run `mvn install` in order to access the plugin as dependency in your projects
+- Run Maven `clean package` and get the generated jar from `output` folder

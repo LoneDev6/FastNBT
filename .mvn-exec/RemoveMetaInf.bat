@@ -1,1 +1,1 @@
-"C:\Program Files\7-Zip\7z" d Y:\Progetti\Minecraft\Spigot\_github\FastNBT\output\FastNbt.jar META-INF -r
+"C:\Program Files\7-Zip\7z" d C:\Progetti\Minecraft\Github\FastNBT\output\FastNbt.jar META-INF -r

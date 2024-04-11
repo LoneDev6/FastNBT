@@ -128,7 +128,16 @@ public abstract class Implementation
                         {
                             classes.add(classLoader.loadClass(name));
                         }
-                        catch (ClassNotFoundException ignored) {} // Skip if not a class.
+                        catch (ClassNotFoundException | NoClassDefFoundError | UnsupportedClassVersionError ignored)
+                        {
+                            // ClassNotFoundException:
+                            //      Skip if not a class for some reason.
+                            // NoClassDefFoundError:
+                            //      Happens if impl class extends an NMS class which is not available
+                            //      in the current game version.
+                            // UnsupportedClassVersionError:
+                            //      Happens if class was compiled with a new Java version, unsupported by the server.
+                        }
                     }
                 }
             }

@@ -344,7 +344,7 @@ public class CraftItemStack_v1_16_R3 implements ICraftItemStack<NBTTagList, NBTT
     public ItemStack asCraftMirror(ItemStack itemStack)
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
-        return getHandle(craftItemStack).asBukkitMirror();
+        return CraftItemStack.asCraftMirror(getHandle(craftItemStack));
     }
 
     @Override
@@ -356,7 +356,8 @@ public class CraftItemStack_v1_16_R3 implements ICraftItemStack<NBTTagList, NBTT
     @Override
     public ItemStack compoundToItemStack(NBTTagCompound compound)
     {
-        return net.minecraft.server.v1_16_R3.ItemStack.fromCompound(compound).asBukkitMirror();
+        // "fromCompound" available only on Paper, so I call "a" instead.
+        return CraftItemStack.asCraftMirror(net.minecraft.server.v1_16_R3.ItemStack.a(compound));
     }
 
     @Override
