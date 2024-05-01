@@ -27,6 +27,9 @@ function handle(name, prevVersion, newVersion)
 }
 
 function handleGroup(newVersion){
+    if(newVersion === "v1_20_R4") // Total shit
+        return;
+
     console.log(`Generating NMS for ${newVersion}`)
     handle("CompoundTag", "v1_17_R1", newVersion)
     handle("CraftItemStack", "v1_17_R1", newVersion)

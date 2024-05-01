@@ -20,7 +20,8 @@ public enum Version
     v1_19_R3(762),
     v1_20_R1(763),
     v1_20_R2(764),
-    v1_20_R3(765);
+    v1_20_R3(765),
+    v1_20_R4(770);
 
     private static Version version;
 
