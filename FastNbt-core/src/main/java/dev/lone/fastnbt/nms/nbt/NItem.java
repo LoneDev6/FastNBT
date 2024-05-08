@@ -2,6 +2,7 @@ package dev.lone.fastnbt.nms.nbt;
 
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
+import dev.lone.fastnbt.nms.Version;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -10,8 +11,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 
 @SuppressWarnings({"unchecked", "deprecation", "unused"})
 public class NItem extends NCompound
@@ -173,224 +172,43 @@ public class NItem extends NCompound
         return NBT.item.bukkitItemToCompoundStr(bukkitItem);
     }
 
-    // TODO: update to 1.20.5 new NBT shit
+    public Object getCustomName()
+    {
+        return NBT.dataComponents.getCustomName(getItem());
+    }
+
+    public String getCustomNameJson()
+    {
+        return NBT.dataComponents.getCustomNameJson(getItem());
+    }
+
+    public void setCustomName(String compoundString)
+    {
+        if(Version.isAtLeast(Version.v1_20_4))
+            NBT.dataComponents.setCustomName(getItem(), compoundString);
+        else
+            getOrAddCompound("display").setString("Name", compoundString);
+    }
+
+    public Object getItemName()
+    {
+        return NBT.dataComponents.getItemName(getItem());
+    }
+
+    public void setItemName(String compoundString)
+    {
+        NBT.dataComponents.setItemName(getItem(), compoundString);
+    }
+
+    @Nullable
+    public List getLore()
+    {
+        return NBT.dataComponents.getLore(getItem());
+    }
+
+    @Deprecated
     public void setDisplayNameCompound(String compoundString)
     {
-        getOrAddCompound("display").setString("Name", compoundString);
-    }
-
-    // TODO: update to 1.20.5 new NBT shit
-    public void setLoreCompounds(List<String> compoundStrings)
-    {
-        NCompound display = getOrAddCompound("display");
-        NList lore = display.getOrAddList("Lore", NBTType.String);
-        for (String compound : compoundStrings)
-            lore.addString(compound);
-    }
-
-    // TODO: update to 1.20.5 new NBT shit
-    public void setAttributeModifier(String attributeName,
-                                     int operation,
-                                     double amount,
-                                     String name,
-                                     String slot,
-                                     int uuidLeast,
-                                     int uuidMost)
-    {
-        NList attributes = getOrAddList("AttributeModifiers", NBTType.Compound);
-        NCompound attribute = attributes.addCompound();
-        attribute.setString("AttributeName", attributeName);
-        attribute.setInt("Operation", operation);
-        attribute.setInt("UUIDLeast", uuidLeast);
-        attribute.setInt("UUIDMost", uuidMost);
-        attribute.setDouble("Amount", amount);
-        attribute.setString("Name", name);
-        attribute.setString("Slot", slot);
-    }
-
-    // TODO: update to 1.20.5 new NBT shit
-    public void setEnchantment(String id, short level)
-    {
-        NList compoundList = getOrAddList("Enchantments", NBTType.Compound);
-        setEnchantment(compoundList, id, level);
-    }
-
-    public void addEnchantments(Map<String, Short> enchantments)
-    {
-        addEnchantments0(enchantments);
-    }
-
-    public void setEnchantments(Map<String, Short> enchantments)
-    {
-        removeEnchantments();
-        addEnchantments0(enchantments);
-    }
-
-    // TODO: update to 1.20.5 new NBT shit
-    public void removeEnchantments()
-    {
-        remove("Enchantments");
-    }
-
-    // TODO: update to 1.20.5 new NBT shit
-    public void removeEnchantment(String id)
-    {
-        if(!hasKey("Enchantments"))
-            return;
-
-        NList compoundList = getOrAddList("Enchantments", NBTType.Compound);
-        if(!compoundList.isEmpty())
-        {
-            for (int i = 0; i < compoundList.size(); i++)
-            {
-                NCompound enchant = compoundList.getOrAddCompound(i);
-                if(!enchant.getString("id").equals(id))
-                    continue;
-
-                compoundList.remove(i);
-                return;
-            }
-        }
-    }
-
-    // TODO: update to 1.20.5 new NBT shit
-    private void addEnchantments0(Map<String, Short> enchantments)
-    {
-        NList compoundList = getOrAddList("Enchantments", NBTType.Compound);
-        for (Map.Entry<String, Short> entry : enchantments.entrySet())
-        {
-            String id = entry.getKey();
-            Short level = entry.getValue();
-            setEnchantment(compoundList, id, level);
-        }
-    }
-
-    // TODO: update to 1.20.5 new NBT shit
-    private void setEnchantment(NList compoundList, String id, Short level)
-    {
-        if(!compoundList.isEmpty())
-        {
-            for (int i = 0; i < compoundList.size(); i++)
-            {
-                NCompound enchant = compoundList.getOrAddCompound(i);
-                if(!enchant.getString("id").equals(id))
-                    continue;
-                if(enchant.getShort("lvl") == level)
-                    return;
-
-                enchant.setShort("lvl", level);
-                return;
-            }
-        }
-
-        NCompound enchant = new NCompound();
-        compoundList.addCompound(enchant);
-        enchant.setString("id", id);
-        enchant.setShort("lvl", level);
-    }
-
-    // TODO: update to 1.20.5 new NBT shit
-    public void setSkull(String name, UUID uuid, String value, String signature)
-    {
-        setType(Material.PLAYER_HEAD);
-        NCompound owner = getOrAddCompound("SkullOwner");
-        owner.setString("Name", name);
-        owner.setUUID("Id", uuid);
-
-        NList textures = owner.getOrAddCompound("Properties").getOrAddList("textures", NBTType.Compound);
-        NCompound profile = new NCompound();
-        textures.addCompound(profile);
-        profile.setString("Value", value);
-        profile.setString("Signature", signature);
-    }
-
-    // TODO: update to 1.20.5 new NBT shit
-    public void setSkull(String name, String value)
-    {
-        setType(Material.PLAYER_HEAD);
-        NCompound owner = getOrAddCompound("SkullOwner");
-        owner.setString("Name", name);
-        owner.setUUID("Id", UUID.nameUUIDFromBytes(name.getBytes()));
-
-        NList textures = owner.getOrAddCompound("Properties").getOrAddList("textures", NBTType.Compound);
-        NCompound profile = new NCompound();
-        textures.addCompound(profile);
-        profile.setString("Value", value);
-    }
-
-    // TODO: update to 1.20.5 new NBT shit
-    @Nullable
-    public String getSkullTextureName()
-    {
-        NCompound compound = getSkullOwnerCompound();
-        if(compound == null)
-            return null;
-        String name = compound.getString("Name");
-        if("".equals(name))
-            return null;
-        return name;
-    }
-
-    // TODO: update to 1.20.5 new NBT shit
-    @Nullable
-    public UUID getSkullTextureUUID()
-    {
-        NCompound compound = getSkullOwnerCompound();
-        if(compound == null)
-            return null;
-        return compound.getUUID("Id");
-    }
-
-    // TODO: update to 1.20.5 new NBT shit
-    @Nullable
-    public String getSkullTextureSignature()
-    {
-        NCompound compound = getSkullTexturesCompound();
-        if(compound == null)
-            return null;
-        String signature = compound.getString("Signature");
-        if("".equals(signature))
-            return null;
-        return signature;
-    }
-
-    // TODO: update to 1.20.5 new NBT shit
-    @Nullable
-    public String getSkullTextureValue()
-    {
-        NCompound compound = getSkullTexturesCompound();
-        if(compound == null)
-            return null;
-        String value = compound.getString("Value");
-        if("".equals(value))
-            return null;
-        return value;
-    }
-
-    // TODO: update to 1.20.5 new NBT shit
-    @Nullable
-    private NCompound getSkullOwnerCompound()
-    {
-        if(!hasKey("SkullOwner"))
-            return null;
-        return getCompound("SkullOwner");
-    }
-
-    // TODO: update to 1.20.5 new NBT shit
-    @Nullable
-    private NCompound getSkullTexturesCompound()
-    {
-        NCompound compound = getSkullOwnerCompound();
-        if(compound == null)
-            return null;
-        NCompound properties = compound.getCompound("Properties");
-        if(properties == null)
-            return null;
-        NList textures = properties.getList("textures", NBTType.Compound);
-        if(textures == null)
-            return null;
-        if(textures.isEmpty())
-            return null;
-        return textures.getOrAddCompound(0);
+        setCustomName(compoundString);
     }
 }

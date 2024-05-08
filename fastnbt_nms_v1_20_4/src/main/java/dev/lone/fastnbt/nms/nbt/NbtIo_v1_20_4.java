@@ -11,9 +11,9 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-@Implementation.CyclicDependency(type = INBTIO.class, version = Version.v1_20_R4)
+@Implementation.CyclicDependency(type = INBTIO.class, version = Version.v1_20_4)
 @SuppressWarnings({"unused"})
-public class NbtIo_v1_20_R4 implements INBTIO<CompoundTag>
+public class NbtIo_v1_20_4 implements INBTIO<CompoundTag>
 {
     @Override
     public CompoundTag read(FileInputStream inputStream) throws IOException

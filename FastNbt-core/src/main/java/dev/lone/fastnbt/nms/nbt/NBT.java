@@ -15,12 +15,13 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 @SuppressWarnings("rawtypes")
-class NBT
+public class NBT
 {
     public static ICompoundTag compound;
     public static ICraftItemStack item;
     public static IListTag list;
     public static INBTIO streamTools;
+    public static IDataComponents dataComponents;
 
     static
     {
@@ -28,10 +29,11 @@ class NBT
 
         try
         {
-            compound = Implementation.find(ICompoundTag.class, Version.get());
-            item = Implementation.find(ICraftItemStack.class, Version.get());
-            list = Implementation.find(IListTag.class, Version.get());
-            streamTools = Implementation.find(INBTIO.class, Version.get());
+            compound = Implementation.find(ICompoundTag.class);
+            item = Implementation.find(ICraftItemStack.class);
+            list = Implementation.find(IListTag.class);
+            streamTools = Implementation.find(INBTIO.class);
+            dataComponents = Implementation.find(IDataComponents.class);
         }
         catch (Throwable ex)
         {

@@ -30,6 +30,11 @@ public abstract class Implementation
 
     private static final String basePackageNonObf = Implementation.class.getPackageName();
 
+    public static <IType> IType find(Class<IType> type)
+    {
+        return find(type, Version.get());
+    }
+
     public static <IType> IType find(Class<IType> type, Version version)
     {
         Map<Class<?>, CyclicDependency> cache = new HashMap<>();

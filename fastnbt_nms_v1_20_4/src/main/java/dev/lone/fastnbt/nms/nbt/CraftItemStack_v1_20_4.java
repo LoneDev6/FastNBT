@@ -1,29 +1,25 @@
 package dev.lone.fastnbt.nms.nbt;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import org.jetbrains.annotations.Nullable;
 import dev.lone.fastnbt.nms.Implementation;
 import dev.lone.fastnbt.nms.Version;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.TagParser;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.item.component.CustomData;
 import org.apache.commons.lang.reflect.FieldUtils;
-import org.bukkit.craftbukkit.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_20_R3.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
-@Implementation.CyclicDependency(type = ICraftItemStack.class, version = Version.v1_20_R4)
-@SuppressWarnings({"unchecked", "DataFlowIssue", "CallToPrintStackTrace", "unused", "deprecation"})
-public class CraftItemStack_v1_20_R4 implements ICraftItemStack<ListTag, CompoundTag, CraftItemStack>
+@Implementation.CyclicDependency(type = ICraftItemStack.class, version = Version.v1_20_4)
+@SuppressWarnings({"unchecked", "DataFlowIssue", "CallToPrintStackTrace", "unused"})
+public class CraftItemStack_v1_20_4 implements ICraftItemStack<ListTag, CompoundTag, CraftItemStack>
 {
     public static final Field FIELD_HANDLE;
     /**
@@ -81,7 +77,7 @@ public class CraftItemStack_v1_20_R4 implements ICraftItemStack<ListTag, Compoun
         net.minecraft.world.item.ItemStack handle = getHandle(castToCraftItemStack(itemStack));
         if (handle == null)
             return false;
-        return !handle.has(DataComponents.CUSTOM_DATA);
+        return handle.hasTag();
     }
 
     @Override
@@ -89,329 +85,267 @@ public class CraftItemStack_v1_20_R4 implements ICraftItemStack<ListTag, Compoun
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
         CraftItemStack other = castToCraftItemStack(otherItem);
-        getHandle(craftItemStack).applyComponents(other.handle.getComponents());
+        this.merge(getHandle(craftItemStack).getOrCreateTag(), getHandle(other).getOrCreateTag());
     }
 
     @Override
     public void setByte(ItemStack itemStack, String key, byte param)
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
-        getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA).getUnsafe().putByte(key, param);
+        NBT.compound.setByte(getHandle(craftItemStack).getOrCreateTag(), key, param);
     }
 
     @Override
     public void setShort(ItemStack itemStack, String key, short param)
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
-        getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA).getUnsafe().putShort(key, param);
+        NBT.compound.setShort(getHandle(craftItemStack).getOrCreateTag(), key, param);
     }
 
     @Override
     public void setInt(ItemStack itemStack, String key, int param)
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
-        getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA).getUnsafe().putInt(key, param);
+        NBT.compound.setInt(getHandle(craftItemStack).getOrCreateTag(), key, param);
     }
 
     @Override
     public void setLong(ItemStack itemStack, String key, long param)
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
-        getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA).getUnsafe().putLong(key, param);
+        NBT.compound.setLong(getHandle(craftItemStack).getOrCreateTag(), key, param);
     }
 
     @Override
     public void setUUID(ItemStack itemStack, String key, UUID param)
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
-        getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA).getUnsafe().putUUID(key, param);
+        NBT.compound.setUUID(getHandle(craftItemStack).getOrCreateTag(), key, param);
     }
 
     @Override
     public void setFloat(ItemStack itemStack, String key, float param)
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
-        getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA).getUnsafe().putFloat(key, param);
+        NBT.compound.setFloat(getHandle(craftItemStack).getOrCreateTag(), key, param);
     }
 
     @Override
     public void setDouble(ItemStack itemStack, String key, double param)
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
-        getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA).getUnsafe().putDouble(key, param);
+        NBT.compound.setDouble(getHandle(craftItemStack).getOrCreateTag(), key, param);
     }
 
     @Override
     public void setString(ItemStack itemStack, String key, String param)
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
-        getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA).getUnsafe().putString(key, param);
+        NBT.compound.setString(getHandle(craftItemStack).getOrCreateTag(), key, param);
     }
 
     @Override
     public void setByteArray(ItemStack itemStack, String key, byte[] param)
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
-        getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA).getUnsafe().putByteArray(key, param);
+        NBT.compound.setByteArray(getHandle(craftItemStack).getOrCreateTag(), key, param);
     }
 
     @Override
     public void setIntArray(ItemStack itemStack, String key, int[] param)
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
-        getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA).getUnsafe().putIntArray(key, param);
+        NBT.compound.setIntArray(getHandle(craftItemStack).getOrCreateTag(), key, param);
     }
 
     @Override
     public void setIntegerList(ItemStack itemStack, String key, List<Integer> param)
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
-        getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA).getUnsafe().putIntArray(key, param);
+        NBT.compound.setIntegerList(getHandle(craftItemStack).getOrCreateTag(), key, param);
     }
 
     @Override
     public void setLongArray(ItemStack itemStack, String key, long[] param)
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
-        getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA).getUnsafe().putLongArray(key, param);
+        NBT.compound.setLongArray(getHandle(craftItemStack).getOrCreateTag(), key, param);
     }
 
     @Override
     public void setLongList(ItemStack itemStack, String key, List<Long> param)
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
-        getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA).getUnsafe().putLongArray(key, param);
+        NBT.compound.setLongList(getHandle(craftItemStack).getOrCreateTag(), key, param);
     }
 
     @Override
     public void setBoolean(ItemStack itemStack, String key, boolean param)
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
-        getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA).getUnsafe().putBoolean(key, param);
+        NBT.compound.setBoolean(getHandle(craftItemStack).getOrCreateTag(), key, param);
     }
 
     @Override
     public boolean hasKey(ItemStack itemStack, String key)
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
-        CustomData data = getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA);
-        if (data == null)
+        if (!getHandle(craftItemStack).hasTag())
             return false;
-        return data.contains(key);
+        return NBT.compound.hasKey(getHandle(craftItemStack).getTag(), key);
     }
 
     @Override
     public boolean hasUUID(ItemStack itemStack, String key)
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
-        CustomData data = getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA);
-        if (data == null)
+        if (!getHandle(craftItemStack).hasTag())
             return false;
-        return data.getUnsafe().hasUUID(key);
+        return NBT.compound.hasUUID(getHandle(craftItemStack).getTag(), key);
     }
 
     @Override
     public @Nullable UUID getUUID(ItemStack itemStack, String key)
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
-        CustomData data = getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA);
-        if (data == null)
-            return null;
-        return data.getUnsafe().getUUID(key);
+        return NBT.compound.getUUID(getHandle(craftItemStack).getOrCreateTag(), key);
     }
 
     @Override
     public byte getByte(ItemStack itemStack, String key)
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
-        CustomData data = getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA);
-        if (data == null)
-            return 0;
-        return data.getUnsafe().getByte(key);
+        return NBT.compound.getByte(getHandle(craftItemStack).getOrCreateTag(), key);
     }
 
     @Override
     public short getShort(ItemStack itemStack, String key)
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
-        CustomData data = getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA);
-        if (data == null)
-            return 0;
-        return data.getUnsafe().getShort(key);
+        return NBT.compound.getShort(getHandle(craftItemStack).getOrCreateTag(), key);
     }
 
     @Override
     public int getInt(ItemStack itemStack, String key)
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
-        CustomData data = getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA);
-        if (data == null)
-            return 0;
-        return data.getUnsafe().getInt(key);
+        return NBT.compound.getInt(getHandle(craftItemStack).getOrCreateTag(), key);
     }
 
     @Override
     public long getLong(ItemStack itemStack, String key)
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
-        CustomData data = getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA);
-        if (data == null)
-            return 0;
-        return data.getUnsafe().getLong(key);
+        return NBT.compound.getLong(getHandle(craftItemStack).getOrCreateTag(), key);
     }
 
     @Override
     public float getFloat(ItemStack itemStack, String key)
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
-        CustomData data = getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA);
-        if (data == null)
-            return 0;
-        return data.getUnsafe().getFloat(key);
+        return NBT.compound.getFloat(getHandle(craftItemStack).getOrCreateTag(), key);
     }
 
     @Override
     public double getDouble(ItemStack itemStack, String key)
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
-        CustomData data = getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA);
-        if (data == null)
-            return 0;
-        return data.getUnsafe().getDouble(key);
+        return NBT.compound.getDouble(getHandle(craftItemStack).getOrCreateTag(), key);
     }
 
     @Override
     public String getString(ItemStack itemStack, String key)
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
-        CustomData data = getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA);
-        if (data == null)
-            return null;
-        return data.getUnsafe().getString(key);
+        return NBT.compound.getString(getHandle(craftItemStack).getOrCreateTag(), key);
     }
 
     @Override
     public byte[] getByteArray(ItemStack itemStack, String key)
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
-        CustomData data = getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA);
-        if (data == null)
-            return null;
-        return data.getUnsafe().getByteArray(key);
+        return NBT.compound.getByteArray(getHandle(craftItemStack).getOrCreateTag(), key);
     }
 
     @Override
     public int[] getIntArray(ItemStack itemStack, String key)
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
-        CustomData data = getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA);
-        if (data == null)
-            return null;
-        return data.getUnsafe().getIntArray(key);
+        return NBT.compound.getIntArray(getHandle(craftItemStack).getOrCreateTag(), key);
     }
 
     @Override
     public long[] getLongArray(ItemStack itemStack, String key)
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
-        CustomData data = getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA);
-        if (data == null)
-            return null;
-        return data.getUnsafe().getLongArray(key);
+        return NBT.compound.getLongArray(getHandle(craftItemStack).getOrCreateTag(), key);
     }
 
     @Override
     public CompoundTag getCompound(ItemStack itemStack, String key)
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
-        CustomData data = getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA);
-        if (data == null)
-            return null;
-        return data.getUnsafe().getCompound(key);
+        return (CompoundTag) NBT.compound.getCompound(getHandle(craftItemStack).getOrCreateTag(), key);
     }
 
     @Override
     public CompoundTag getOrAddCompound(ItemStack itemStack, String key)
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
-        CustomData data = getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA);
-        if (data == null)
-            return null;
-        return (CompoundTag) NBT.compound.getOrAddCompound(data.getUnsafe(), key);
+        return (CompoundTag) NBT.compound.getOrAddCompound(getHandle(craftItemStack).getOrCreateTag(), key);
     }
 
     @Override
     public ListTag getList(ItemStack itemStack, String key, int typeID)
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
-        CustomData data = getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA);
-        if (data == null)
-            return null;
-        return (ListTag) NBT.compound.getList(data.getUnsafe(), key, typeID);
+        return (ListTag) NBT.compound.getList(getHandle(craftItemStack).getOrCreateTag(), key, typeID);
     }
 
     @Override
     public ListTag getOrAddList(ItemStack itemStack, String key, int typeID)
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
-        CustomData data = getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA);
-        if (data == null)
-            return null;
-        return (ListTag) NBT.compound.getOrAddList(data.getUnsafe(), key, typeID);
+        return (ListTag) NBT.compound.getOrAddList(getHandle(craftItemStack).getOrCreateTag(), key, typeID);
     }
 
     @Override
     public void putTag(ItemStack itemStack, String key, Object value)
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
-        CustomData data = getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA);
-        if (data == null)
-            return;
-        NBT.compound.putTag(data.getUnsafe(), key, value);
+        NBT.compound.putTag(getHandle(craftItemStack).getOrCreateTag(), key, value);
     }
 
     @Override
     public boolean getBoolean(ItemStack itemStack, String key)
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
-        net.minecraft.world.item.ItemStack handle = getHandle(craftItemStack);
-        CustomData data = handle.get(DataComponents.CUSTOM_DATA);
-        if (data == null)
-            return false;
-        return NBT.compound.getBoolean(data.getUnsafe(), key);
+        return NBT.compound.getBoolean(getHandle(craftItemStack).getOrCreateTag(), key);
     }
 
     @Override
     public Set<String> getKeys(ItemStack itemStack)
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
-        CustomData data = getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA);
-        if (data != null)
-            return data.getUnsafe().tags.keySet();
-        return null;
+        return getHandle(craftItemStack).getOrCreateTag().getAllKeys();
     }
 
     @Override
     public boolean isEmpty(ItemStack itemStack)
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
-        net.minecraft.world.item.ItemStack handle = getHandle(craftItemStack);
-        if(handle.getComponents().isEmpty())
+        if (!getHandle(craftItemStack).hasTag())
             return true;
-        CustomData data = handle.get(DataComponents.CUSTOM_DATA);
-        if (data == null)
-            return true;
-        return data.isEmpty();
+        return NBT.compound.isEmpty(getHandle(craftItemStack).getTag());
     }
 
     @Override
     public void remove(ItemStack itemStack, String key)
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
-        CustomData data = getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA);
-        if (data == null)
+        if (!getHandle(craftItemStack).hasTag())
             return;
-        data.getUnsafe().remove(key);
+        NBT.compound.remove(getHandle(craftItemStack).getTag(), key);
     }
 
     @Override
@@ -428,7 +362,7 @@ public class CraftItemStack_v1_20_R4 implements ICraftItemStack<ListTag, Compoun
     }
 
     @Override
-    public net.minecraft.world.item.ItemStack asNmsCopy(ItemStack itemStack)
+    public  net.minecraft.world.item.ItemStack asNmsCopy(ItemStack itemStack)
     {
         return CraftItemStack.asNMSCopy(itemStack);
     }
@@ -436,15 +370,16 @@ public class CraftItemStack_v1_20_R4 implements ICraftItemStack<ListTag, Compoun
     @Override
     public ItemStack compoundToItemStack(CompoundTag compound)
     {
-        Optional<net.minecraft.world.item.ItemStack> parsed = net.minecraft.world.item.ItemStack.parse(MinecraftServer.getServer().registryAccess(), compound);
-        return CraftItemStack.asBukkitCopy(parsed.get());
+        return CraftItemStack.asCraftMirror(net.minecraft.world.item.ItemStack.of(compound));
     }
 
     @Override
     public CompoundTag itemStackToCompound(ItemStack itemStack)
     {
+        CompoundTag nbtTagCompound = new CompoundTag();
         net.minecraft.world.item.ItemStack nmsCopy = asNmsCopy(itemStack);
-        return (CompoundTag) nmsCopy.save(MinecraftServer.getServer().registryAccess());
+        nmsCopy.save(nbtTagCompound);
+        return nbtTagCompound;
     }
 
     @Override
@@ -467,6 +402,13 @@ public class CraftItemStack_v1_20_R4 implements ICraftItemStack<ListTag, Compoun
     @Override
     public String toString(ItemStack itemStack)
     {
-        return NBT.compound.toString(itemStackToCompound(itemStack));
+        CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
+        net.minecraft.world.item.ItemStack handle = getHandle(craftItemStack);
+        if (handle == null || !handle.hasTag())
+            return null;
+
+        CompoundTag nbt = new CompoundTag();
+        handle.save(nbt);
+        return NBT.compound.toString(nbt);
     }
 }

@@ -10,21 +10,21 @@
     <parent>
         <artifactId>FastNbt</artifactId>
         <groupId>dev.lone</groupId>
-        <version>1.1.21</version>
+        <version>1.2.1</version>
     </parent>
 
     <dependencies>
         <dependency>
             <groupId>libs</groupId>
             <artifactId>patched_1.16.5</artifactId>
-            <version>1.1.21</version>
+            <version>1.2.1</version>
             <scope>system</scope>
             <systemPath>${jars_libs_folder}/spigot/paper/patched_1.16.5.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>libs</groupId>
             <artifactId>spigot_1.16.5</artifactId>
-            <version>1.1.21</version>
+            <version>1.2.1</version>
             <scope>system</scope>
             <systemPath>${jars_libs_folder}/spigot/spigot-1.16.5.jar</systemPath>
         </dependency>
@@ -32,7 +32,7 @@
         <dependency>
             <groupId>dev.lone</groupId>
             <artifactId>FastNbt-core</artifactId>
-            <version>1.1.21</version>
+            <version>1.2.1</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

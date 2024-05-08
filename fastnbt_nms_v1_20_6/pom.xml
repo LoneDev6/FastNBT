@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>fastnbt_nms_v1_19_R2</artifactId>
+    <artifactId>fastnbt_nms_v1_20_6</artifactId>
     <packaging>jar</packaging>
 
     <parent>
@@ -40,10 +40,9 @@
         <dependency>
             <groupId>ca.bkaw</groupId>
             <artifactId>paper-nms</artifactId>
-            <version>1.19.3-SNAPSHOT</version>
+            <version>1.20.6-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>dev.lone</groupId>
             <artifactId>FastNbt-core</artifactId>
