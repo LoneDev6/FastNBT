@@ -9,35 +9,37 @@ import org.bukkit.Bukkit;
 @SuppressWarnings({"unused", "DeprecatedIsStillUsed"})
 public enum Version
 {
-    UNKNOWN(Integer.MAX_VALUE, ""),
+    UNKNOWN(Integer.MAX_VALUE, Integer.MAX_VALUE, ""),
     @Deprecated
-    v1_15_R1(578, "1.15.2"),
+    v1_15_R1(0, 578, "1.15.2"),
     @Deprecated
-    v1_16_R3(754, "1.16.5"),
-    v1_17_R1(756, "1.17.1"),
-    v1_18_R1(757, "1.18.1"),
-    v1_18_R2(758, "1.18.2"),
-    v1_19_R1(760, "1.19.2"),
-    v1_19_R2(761, "1.19.3"),
-    v1_19_R3(762, "1.19.4"),
-    v1_20_R1(763, "1.20.1"),
-    v1_20_R2(764, "1.20.2"),
-    v1_20_R3(765, "1.20.3"),
-    v1_20_4(766, "1.20.4"), // v1_20_R3
-    v1_20_5(767, "1.20.5"), // v1_20_R4
-    v1_20_6(768, "1.20.6"), // v1_20_R4
-;
+    v1_16_R3(10, 754, "1.16.5"),
+    v1_17_R1(20, 756, "1.17.1"),
+    v1_18_R1(30, 757, "1.18.1"),
+    v1_18_R2(40, 758, "1.18.2"),
+    v1_19_R1(50, 760, "1.19.2"),
+    v1_19_R2(60, 761, "1.19.3"),
+    v1_19_R3(70, 762, "1.19.4"),
+    v1_20_R1(80, 763, "1.20.1"),
+    v1_20_R2(90, 764, "1.20.2"),
+    v1_20_R3(100, 765, "1.20.3"),
+    v1_20_4(110, 765, "1.20.4"), // v1_20_R3
+    v1_20_5(120, 766, "1.20.5"), // v1_20_R4
+    v1_20_6(130, 766, "1.20.6"), // v1_20_R4
+    ;
     private static Version version;
 
     /**
      * Protocol ID.
      */
     public final int id;
+    public final int protocol;
     public final String name;
 
-    Version(int id, String name)
+    Version(int protocol, int id, String name)
     {
         this.id = id;
+        this.protocol = protocol;
         this.name = name;
     }
 
@@ -59,7 +61,7 @@ public enum Version
      */
     public static boolean isAtLeast(Version version)
     {
-        return get().id >= version.id;
+        return get().protocol >= version.protocol;
     }
 
     /**
@@ -70,7 +72,7 @@ public enum Version
      */
     public static boolean isNewerThan(Version version)
     {
-        return get().id > version.id;
+        return get().protocol > version.protocol;
     }
 
     /**
@@ -81,7 +83,7 @@ public enum Version
      */
     public static boolean isOlderThan(Version version)
     {
-        return get().id < version.id;
+        return get().protocol < version.protocol;
     }
 
     public static Version get()
