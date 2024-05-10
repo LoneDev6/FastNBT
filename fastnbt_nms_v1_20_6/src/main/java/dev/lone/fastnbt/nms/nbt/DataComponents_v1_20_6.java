@@ -14,6 +14,8 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static dev.lone.fastnbt.nms.nbt.CraftItemStack_v1_20_6.castToCraftItemStack;
 import static dev.lone.fastnbt.nms.nbt.CraftItemStack_v1_20_6.getHandle;
@@ -104,7 +106,7 @@ public class DataComponents_v1_20_6 implements IDataComponents
         if(lore == null)
             itemStack.set(DataComponents.LORE, new ItemLore(endLines));
         else
-            lore.lines().addAll(endLines);
+            itemStack.set(DataComponents.LORE, new ItemLore(Stream.concat(lore.lines().parallelStream(), endLines.parallelStream()).collect(Collectors.toList())));
     }
 
     @Override

@@ -1,6 +1,5 @@
 package dev.lone.fastnbt.nms.nbt;
 
-import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 import dev.lone.fastnbt.nms.Version;
 import org.bukkit.Bukkit;
@@ -100,7 +99,7 @@ public class NItem extends NCompound
 
     public boolean merge(String tag) throws JsonSyntaxException
     {
-        if(!isValidJson(tag))
+        if(!isValid(tag))
             return false;
         merge(setNbtByString(tag));
         save();
@@ -122,14 +121,9 @@ public class NItem extends NCompound
         return tmp;
     }
 
-    public static boolean isValidJson(String json)
+    public static boolean isValid(String component)
     {
-        try
-        {
-            return new JsonParser().parse(json).getAsJsonObject() != null;
-        }
-        catch (Throwable ignored) {}
-        return false;
+        return NBT.compound.isValid(component);
     }
 
     public static ItemStack asCraftMirror(ItemStack itemStack)

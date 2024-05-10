@@ -1,5 +1,6 @@
 package dev.lone.fastnbt.nms.nbt;
 
+import com.google.gson.JsonParser;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -47,4 +48,14 @@ public interface ICompoundTag<Handle, ListTag, CompoundTag>
     void remove(Handle handle, String key);
     void merge(CompoundTag handle, CompoundTag otherHandle);
     @Nullable String toString(Handle handle);
+
+    default boolean isValid(String component)
+    {
+        try
+        {
+            return JsonParser.parseString(component).getAsJsonObject() != null;
+        }
+        catch (Throwable ignored) {}
+        return false;
+    }
 }

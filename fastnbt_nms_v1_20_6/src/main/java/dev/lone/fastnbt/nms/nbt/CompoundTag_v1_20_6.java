@@ -1,11 +1,16 @@
 package dev.lone.fastnbt.nms.nbt;
 
+import com.mojang.brigadier.StringReader;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import dev.lone.fastnbt.nms.Implementation;
 import dev.lone.fastnbt.nms.Version;
+import net.minecraft.commands.Commands;
+import net.minecraft.commands.arguments.item.ItemParser;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.Tag;
+import net.minecraft.server.MinecraftServer;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -278,5 +283,20 @@ public class CompoundTag_v1_20_6 implements ICompoundTag<CompoundTag, ListTag, C
     public String toString(CompoundTag handle)
     {
         return handle.toString();
+    }
+
+    @Override
+    public boolean isValid(String component)
+    {
+        try
+        {
+            new ItemParser(Commands.createValidationContext(MinecraftServer.getDefaultRegistryAccess())).parse(new StringReader(component));
+            return true;
+        }
+        catch (CommandSyntaxException ex)
+        {
+            System.err.println(ex);
+            return false;
+        }
     }
 }

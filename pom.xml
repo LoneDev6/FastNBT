@@ -6,7 +6,7 @@
 
     <artifactId>FastNbt</artifactId>
     <groupId>dev.lone</groupId>
-    <version>1.2.2</version>
+    <version>1.2.3</version>
 
     <name>FastNbt</name>
     <packaging>pom</packaging>
