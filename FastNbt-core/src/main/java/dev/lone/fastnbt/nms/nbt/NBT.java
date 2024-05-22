@@ -33,7 +33,8 @@ public class NBT
             item = Implementation.find(ICraftItemStack.class);
             list = Implementation.find(IListTag.class);
             streamTools = Implementation.find(INBTIO.class);
-            dataComponents = Implementation.find(IDataComponents.class);
+            if(Version.isNewerThan(Version.v1_20_4))
+                dataComponents = Implementation.find(IDataComponents.class);
         }
         catch (Throwable ex)
         {
