@@ -20,7 +20,9 @@ public interface IDataComponents
     }
 
     @Nullable
-    List getLore(ItemStack bukkitItemStack);
+    List<Object> getLore(ItemStack bukkitItemStack);
+
+    void setLore(ItemStack bukkitItemStack, @Nullable List<?> lore);
 
     default boolean copyAttributeModifiers(ItemStack bukkitItemStackSource, ItemStack bukkitItemStackDestination)
     {

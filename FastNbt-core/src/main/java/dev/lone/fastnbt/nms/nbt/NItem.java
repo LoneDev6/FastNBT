@@ -182,6 +182,7 @@ public class NItem extends NCompound
             NBT.dataComponents.setCustomName(getItem(), compoundString);
         else
             getOrAddCompound("display").setString("Name", compoundString);
+        save();
     }
 
     public Object getItemName()
@@ -195,14 +196,14 @@ public class NItem extends NCompound
     }
 
     @Nullable
-    public List getLore()
+    public List<Object> getLoreCopy()
     {
         return NBT.dataComponents.getLore(getItem());
     }
 
-    @Deprecated
-    public void setDisplayNameCompound(String compoundString)
+    public void setLore(@Nullable List<?> lore)
     {
-        setCustomName(compoundString);
+        NBT.dataComponents.setLore(getItem(), lore);
+        save();
     }
 }

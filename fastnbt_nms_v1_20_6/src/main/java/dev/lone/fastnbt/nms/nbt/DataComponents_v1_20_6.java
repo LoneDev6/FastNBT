@@ -49,13 +49,24 @@ public class DataComponents_v1_20_6 implements IDataComponents
     }
 
     @Override
-    public List getLore(ItemStack bukkitItemStack)
+    public List<Object> getLore(ItemStack bukkitItemStack)
     {
         CraftItemStack craftItemStack = castToCraftItemStack(bukkitItemStack);
         ItemLore lore = getHandle(craftItemStack).get(DataComponents.LORE);
         if(lore == null)
             return null;
-        return lore.lines();
+        return new ArrayList<>(lore.lines());
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public void setLore(ItemStack bukkitItemStack, List<?> lore)
+    {
+        CraftItemStack craftItemStack = castToCraftItemStack(bukkitItemStack);
+        if(lore == null)
+            getHandle(craftItemStack).remove(DataComponents.LORE);
+        else
+            getHandle(craftItemStack).set(DataComponents.LORE, new ItemLore((List<Component>) lore));
     }
 
     @Override
