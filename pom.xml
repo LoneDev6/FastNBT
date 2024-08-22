@@ -6,7 +6,7 @@
 
     <artifactId>FastNbt</artifactId>
     <groupId>dev.lone</groupId>
-    <version>1.2.3</version>
+    <version>1.3.2</version>
 
     <name>FastNbt</name>
     <packaging>pom</packaging>
@@ -16,7 +16,7 @@
         <maven.compiler.source>9</maven.compiler.source>
         <maven.compiler.target>9</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <paper-nms-maven-plugin-version>1.4.3</paper-nms-maven-plugin-version>
+        <paper-nms-maven-plugin-version>1.4.4</paper-nms-maven-plugin-version>
         <jars_libs_folder>C:/Progetti/Minecraft/Spigot/_jars</jars_libs_folder>
         <targets_prefix_folder>R:\maven-target</targets_prefix_folder>
     </properties>
@@ -36,6 +36,8 @@
         <module>fastnbt_nms_v1_20_R3</module>
         <module>fastnbt_nms_v1_20_4</module>
         <module>fastnbt_nms_v1_20_6</module>
+        <module>fastnbt_nms_v1_21</module>
+        <module>fastnbt_nms_v1_21_1</module>
     </modules>
 
     <pluginRepositories>

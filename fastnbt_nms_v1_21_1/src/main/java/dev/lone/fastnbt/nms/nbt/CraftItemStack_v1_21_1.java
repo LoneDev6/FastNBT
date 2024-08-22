@@ -14,6 +14,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
 import org.apache.commons.lang.reflect.FieldUtils;
 import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
@@ -23,9 +24,9 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.*;
 
-@Implementation.CyclicDependency(type = ICraftItemStack.class, version = Version.v1_20_6)
+@Implementation.CyclicDependency(type = ICraftItemStack.class, version = Version.v1_21_1)
 @SuppressWarnings({"unchecked", "DataFlowIssue", "CallToPrintStackTrace", "unused", "deprecation"})
-public class CraftItemStack_v1_20_6 implements ICraftItemStack<ListTag, CompoundTag, CraftItemStack>
+public class CraftItemStack_v1_21_1 implements ICraftItemStack<ListTag, CompoundTag, CraftItemStack>
 {
     public static final Field FIELD_HANDLE;
     /**
@@ -109,7 +110,7 @@ public class CraftItemStack_v1_20_6 implements ICraftItemStack<ListTag, Compound
         if(b.has(DataComponents.ENCHANTMENTS))
         {
             Set<Object2IntMap.Entry<Holder<Enchantment>>> bEnchants = b.get(DataComponents.ENCHANTMENTS).entrySet();
-            bEnchants.forEach(enchantment -> a.enchant(enchantment.getKey().value(), enchantment.getIntValue()));
+            bEnchants.forEach(enchantment -> a.enchant(enchantment.getKey(), enchantment.getIntValue()));
         }
 
         DataComponentMap comp = DataComponentMap.builder()
@@ -472,7 +473,7 @@ public class CraftItemStack_v1_20_6 implements ICraftItemStack<ListTag, Compound
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
         CustomData data = getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA);
         if (data != null)
-            return data.getUnsafe().tags.keySet();
+            return data.getUnsafe().getAllKeys();
         return null;
     }
 
