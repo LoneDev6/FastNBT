@@ -3,17 +3,13 @@ package dev.lone.fastnbt.nms.nbt;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import dev.lone.fastnbt.nms.Implementation;
 import dev.lone.fastnbt.nms.Version;
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
-import net.minecraft.core.Holder;
-import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.TagParser;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.item.component.CustomData;
-import net.minecraft.world.item.component.ItemAttributeModifiers;
-import net.minecraft.world.item.enchantment.Enchantment;
 import org.apache.commons.lang.reflect.FieldUtils;
 import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
@@ -85,6 +81,17 @@ public class CraftItemStack_v1_21 implements ICraftItemStack<ListTag, CompoundTa
         return handle.has(DataComponents.CUSTOM_DATA);
     }
 
+    private <T> boolean isDefaultComponentValue(net.minecraft.world.item.ItemStack itemStack, DataComponentType<T> type)
+    {
+        return itemStack.get(type).equals(DataComponents.COMMON_ITEM_COMPONENTS.get(type));
+    }
+
+    <T> void simpleMergeComponent(net.minecraft.world.item.ItemStack a, net.minecraft.world.item.ItemStack b, DataComponentType<T> type)
+    {
+        if(b.has(type) && !isDefaultComponentValue(b, type))
+            a.set(type, b.get(type));
+    }
+
     @Override
     public void merge(ItemStack itemStack, ItemStack otherItem)
     {
@@ -95,31 +102,64 @@ public class CraftItemStack_v1_21 implements ICraftItemStack<ListTag, CompoundTa
         net.minecraft.world.item.ItemStack b = getHandle(other);
 
         // Make sure to merge the properties, not replace them completely.
-        if(a.has(DataComponents.CUSTOM_DATA))
+        if(a.has(DataComponents.CUSTOM_DATA) && b.has(DataComponents.CUSTOM_DATA))
             a.get(DataComponents.CUSTOM_DATA).getUnsafe().merge(b.get(DataComponents.CUSTOM_DATA).getUnsafe());
 
-        if(a.has(DataComponents.ATTRIBUTE_MODIFIERS))
-        {
-            ItemAttributeModifiers oldMods = a.get(DataComponents.ATTRIBUTE_MODIFIERS);
-            ArrayList<ItemAttributeModifiers.Entry> modifiers = new ArrayList<>(oldMods.modifiers());
-            modifiers.addAll(b.get(DataComponents.ATTRIBUTE_MODIFIERS).modifiers());
-            a.set(DataComponents.ATTRIBUTE_MODIFIERS, new ItemAttributeModifiers(modifiers, oldMods.showInTooltip()));
-        }
-
-        if(b.has(DataComponents.ENCHANTMENTS))
-        {
-            Set<Object2IntMap.Entry<Holder<Enchantment>>> bEnchants = b.get(DataComponents.ENCHANTMENTS).entrySet();
-            bEnchants.forEach(enchantment -> a.enchant(enchantment.getKey(), enchantment.getIntValue()));
-        }
-
-        DataComponentMap comp = DataComponentMap.builder()
-                .addAll(a.getComponents())
-                .addAll(getHandle(other).getComponents())
-                .set(DataComponents.CUSTOM_DATA, null)
-                .set(DataComponents.ATTRIBUTE_MODIFIERS, null)
-                .set(DataComponents.ENCHANTMENTS, null)
-                .build();
-        a.applyComponents(comp);
+        simpleMergeComponent(a, b, DataComponents.MAX_STACK_SIZE);
+        simpleMergeComponent(a, b, DataComponents.MAX_DAMAGE);
+        simpleMergeComponent(a, b, DataComponents.DAMAGE);
+        simpleMergeComponent(a, b, DataComponents.UNBREAKABLE);
+        simpleMergeComponent(a, b, DataComponents.CUSTOM_NAME);
+        simpleMergeComponent(a, b, DataComponents.ITEM_NAME);
+        simpleMergeComponent(a, b, DataComponents.LORE);
+        simpleMergeComponent(a, b, DataComponents.RARITY);
+        simpleMergeComponent(a, b, DataComponents.ENCHANTMENTS);
+        simpleMergeComponent(a, b, DataComponents.CAN_PLACE_ON);
+        simpleMergeComponent(a, b, DataComponents.CAN_BREAK);
+        simpleMergeComponent(a, b, DataComponents.ATTRIBUTE_MODIFIERS);
+        simpleMergeComponent(a, b, DataComponents.CUSTOM_MODEL_DATA);
+        simpleMergeComponent(a, b, DataComponents.HIDE_ADDITIONAL_TOOLTIP);
+        simpleMergeComponent(a, b, DataComponents.HIDE_TOOLTIP);
+        simpleMergeComponent(a, b, DataComponents.REPAIR_COST);
+        simpleMergeComponent(a, b, DataComponents.CREATIVE_SLOT_LOCK);
+        simpleMergeComponent(a, b, DataComponents.ENCHANTMENT_GLINT_OVERRIDE);
+        simpleMergeComponent(a, b, DataComponents.INTANGIBLE_PROJECTILE);
+        simpleMergeComponent(a, b, DataComponents.FOOD);
+        simpleMergeComponent(a, b, DataComponents.FIRE_RESISTANT);
+        simpleMergeComponent(a, b, DataComponents.TOOL);
+        simpleMergeComponent(a, b, DataComponents.STORED_ENCHANTMENTS);
+        simpleMergeComponent(a, b, DataComponents.DYED_COLOR);
+        simpleMergeComponent(a, b, DataComponents.MAP_COLOR);
+        simpleMergeComponent(a, b, DataComponents.MAP_ID);
+        simpleMergeComponent(a, b, DataComponents.MAP_DECORATIONS);
+        simpleMergeComponent(a, b, DataComponents.MAP_POST_PROCESSING);
+        simpleMergeComponent(a, b, DataComponents.CHARGED_PROJECTILES);
+        simpleMergeComponent(a, b, DataComponents.BUNDLE_CONTENTS);
+        simpleMergeComponent(a, b, DataComponents.POTION_CONTENTS);
+        simpleMergeComponent(a, b, DataComponents.SUSPICIOUS_STEW_EFFECTS);
+        simpleMergeComponent(a, b, DataComponents.WRITABLE_BOOK_CONTENT);
+        simpleMergeComponent(a, b, DataComponents.WRITTEN_BOOK_CONTENT);
+        simpleMergeComponent(a, b, DataComponents.TRIM);
+        simpleMergeComponent(a, b, DataComponents.DEBUG_STICK_STATE);
+        simpleMergeComponent(a, b, DataComponents.ENTITY_DATA);
+        simpleMergeComponent(a, b, DataComponents.BUCKET_ENTITY_DATA);
+        simpleMergeComponent(a, b, DataComponents.BLOCK_ENTITY_DATA);
+        simpleMergeComponent(a, b, DataComponents.INSTRUMENT);
+        simpleMergeComponent(a, b, DataComponents.OMINOUS_BOTTLE_AMPLIFIER);
+        simpleMergeComponent(a, b, DataComponents.RECIPES);
+        simpleMergeComponent(a, b, DataComponents.LODESTONE_TRACKER);
+        simpleMergeComponent(a, b, DataComponents.FIREWORK_EXPLOSION);
+        simpleMergeComponent(a, b, DataComponents.FIREWORKS);
+        simpleMergeComponent(a, b, DataComponents.PROFILE);
+        simpleMergeComponent(a, b, DataComponents.NOTE_BLOCK_SOUND);
+        simpleMergeComponent(a, b, DataComponents.BANNER_PATTERNS);
+        simpleMergeComponent(a, b, DataComponents.BASE_COLOR);
+        simpleMergeComponent(a, b, DataComponents.POT_DECORATIONS);
+        simpleMergeComponent(a, b, DataComponents.CONTAINER);
+        simpleMergeComponent(a, b, DataComponents.BLOCK_STATE);
+        simpleMergeComponent(a, b, DataComponents.BEES);
+        simpleMergeComponent(a, b, DataComponents.LOCK);
+        simpleMergeComponent(a, b, DataComponents.CONTAINER_LOOT);
     }
 
     @Override
