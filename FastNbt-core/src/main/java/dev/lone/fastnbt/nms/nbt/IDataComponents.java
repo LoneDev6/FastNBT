@@ -19,6 +19,10 @@ public interface IDataComponents
         throw new RuntimeException("Not available in this server implementation");
     }
 
+    //TODO hasItemName
+    //TODO hasCustomName
+    //TODO hasLore
+
     @Nullable
     List<Object> getLore(ItemStack bukkitItemStack);
 
