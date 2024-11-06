@@ -178,7 +178,7 @@ public class NItem extends NCompound
 
     public void setCustomName(String compoundString)
     {
-        if(Version.isAtLeast(Version.v1_20_4))
+        if(Version.isNewerThan(Version.v1_20_4))
             NBT.dataComponents.setCustomName(getItem(), compoundString);
         else
             getOrAddCompound("display").setString("Name", compoundString);
