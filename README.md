@@ -1,5 +1,9 @@
 # Comparison to NBT API
 
+## Installations
+<img src="https://pstats.devs.beer/signatures/bukkit/FastNbt.svg" width="800">
+<img src="https://bstats.org/signatures/bukkit/ItemNBTAPI.svg" width="800">
+
 ## Benchmark
 **FastNbt** is ~190% faster than [NBT API](https://github.com/tr7zw/Item-NBT-API).\
 [Check the benchmark here](https://github.com/LoneDev6/FastNBT-Benchmark)
