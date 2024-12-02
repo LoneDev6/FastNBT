@@ -83,7 +83,7 @@ public class CraftItemStack_v1_21_3 implements ICraftItemStack<ListTag, Compound
 
     private <T> boolean isDefaultComponentValue(net.minecraft.world.item.ItemStack itemStack, DataComponentType<T> type)
     {
-        return itemStack.get(type).equals(DataComponents.COMMON_ITEM_COMPONENTS.get(type));
+        return itemStack.get(type).equals(itemStack.getPrototype().get(type));
     }
 
     <T> void simpleMergeComponent(net.minecraft.world.item.ItemStack a, net.minecraft.world.item.ItemStack b, DataComponentType<T> type)
@@ -160,6 +160,16 @@ public class CraftItemStack_v1_21_3 implements ICraftItemStack<ListTag, Compound
         simpleMergeComponent(a, b, DataComponents.BEES);
         simpleMergeComponent(a, b, DataComponents.LOCK);
         simpleMergeComponent(a, b, DataComponents.CONTAINER_LOOT);
+        simpleMergeComponent(a, b, DataComponents.ITEM_MODEL);
+        simpleMergeComponent(a, b, DataComponents.CONSUMABLE);
+        simpleMergeComponent(a, b, DataComponents.USE_REMAINDER);
+        simpleMergeComponent(a, b, DataComponents.USE_COOLDOWN);
+        simpleMergeComponent(a, b, DataComponents.ENCHANTABLE);
+        simpleMergeComponent(a, b, DataComponents.EQUIPPABLE);
+        simpleMergeComponent(a, b, DataComponents.REPAIRABLE);
+        simpleMergeComponent(a, b, DataComponents.TOOLTIP_STYLE);
+        simpleMergeComponent(a, b, DataComponents.DEATH_PROTECTION);
+        simpleMergeComponent(a, b, DataComponents.JUKEBOX_PLAYABLE);
     }
 
     @Override

@@ -83,7 +83,7 @@ public class CraftItemStack_v1_20_6 implements ICraftItemStack<ListTag, Compound
 
     private <T> boolean isDefaultComponentValue(net.minecraft.world.item.ItemStack itemStack, DataComponentType<T> type)
     {
-        return itemStack.get(type).equals(DataComponents.COMMON_ITEM_COMPONENTS.get(type));
+        return itemStack.get(type).equals(itemStack.getPrototype().get(type));
     }
 
     <T> void simpleMergeComponent(net.minecraft.world.item.ItemStack a, net.minecraft.world.item.ItemStack b, DataComponentType<T> type)
