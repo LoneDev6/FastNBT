@@ -64,14 +64,14 @@ Currently, supports only items.
 ```xml
  <repository>
     <id>matteodev</id>
-    <url>https://www.matteodev.it/spigot/public/maven/</url>
+    <url>https://maven.devs.beer/</url>
 </repository>
 ```
 ```xml
 <dependency>
     <groupId>dev.lone</groupId>
     <artifactId>FastNbt-jar</artifactId>
-    <version>RELEASE_VERSION</version>
+    <version>1.3.6</version>
 </dependency>
 ```
 
