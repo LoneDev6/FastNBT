@@ -1,3 +1,10 @@
+# FastNBT
+<hr>
+<h3 align="center">
+<a href="https://lonedev6.github.io/FastNBT/">☕ JavaDocs</a> | <a href="https://github.com/LoneDev6/LoneLibs/tree/master">LoneLibs (includes FastNBT)</a> 
+</h3>
+<hr> 
+
 # Comparison to NBT API
 
 ## Installations
@@ -124,3 +131,10 @@ Should be all.
 - Run `node .\.mvn-exec\GenerateNms.js` (run it each time you edit something in the NMS files)
 - Run `mvn install` in order to access the plugin as dependency in your projects
 - Run Maven `clean package` and get the generated jar from `output` folder
+
+## Updating Javadocs
+
+In order to update Javadocs you have to build locally, as old NMS jars are not available and can't be easily included on Github.
+- Run the command `mvn clean install javadoc:javadoc -pl FastNbt-core -am`
+- Get the generated javadocs from `.cache/targets/FastNbt-core/target/reports/apidocs/`
+- Push the contents into the `javadoc` branch
