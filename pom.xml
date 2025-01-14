@@ -6,7 +6,7 @@
 
     <artifactId>FastNbt</artifactId>
     <groupId>dev.lone</groupId>
-    <version>1.3.5</version>
+    <version>1.3.6</version>
 
     <name>FastNbt</name>
     <packaging>pom</packaging>
@@ -39,6 +39,7 @@
         <module>fastnbt_nms_v1_21</module>
         <module>fastnbt_nms_v1_21_1</module>
         <module>fastnbt_nms_v1_21_3</module>
+        <module>fastnbt_nms_v1_21_4</module>
     </modules>
 
     <pluginRepositories>
