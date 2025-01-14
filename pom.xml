@@ -192,8 +192,7 @@
                 <version>3.11.2</version>
                 <configuration>
                     <doclint>none</doclint>
-                    <skippedModules>fastnbt_nms_v1_15,fastnbt_nms_v1_16,fastnbt_nms_v1_17_R1,fastnbt_nms_v1_18_R2,fastnbt_nms_v1_19_R1,fastnbt_nms_v1_19_R2,fastnbt_nms_v1_19_R3,fastnbt_nms_v1_20_R1,fastnbt_nms_v1_20_R2,fastnbt_nms_v1_20_R3,fastnbt_nms_v1_20_4,fastnbt_nms_v1_20_6,fastnbt_nms_v1_21,fastnbt_nms_v1_21_1,fastnbt_nms_v1_21_3,fastnbt_nms_v1_21_4</skippedModules>
-                </configuration>
+               </configuration>
             </plugin>
         </plugins>
         <extensions>
