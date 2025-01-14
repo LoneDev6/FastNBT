@@ -49,6 +49,13 @@
         </pluginRepository>
     </pluginRepositories>
 
+    <distributionManagement>
+        <repository>
+            <id>ftp-matteodev</id>
+            <url>ftp://ftp.matteodev.it/htdocs/spigot/public/maven/</url>
+        </repository>
+    </distributionManagement>
+
     <repositories>
         <repository>
             <id>jitpack.io</id>
@@ -57,16 +64,6 @@
         <repository>
             <id>maven.apache.org</id>
             <url>https://repo.maven.apache.org/maven2/</url>
-        </repository>
-        <!--adventure-->
-        <repository>
-            <id>sonatype-oss-snapshots1</id>
-            <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
-        </repository>
-        <!--adventure-->
-        <repository>
-            <id>papermc</id>
-            <url>https://papermc.io/repo/repository/maven-public/</url>
         </repository>
         <repository>
             <id>sonatype</id>
@@ -79,14 +76,6 @@
     </repositories>
 
     <build>
-        <extensions>
-            <extension>
-                <groupId>org.apache.maven.wagon</groupId>
-                <artifactId>wagon-ftp</artifactId>
-                <version>3.5.2</version>
-            </extension>
-        </extensions>
-
         <directory>${project.basedir}/../.cache/targets/${project.artifactId}/target/</directory>
         <!-- Disable useless maven plugins -->
         <!-- https://developer.jboss.org/people/ozizka/blog/2013/07/06/how-to-speed-up-maven-builds-disabling-unused-plugins -->
@@ -197,11 +186,12 @@
 <!--                </executions>-->
 <!--            </plugin>-->
         </plugins>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ftp</artifactId>
+                <version>3.5.2</version>
+            </extension>
+        </extensions>
     </build>
-    <distributionManagement>
-        <repository>
-            <id>ftp-matteodev</id>
-            <url>ftp://ftp.matteodev.it/htdocs/spigot/public/maven/</url>
-        </repository>
-    </distributionManagement>
 </project>
