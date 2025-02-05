@@ -110,21 +110,22 @@ buildNumber.properties
 # Common working directory
 run/
 
-# These files are automatically generated, no need to include them in the versioning.
-# Do not ignore fastnbt_nms_v1_17_R1 as it's the template.
-/fastnbt_nms_v1_18_R2/src/
-/fastnbt_nms_v1_19_R1/src/
-/fastnbt_nms_v1_19_R2/src/
-/fastnbt_nms_v1_19_R3/src/
-/fastnbt_nms_v1_20_R1/src/
-/fastnbt_nms_v1_20_R2/src/
-/fastnbt_nms_v1_20_R3/src/
-# Do not ignore NbtIo_v1_20_R3 as it has some changes in the NbtIo class.
-!/fastnbt_nms_v1_20_R3/src/NbtIo_v1_20_R3.java
-
-
 # Other
 /.paper-nms/
 /.cache/
 target/
 /output/
+
+
+# Ignore automatically generated contents
+/fastnbt_nms_v1_21_4_mojangmap/src/main/java/beer/
+/fastnbt_nms_v1_21_4_spigotmap/src/main/java/beer/
+
+/fastnbt_nms_v1_21_3_mojangmap/src/main/java/beer/
+/fastnbt_nms_v1_21_3_spigotmap/src/main/java/beer/
+
+/fastnbt_nms_v1_21_1_mojangmap/src/main/java/beer/
+/fastnbt_nms_v1_21_1_spigotmap/src/main/java/beer/
+
+/fastnbt_nms_v1_20_6_mojangmap/src/main/java/beer/
+/fastnbt_nms_v1_20_6_spigotmap/src/main/java/beer/

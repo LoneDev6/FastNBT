@@ -5,18 +5,42 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>FastNbt</artifactId>
-    <groupId>dev.lone</groupId>
-    <version>1.3.6</version>
+    <groupId>beer.devs</groupId>
+    <version>1.4.1</version>
 
     <name>FastNbt</name>
     <packaging>pom</packaging>
+    <description>Spigot library to edit items NBT very fast</description>
+    <url>https://github.com/LoneDev6/FastNBT</url>
+
+    <developers>
+        <developer>
+            <name>LoneDev</name>
+            <email>info@matteodev.it</email>
+            <url>https://github.com/LoneDev6/</url>
+        </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <connection>scm:git:https://github.com/LoneDev6/FastNBT.git</connection>
+        <developerConnection>scm:git:https://github.com/LoneDev6/FastNBT.git</developerConnection>
+        <url>https://github.com/LoneDev6/FastNBT</url>
+    </scm>
 
     <properties>
         <java.version>9</java.version>
         <maven.compiler.source>9</maven.compiler.source>
         <maven.compiler.target>9</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <paper-nms-maven-plugin-version>1.4.4</paper-nms-maven-plugin-version>
+        <paper-nms-maven-plugin-version>1.4.5</paper-nms-maven-plugin-version>
         <jars_libs_folder>C:/Progetti/Minecraft/Spigot/_jars</jars_libs_folder>
         <targets_prefix_folder>R:\maven-target</targets_prefix_folder>
     </properties>
@@ -24,8 +48,6 @@
     <modules>
         <module>FastNbt-core</module>
         <module>FastNbt-jar</module>
-        <module>fastnbt_nms_v1_15</module>
-        <module>fastnbt_nms_v1_16</module>
         <module>fastnbt_nms_v1_17_R1</module>
         <module>fastnbt_nms_v1_18_R2</module>
         <module>fastnbt_nms_v1_19_R1</module>
@@ -35,11 +57,22 @@
         <module>fastnbt_nms_v1_20_R2</module>
         <module>fastnbt_nms_v1_20_R3</module>
         <module>fastnbt_nms_v1_20_4</module>
+
         <module>fastnbt_nms_v1_20_6</module>
-        <module>fastnbt_nms_v1_21</module>
+        <module>fastnbt_nms_v1_20_6_spigotmap</module>
+        <module>fastnbt_nms_v1_20_6_mojangmap</module>
+
         <module>fastnbt_nms_v1_21_1</module>
+        <module>fastnbt_nms_v1_21_1_spigotmap</module>
+        <module>fastnbt_nms_v1_21_1_mojangmap</module>
+
         <module>fastnbt_nms_v1_21_3</module>
+        <module>fastnbt_nms_v1_21_3_spigotmap</module>
+        <module>fastnbt_nms_v1_21_3_mojangmap</module>
+
         <module>fastnbt_nms_v1_21_4</module>
+        <module>fastnbt_nms_v1_21_4_spigotmap</module>
+        <module>fastnbt_nms_v1_21_4_mojangmap</module>
     </modules>
 
     <pluginRepositories>
@@ -76,7 +109,6 @@
     </repositories>
 
     <build>
-        <directory>${project.basedir}/../.cache/targets/${project.artifactId}/target/</directory>
         <!-- Disable useless maven plugins -->
         <!-- https://developer.jboss.org/people/ozizka/blog/2013/07/06/how-to-speed-up-maven-builds-disabling-unused-plugins -->
         <pluginManagement>
@@ -116,7 +148,6 @@
                     <execution> <id>default-testResources</id> <phase>none</phase> </execution>
                 </executions>
             </plugin>
-
             <!-- Shading -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -145,54 +176,16 @@
                             <relocations>
                                 <relocation>
                                     <pattern>org.intellij.</pattern>
-                                    <shadedPattern>dev.lone.fastnbt_benchmark.libs.org.intellij.</shadedPattern>
+                                    <shadedPattern>beer.devs.fastnbt_benchmark.libs.org.intellij.</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>org.jetbrains.</pattern>
-                                    <shadedPattern>dev.lone.fastnbt_benchmark.libs.org.jetbrains.</shadedPattern>
+                                    <shadedPattern>beer.devs.fastnbt_benchmark.libs.org.jetbrains.</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
-<!--            TODO: recode this js code shit, it's not compatible with 1.20.3+ code and I'm lazy to fix it. -->
-<!--            <plugin>-->
-<!--                <groupId>org.codehaus.mojo</groupId>-->
-<!--                <artifactId>exec-maven-plugin</artifactId>-->
-<!--                <version>3.1.0</version>-->
-<!--                <inherited>false</inherited>-->
-<!--                <executions>-->
-<!--                    &lt;!&ndash;-->
-<!--                    Spigot to Mojang mapping is different on each version,-->
-<!--                    so I use this trick to generate the files on demand.-->
-<!--                    &ndash;&gt;-->
-<!--                    <execution>-->
-<!--                        <id>GenerateNms</id>-->
-<!--                        <phase>generate-sources</phase>-->
-<!--                        <configuration>-->
-<!--                            <executable>cmd</executable>-->
-<!--                            <workingDirectory>${project.basedir}</workingDirectory>-->
-<!--                            <workingDirectory>${project.basedir}</workingDirectory>-->
-<!--                            <arguments>-->
-<!--                                <argument>/C</argument>-->
-<!--                                <argument>"node .mvn-exec/GenerateNms.js"</argument>-->
-<!--                            </arguments>-->
-<!--                        </configuration>-->
-<!--                        <goals>-->
-<!--                            <goal>exec</goal>-->
-<!--                        </goals>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
-            <!-- Attach Javadoc -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.11.2</version>
-                <configuration>
-                    <doclint>none</doclint>
-               </configuration>
             </plugin>
         </plugins>
         <extensions>
@@ -203,4 +196,107 @@
             </extension>
         </extensions>
     </build>
+
+    <profiles>
+        <profile>
+        <id>publishToMavenCentral</id>
+        <activation>
+            <activeByDefault>false</activeByDefault>
+        </activation>
+        <build>
+            <plugins>
+                <!-- Maven central requires javadocs -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>3.11.2</version>
+                    <executions>
+                        <execution>
+                            <id>attach-javadocs</id>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>2.2.1</version>
+                    <executions>
+                        <execution>
+                            <id>attach-sources</id>
+                            <goals>
+                                <goal>jar-no-fork</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-gpg-plugin</artifactId>
+                    <version>1.5</version>
+                    <executions>
+                        <execution>
+                            <id>sign-artifacts</id>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>sign</goal>
+                            </goals>
+                            <configuration>
+                                <!-- This is necessary for gpg to not try to use the pinentry programs -->
+                                <gpgArguments>
+                                    <arg>--pinentry-mode</arg>
+                                    <arg>loopback</arg>
+                                </gpgArguments>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+                <!-- Maven central requires md5 of files -->
+                <plugin>
+                    <groupId>net.ju-n.maven.plugins</groupId>
+                    <artifactId>checksum-maven-plugin</artifactId>
+                    <version>1.4</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>artifacts</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <!-- Publishing to Maven central -->
+                <plugin>
+                    <groupId>org.sonatype.central</groupId>
+                    <artifactId>central-publishing-maven-plugin</artifactId>
+                    <version>0.7.0</version>
+                    <extensions>true</extensions>
+                    <configuration>
+                        <publishingServerId>central</publishingServerId>
+<!--                        <excludeArtifacts>-->
+<!--                            <excludeArtifact>FastNbt</excludeArtifact>-->
+<!--                            <excludeArtifact>FastNbt-core</excludeArtifact>-->
+<!--                            <excludeArtifact>FastNbt-jar</excludeArtifact>-->
+<!--                            <excludeArtifact>fastnbt_nms_v1_17_R1</excludeArtifact>-->
+<!--                            <excludeArtifact>fastnbt_nms_v1_18_R2</excludeArtifact>-->
+<!--                            <excludeArtifact>fastnbt_nms_v1_19_R1</excludeArtifact>-->
+<!--                            <excludeArtifact>fastnbt_nms_v1_19_R2</excludeArtifact>-->
+<!--                            <excludeArtifact>fastnbt_nms_v1_19_R3</excludeArtifact>-->
+<!--                            <excludeArtifact>fastnbt_nms_v1_20_R1</excludeArtifact>-->
+<!--                            <excludeArtifact>fastnbt_nms_v1_20_R2</excludeArtifact>-->
+<!--                            <excludeArtifact>fastnbt_nms_v1_20_R3</excludeArtifact>-->
+<!--                            <excludeArtifact>fastnbt_nms_v1_20_4</excludeArtifact>-->
+<!--                            <excludeArtifact>fastnbt_nms_v1_20_6</excludeArtifact>-->
+<!--                            <excludeArtifact>fastnbt_nms_v1_21</excludeArtifact>-->
+<!--                            <excludeArtifact>fastnbt_nms_v1_21_1</excludeArtifact>-->
+<!--                            <excludeArtifact>fastnbt_nms_v1_21_3</excludeArtifact>-->
+<!--                            <excludeArtifact>fastnbt_nms_v1_21_4</excludeArtifact>-->
+<!--                        </excludeArtifacts>-->
+                    </configuration>
+                </plugin>
+            </plugins>
+        </build>
+        </profile>
+    </profiles>
 </project>

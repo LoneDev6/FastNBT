@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>FastNbt</artifactId>
-        <groupId>dev.lone</groupId>
-        <version>1.3.6</version>
+        <groupId>beer.devs</groupId>
+        <version>1.4.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -103,90 +103,96 @@
 
     <dependencies>
         <dependency>
-            <groupId>dev.lone</groupId>
+            <groupId>beer.devs</groupId>
             <artifactId>FastNbt-core</artifactId>
-            <version>1.3.6</version>
+            <version>1.4.1</version>
         </dependency>
 
+
         <dependency>
-            <groupId>dev.lone</groupId>
-            <artifactId>fastnbt_nms_v1_21_4</artifactId>
-            <version>1.3.6</version>
+            <groupId>beer.devs</groupId>
+            <artifactId>fastnbt_nms_v1_21_4_mojangmap</artifactId>
+            <version>1.4.1</version>
         </dependency>
         <dependency>
-            <groupId>dev.lone</groupId>
-            <artifactId>fastnbt_nms_v1_21_3</artifactId>
-            <version>1.3.6</version>
+            <groupId>beer.devs</groupId>
+            <artifactId>fastnbt_nms_v1_21_4_spigotmap</artifactId>
+            <version>1.4.1</version>
         </dependency>
         <dependency>
-            <groupId>dev.lone</groupId>
-            <artifactId>fastnbt_nms_v1_21_1</artifactId>
-            <version>1.3.6</version>
+            <groupId>beer.devs</groupId>
+            <artifactId>fastnbt_nms_v1_21_3_mojangmap</artifactId>
+            <version>1.4.1</version>
         </dependency>
         <dependency>
-            <groupId>dev.lone</groupId>
-            <artifactId>fastnbt_nms_v1_21</artifactId>
-            <version>1.3.6</version>
+            <groupId>beer.devs</groupId>
+            <artifactId>fastnbt_nms_v1_21_3_spigotmap</artifactId>
+            <version>1.4.1</version>
         </dependency>
         <dependency>
-            <groupId>dev.lone</groupId>
-            <artifactId>fastnbt_nms_v1_20_6</artifactId>
-            <version>1.3.6</version>
+            <groupId>beer.devs</groupId>
+            <artifactId>fastnbt_nms_v1_21_1_mojangmap</artifactId>
+            <version>1.4.1</version>
         </dependency>
         <dependency>
-            <groupId>dev.lone</groupId>
+            <groupId>beer.devs</groupId>
+            <artifactId>fastnbt_nms_v1_21_1_spigotmap</artifactId>
+            <version>1.4.1</version>
+        </dependency>
+        <dependency>
+            <groupId>beer.devs</groupId>
+            <artifactId>fastnbt_nms_v1_20_6_mojangmap</artifactId>
+            <version>1.4.1</version>
+        </dependency>
+        <dependency>
+            <groupId>beer.devs</groupId>
+            <artifactId>fastnbt_nms_v1_20_6_spigotmap</artifactId>
+            <version>1.4.1</version>
+        </dependency>
+        <dependency>
+            <groupId>beer.devs</groupId>
             <artifactId>fastnbt_nms_v1_20_4</artifactId>
-            <version>1.3.6</version>
+            <version>1.4.1</version>
         </dependency>
         <dependency>
-            <groupId>dev.lone</groupId>
+            <groupId>beer.devs</groupId>
             <artifactId>fastnbt_nms_v1_20_R3</artifactId>
-            <version>1.3.6</version>
+            <version>1.4.1</version>
         </dependency>
         <dependency>
-            <groupId>dev.lone</groupId>
+            <groupId>beer.devs</groupId>
             <artifactId>fastnbt_nms_v1_20_R2</artifactId>
-            <version>1.3.6</version>
+            <version>1.4.1</version>
         </dependency>
         <dependency>
-            <groupId>dev.lone</groupId>
+            <groupId>beer.devs</groupId>
             <artifactId>fastnbt_nms_v1_20_R1</artifactId>
-            <version>1.3.6</version>
+            <version>1.4.1</version>
         </dependency>
         <dependency>
-            <groupId>dev.lone</groupId>
+            <groupId>beer.devs</groupId>
             <artifactId>fastnbt_nms_v1_19_R3</artifactId>
-            <version>1.3.6</version>
+            <version>1.4.1</version>
         </dependency>
         <dependency>
-            <groupId>dev.lone</groupId>
+            <groupId>beer.devs</groupId>
             <artifactId>fastnbt_nms_v1_19_R2</artifactId>
-            <version>1.3.6</version>
+            <version>1.4.1</version>
         </dependency>
         <dependency>
-            <groupId>dev.lone</groupId>
+            <groupId>beer.devs</groupId>
             <artifactId>fastnbt_nms_v1_19_R1</artifactId>
-            <version>1.3.6</version>
+            <version>1.4.1</version>
         </dependency>
         <dependency>
-            <groupId>dev.lone</groupId>
+            <groupId>beer.devs</groupId>
             <artifactId>fastnbt_nms_v1_18_R2</artifactId>
-            <version>1.3.6</version>
+            <version>1.4.1</version>
         </dependency>
         <dependency>
-            <groupId>dev.lone</groupId>
+            <groupId>beer.devs</groupId>
             <artifactId>fastnbt_nms_v1_17_R1</artifactId>
-            <version>1.3.6</version>
-        </dependency>
-        <dependency>
-            <groupId>dev.lone</groupId>
-            <artifactId>fastnbt_nms_v1_16</artifactId>
-            <version>1.3.6</version>
-        </dependency>
-        <dependency>
-            <groupId>dev.lone</groupId>
-            <artifactId>fastnbt_nms_v1_15</artifactId>
-            <version>1.3.6</version>
+            <version>1.4.1</version>
         </dependency>
     </dependencies>
 

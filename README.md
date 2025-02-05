@@ -66,8 +66,19 @@ attributes.addCompound(attribute);
 
 Currently, supports only items.
 
-# Maven
-## Adding it to your project
+# Adding it to your project
+
+## Plugin.yml
+This is the easiest way.
+```yml
+name: Your Plugin
+author: You
+# ....
+libraries:
+  - beer.devs:FastNbt-jar:1.4.1
+```
+
+## Maven
 ```xml
  <repository>
     <id>matteodev</id>
@@ -76,13 +87,13 @@ Currently, supports only items.
 ```
 ```xml
 <dependency>
-    <groupId>dev.lone</groupId>
+    <groupId>beer.devs</groupId>
     <artifactId>FastNbt-jar</artifactId>
-    <version>1.3.6</version>
+    <version>1.4.1</version>
 </dependency>
 ```
 
-## Shading
+### Shading
 ```xml
  <plugin>
     <groupId>org.apache.maven.plugins</groupId>
@@ -97,8 +108,8 @@ Currently, supports only items.
             <configuration>
                 <relocations>
                     <relocation>
-                        <pattern>dev.lone.fastnbt.</pattern>
-                        <shadedPattern>YOUR_PACKAGE_HERE.libs.dev.lone.fastnbt.</shadedPattern>
+                        <pattern>beer.devs.fastnbt.</pattern>
+                        <shadedPattern>YOUR_PACKAGE_HERE.libs.beer.devs.fastnbt.</shadedPattern>
                     </relocation>
                 </relocations>
             </configuration>
@@ -112,7 +123,7 @@ Currently, supports only items.
 - Create a new module for the new NMS version and add the correct `paper-nms` **dependency**.
 - Add the new NMS version to the `Version` enum.
 - Add the new module in the modules list of `FastNbt` module and as dependency in the `FastNbt-jar` module.
-- Edit `.mvn-exec/GenerateNms.js` file if needed.
+- Also create the relative `_mojangmap` and `_spigotmap` modules.
 
 Should be all.
 
@@ -128,7 +139,6 @@ Should be all.
 - Clone it
 - Change paths in `.mvn-exec/CopyFile.bat` and `RemoveMetaInf.bat` based on your directories
 - Make your changes
-- Run `node .\.mvn-exec\GenerateNms.js` (run it each time you edit something in the NMS files)
 - Run `mvn install` in order to access the plugin as dependency in your projects
 - Run Maven `clean package` and get the generated jar from `output` folder
 
