@@ -24,11 +24,13 @@ import java.util.zip.GZIPOutputStream;
 
 /**
  * pStats collects some data for plugin authors.
+ * This is a variation of the original Metrics class and doesn't require the code to be executed in a plugin.
+ * The important thing is that it's executed in a Spigot server which has at least one plugin.
  * <p>
  * Check out https://pstats.devs.beer/ to learn more about pStats!
  */
 @SuppressWarnings({"WeakerAccess", "unused"})
-public class Metrics
+public class ApiMetrics
 {
     static {
         // You can use the property to disable the check in your test environment
@@ -38,7 +40,7 @@ public class Metrics
                     new byte[]{'o', 'r', 'g', '.', 'b', 's', 't', 'a', 't', 's', '.', 'b', 'u', 'k', 'k', 'i', 't'});
             final String examplePackage = new String(new byte[]{'y', 'o', 'u', 'r', '.', 'p', 'a', 'c', 'k', 'a', 'g', 'e'});
             // We want to make sure nobody just copy & pastes the example and use the wrong package names
-            if (Metrics.class.getPackage().getName().equals(defaultPackage) || Metrics.class.getPackage().getName().equals(examplePackage)) {
+            if (ApiMetrics.class.getPackage().getName().equals(defaultPackage) || ApiMetrics.class.getPackage().getName().equals(examplePackage)) {
                 throw new IllegalStateException("pStats Metrics class has not been relocated correctly!");
             }
         }
@@ -51,7 +53,7 @@ public class Metrics
     private static final String URL = "https://pstats.devs.beer/submitData/bukkit";
 
     // Is pStats enabled on this server?
-    private boolean enabled;
+    private final boolean enabled;
 
     // Should failed requests be logged?
     private static boolean logFailedRequests;
@@ -62,11 +64,29 @@ public class Metrics
     // Should the response text be logged?
     private static boolean logResponseStatusText;
 
+    private static Plugin dummyPlugin;
+
+    private static Plugin getAnyPlugin()
+    {
+        if(dummyPlugin != null)
+        {
+            if(dummyPlugin.isEnabled())
+                return dummyPlugin;
+        }
+        // Get any enabled plugin
+        dummyPlugin = Arrays.stream(Bukkit.getPluginManager().getPlugins()).filter(Plugin::isEnabled).findFirst().orElse(null);
+
+        if(dummyPlugin == null)
+            throw new IllegalStateException("No enabled plugin found! Cannot continue without a plugin.");
+
+        return dummyPlugin;
+    }
+
     // The uuid of the server
     private static String serverUUID;
 
-    // The plugin
-    private Plugin plugin = null;
+    private String pluginName;
+    private String pluginVersion;
 
     // The plugin id
     private final int pluginId;
@@ -80,13 +100,7 @@ public class Metrics
      * @param pluginId The id of the plugin.
      *                 It can be found at <a href="https://pstats.devs.beer/what-is-my-plugin-id">What is my plugin id?</a>
      */
-    public Metrics(Plugin plugin, int pluginId) {
-        if (plugin == null) {
-            throw new IllegalArgumentException("Plugin cannot be null!");
-        }
-
-        this.plugin = plugin;
-
+    public ApiMetrics(String pluginName, String pluginVersion, int pluginId) {
         switch (pluginId)
         {
             case 8217:
@@ -99,8 +113,10 @@ public class Metrics
 
         this.pluginId = pluginId;
 
+        File serverRoot = Bukkit.getServer().getWorldContainer();
+        File pluginFolder = new File(serverRoot, "plugins");
         // Get the config file
-        File pStatsFolder = new File(plugin.getDataFolder().getParentFile(), "pStats");
+        File pStatsFolder = new File(pluginFolder, "pStats");
         File configFile = new File(pStatsFolder, "config.yml");
         YamlConfiguration config = YamlConfiguration.loadConfiguration(configFile);
 
@@ -118,16 +134,20 @@ public class Metrics
             // Should the response text be logged?
             config.addDefault("logResponseStatusText", false);
 
+            config.options().copyDefaults(true);
+
             // Inform the server owners about pStats
-//            config.options().header(
-//                    "pStats collects some data for plugin authors like how many servers are using their plugins.\n" +
-//                            "To honor their work, you should not disable it.\n" +
-//                            "This has nearly no effect on the server performance!\n" +
-//                            "Check out https://pstats.devs.beer/ to learn more :)"
-//            ).copyDefaults(true);
+            config.options().header(
+                    "pStats collects some data for plugin authors like how many servers are using their plugins.\n" +
+                            "To honor their work, you should not disable it.\n" +
+                            "This has nearly no effect on the server performance!\n" +
+                            "Check out https://pstats.devs.beer/ to learn more :)"
+            );
             try {
                 config.save(configFile);
-            } catch (IOException ignored) { }
+            } catch (IOException e) {
+                getAnyPlugin().getLogger().log(Level.WARNING, "Failed to save Metrics config.yml", e);
+            }
         }
 
         // Load the data
@@ -150,8 +170,8 @@ public class Metrics
                 } catch (NoSuchFieldException ignored) { }
             }
             // Register our service
-            Bukkit.getScheduler().runTask(plugin, () -> {
-                Bukkit.getServicesManager().register(Metrics.class, this, plugin, ServicePriority.Normal);
+            Bukkit.getScheduler().runTask(getAnyPlugin(), () -> {
+                Bukkit.getServicesManager().register(ApiMetrics.class, this, getAnyPlugin(), ServicePriority.Normal);
             });
             if (!found) {
                 // We are the first!
@@ -189,16 +209,11 @@ public class Metrics
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                if (!plugin.isEnabled()) { // Plugin was disabled
-                    timer.cancel();
-                    return;
-                }
                 // Nevertheless we want our code to run in the Bukkit main thread, so we have to use the Bukkit scheduler
                 // Don't be afraid! The connection to the pStats server is still async, only the stats collection is sync ;)
-                Bukkit.getScheduler().runTask(plugin, () -> submitData());
+                Bukkit.getScheduler().runTask(getAnyPlugin(), () -> submitData());
             }
         }, 1000 * 60 * 5, 1000 * 60 * 30);
-//        }, 1000 * 5, 1000 * 60 * 30);
         // Submit the data every 30 minutes, first time after 5 minutes to give other plugins enough time to start
         // WARNING: Changing the frequency has no effect but your plugin WILL be blocked/deleted!
         // WARNING: Just don't do it!
@@ -212,9 +227,6 @@ public class Metrics
      */
     public JsonObject getPluginData() {
         JsonObject data = new JsonObject();
-
-        String pluginName = plugin.getDescription().getName();
-        String pluginVersion = plugin.getDescription().getVersion();
 
         data.addProperty("pluginName", pluginName); // Append the name of the plugin
         data.addProperty("id", pluginId); // Append the id of the plugin
@@ -310,7 +322,7 @@ public class Metrics
                             } catch (ClassNotFoundException e) {
                                 // minecraft version 1.14+
                                 if (logFailedRequests) {
-                                    this.plugin.getLogger().log(Level.SEVERE, "Encountered unexpected exception", e);
+                                    getAnyPlugin().getLogger().log(Level.SEVERE, "Encountered unexpected exception", e);
                                 }
                             }
                         }
@@ -325,11 +337,11 @@ public class Metrics
         new Thread(() -> {
             try {
                 // Send the data
-                sendData(plugin, data);
+                sendData(getAnyPlugin(), data);
             } catch (Exception e) {
                 // Something went wrong! :(
                 if (logFailedRequests) {
-                    plugin.getLogger().log(Level.WARNING, "Could not submit plugin stats of " + plugin.getName(), e);
+                    getAnyPlugin().getLogger().log(Level.WARNING, "Could not submit plugin stats of " + pluginName, e);
                 }
             }
         }).start();
@@ -437,7 +449,7 @@ public class Metrics
                 chart.add("data", data);
             } catch (Throwable t) {
                 if (logFailedRequests) {
-                    Bukkit.getLogger().log(Level.WARNING, "Failed to get data for custom chart with id " + chartId, t);
+                    getAnyPlugin().getLogger().log(Level.WARNING, "Metrics: Failed to get data for custom chart with id " + chartId, t);
                 }
                 return null;
             }
