@@ -80,12 +80,6 @@ libraries:
 
 ## Maven
 ```xml
- <repository>
-    <id>matteodev</id>
-    <url>https://maven.devs.beer/</url>
-</repository>
-```
-```xml
 <dependency>
     <groupId>beer.devs</groupId>
     <artifactId>FastNbt-jar</artifactId>
