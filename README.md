@@ -84,6 +84,7 @@ libraries:
     <groupId>beer.devs</groupId>
     <artifactId>FastNbt-jar</artifactId>
     <version>1.4.2</version>
+    <scope>provided</scope>
 </dependency>
 ```
 
