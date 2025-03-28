@@ -83,7 +83,7 @@ libraries:
 <dependency>
     <groupId>beer.devs</groupId>
     <artifactId>FastNbt-jar</artifactId>
-    <version>1.4.2</version>
+    <version>1.4.5</version>
     <scope>provided</scope>
 </dependency>
 ```
