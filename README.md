@@ -75,7 +75,7 @@ name: Your Plugin
 author: You
 # ....
 libraries:
-  - beer.devs:FastNbt-jar:1.4.2
+  - beer.devs:FastNbt-jar:1.4.5
 ```
 
 ## Maven
