@@ -45,7 +45,7 @@ public class NBT
     {
         try
         {
-            new ApiMetrics("FastNbt", "1.4.3", 10);
+            new ApiMetrics("FastNbt", "1.4.5", 10);
             return;
         }
         catch (Throwable ex)

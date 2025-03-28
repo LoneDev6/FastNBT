@@ -10,7 +10,7 @@
     <parent>
         <artifactId>FastNbt</artifactId>
         <groupId>beer.devs</groupId>
-        <version>1.4.3</version>
+        <version>1.4.5</version>
     </parent>
 
     <properties>
@@ -58,7 +58,7 @@
         <dependency>
             <groupId>beer.devs</groupId>
             <artifactId>FastNbt-core</artifactId>
-            <version>1.4.3</version>
+            <version>1.4.5</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
