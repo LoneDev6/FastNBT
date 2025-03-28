@@ -1,7 +1,7 @@
 # FastNBT
 <hr>
 <h3 align="center">
-<a href="https://lonedev6.github.io/FastNBT/">☕ JavaDocs</a> | <a href="https://github.com/LoneDev6/LoneLibs/tree/master">LoneLibs (includes FastNBT)</a> 
+<a href="https://lonedev6.github.io/FastNBT/">☕ JavaDocs</a>
 </h3>
 <hr> 
 
