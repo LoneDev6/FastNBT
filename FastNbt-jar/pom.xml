@@ -24,38 +24,24 @@
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
                         <version>3.1.0</version>
                         <executions>
                             <execution>
-                                <id>RemoveMetaInf</id>
                                 <phase>package</phase>
                                 <configuration>
-                                    <executable>cmd</executable>
-                                    <workingDirectory>${project.parent.basedir}</workingDirectory>
-                                    <arguments>
-                                        <argument>/C</argument>
-                                        <argument>.mvn-exec\RemoveMetaInf.bat</argument>
-                                    </arguments>
+                                    <target>
+                                        <!-- Copy JAR to multiple directories -->
+                                        <copy file="${basedir}/../output/${project.parent.artifactId}.jar" todir="C:/Progetti/Minecraft/TestServer/1.20/plugins/"/>
+                                        <copy file="${basedir}/../output/${project.parent.artifactId}.jar" todir="C:/Progetti/Minecraft/TestServer/1.20.6/plugins/"/>
+                                        <copy file="${basedir}/../output/${project.parent.artifactId}.jar" todir="C:/Progetti/Minecraft/TestServer/1.21.1/plugins/"/>
+                                        <copy file="${basedir}/../output/${project.parent.artifactId}.jar" todir="C:/Progetti/Minecraft/TestServer/1.21.3/plugins/"/>
+                                        <copy file="${basedir}/../output/${project.parent.artifactId}.jar" todir="C:/Progetti/Minecraft/TestServer/1.21.4/plugins/"/>
+                                    </target>
                                 </configuration>
                                 <goals>
-                                    <goal>exec</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>CopyFile</id>
-                                <phase>package</phase>
-                                <configuration>
-                                    <executable>cmd</executable>
-                                    <workingDirectory>${project.parent.basedir}</workingDirectory>
-                                    <arguments>
-                                        <argument>/C</argument>
-                                        <argument>.mvn-exec\CopyFile.bat</argument>
-                                    </arguments>
-                                </configuration>
-                                <goals>
-                                    <goal>exec</goal>
+                                    <goal>run</goal>
                                 </goals>
                             </execution>
                         </executions>

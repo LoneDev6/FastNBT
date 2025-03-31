@@ -1,7 +1,7 @@
 # FastNBT
 <hr>
 <h3 align="center">
-<a href="https://lonedev6.github.io/FastNBT/">☕ JavaDocs</a>
+<a href="https://lonedev6.github.io/FastNBT/beer/devs/fastnbt/nms/nbt/package-summary.html">☕ JavaDocs</a>
 </h3>
 <hr> 
 
@@ -122,6 +122,12 @@ libraries:
 
 Should be all.
 
+
+## Why the Mojang and Spigot maps are separated?
+Paper user Mojang mapped JAR. At the same time Paper itself remaps the plugins JARs at runtime, thinking that they
+all are Spigot mapped. This causes issues because it remaps the already remapped classes.
+This is the only solution I found to avoid this issue, in the future I might come up with something else.
+
 # LoneDev's Notes
 
 ## How to publish to the maven repository
@@ -132,7 +138,7 @@ Should be all.
 
 ## Editing to the repository
 - Clone it
-- Change paths in `.mvn-exec/CopyFile.bat` and `RemoveMetaInf.bat` based on your directories
+- Change paths in `pom.xml` -> `maven-antrun-plugin` based on your directories, or comment the plugin if you don't need it
 - Make your changes
 - Run `mvn install` in order to access the plugin as dependency in your projects
 - Run Maven `clean package` and get the generated jar from `output` folder
