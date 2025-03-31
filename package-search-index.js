@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"dev.lone.fastnbt"},{"l":"dev.lone.fastnbt.nms"},{"l":"dev.lone.fastnbt.nms.nbt"}];updateSearchResults();
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"beer.devs.fastnbt"},{"l":"beer.devs.fastnbt.nms"},{"l":"beer.devs.fastnbt.nms.nbt"}];updateSearchResults();
