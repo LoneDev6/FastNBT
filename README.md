@@ -124,8 +124,8 @@ Should be all.
 
 
 ## Why the Mojang and Spigot maps are separated?
-Paper user Mojang mapped JAR. At the same time Paper itself remaps the plugins JARs at runtime, thinking that they
-all are Spigot mapped. This causes issues because it remaps the already remapped classes.
+Paper user Mojang mapped JAR. At the same time Paper itself remaps the plugins JARs at runtime.
+This causes issues because it does not remap code that is loaded dynamically.
 This is the only solution I found to avoid this issue, in the future I might come up with something else.
 
 # LoneDev's Notes
