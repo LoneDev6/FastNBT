@@ -6,7 +6,7 @@
 
     <artifactId>FastNbt</artifactId>
     <groupId>beer.devs</groupId>
-    <version>1.4.5</version>
+    <version>1.4.6</version>
 
     <name>FastNbt</name>
     <packaging>pom</packaging>
@@ -40,7 +40,7 @@
         <maven.compiler.source>9</maven.compiler.source>
         <maven.compiler.target>9</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <paper-nms-maven-plugin-version>1.4.5</paper-nms-maven-plugin-version>
+        <paper-nms-maven-plugin-version>1.4.6</paper-nms-maven-plugin-version>
         <jars_libs_folder>C:/Progetti/Minecraft/Spigot/_jars</jars_libs_folder>
         <targets_prefix_folder>R:\maven-target</targets_prefix_folder>
     </properties>
@@ -73,6 +73,11 @@
         <module>fastnbt_nms_v1_21_4</module>
         <module>fastnbt_nms_v1_21_4_spigotmap</module>
         <module>fastnbt_nms_v1_21_4_mojangmap</module>
+
+        <module>fastnbt_nms_v1_21_5</module>
+        <module>fastnbt_nms_v1_21_5_spigotmap</module>
+<!--        Will be added once Paper releases that shit -->
+<!--        <module>fastnbt_nms_v1_21_5_mojangmap</module>-->
     </modules>
 
     <pluginRepositories>
