@@ -1,15 +1,11 @@
 package beer.devs.fastnbt.nms.nbt.impl;
 
 import beer.devs.fastnbt.nms.nbt.ICompoundTag;
-import beer.devs.fastnbt.nms.nbt.NBTType;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.item.ItemParser;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.NbtUtils;
-import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.*;
 import net.minecraft.server.MinecraftServer;
 import org.jetbrains.annotations.Nullable;
 
@@ -53,7 +49,7 @@ public class CompoundTag_v1_21_5 implements ICompoundTag<CompoundTag, ListTag, C
     @Override
     public void setUUID(CompoundTag handle, String key, UUID param)
     {
-        handle.putUUID(key, param);
+        NBTUtilsModern_v1_21_5.putUUID(handle, key, param);
     }
 
     @Override
@@ -89,7 +85,7 @@ public class CompoundTag_v1_21_5 implements ICompoundTag<CompoundTag, ListTag, C
     @Override
     public void setIntegerList(CompoundTag handle, String key, List<Integer> param)
     {
-        handle.putIntArray(key, param);
+       handle.putIntArray(key, param.stream().mapToInt(Integer::intValue).toArray());
     }
 
     @Override
@@ -101,7 +97,7 @@ public class CompoundTag_v1_21_5 implements ICompoundTag<CompoundTag, ListTag, C
     @Override
     public void setLongList(CompoundTag handle, String key, List<Long> param)
     {
-        handle.putLongArray(key, param);
+        handle.putLongArray(key, param.stream().mapToLong(Long::longValue).toArray());
     }
 
     @Override
@@ -123,95 +119,80 @@ public class CompoundTag_v1_21_5 implements ICompoundTag<CompoundTag, ListTag, C
     {
         if (handle == null)
             return false;
-        return handle.hasUUID(key);
+        Tag tag = handle.get(key);
+        return tag != null && tag.getType() == IntArrayTag.TYPE;
     }
 
     @Override
     public UUID getUUID(CompoundTag handle, String key)
     {
-        if (!handle.contains(key, NBTType.IntArray.id) && handle.contains(key + "Most", NBTType.AnyNumeric.id) && handle.contains(key + "Least", NBTType.AnyNumeric.id))
-            return new UUID(handle.getLong(key + "Most"), handle.getLong(key + "Least"));
-
-        Tag tag = handle.get(key);
-        if(tag == null)
-            return null;
-        return NbtUtils.loadUUID(tag);
+        return NBTUtilsModern_v1_21_5.getUUID(handle, key);
     }
 
     @Override
     public byte getByte(CompoundTag handle, String key)
     {
-        return handle.getByte(key);
+        return handle.getByte(key).orElse((byte) 0);
     }
 
     @Override
     public short getShort(CompoundTag handle, String key)
     {
-        return handle.getShort(key);
+        return handle.getShort(key).orElse((short) 0);
     }
 
     @Override
     public int getInt(CompoundTag handle, String key)
     {
-        return handle.getInt(key);
+        return handle.getInt(key).orElse(0);
     }
 
     @Override
     public long getLong(CompoundTag handle, String key)
     {
-        return handle.getLong(key);
+        return handle.getLong(key).orElse(0L);
     }
 
     @Override
     public float getFloat(CompoundTag handle, String key)
     {
-        return handle.getFloat(key);
+        return handle.getFloat(key).orElse(0.0f);
     }
 
     @Override
     public double getDouble(CompoundTag handle, String key)
     {
-        return handle.getDouble(key);
+        return handle.getDouble(key).orElse(0.0);
     }
 
     @Override
     public String getString(CompoundTag handle, String key)
     {
-        if(!hasKey(handle, key))
-            return null;
-        return handle.getString(key);
+        return handle.getString(key).orElse(null);
     }
 
     @Override
     public byte @Nullable [] getByteArray(CompoundTag handle, String key)
     {
-        if(!hasKey(handle, key))
-            return null;
-        return handle.getByteArray(key);
+        return handle.getByteArray(key).orElse(null);
     }
 
     @Override
     public int @Nullable [] getIntArray(CompoundTag handle, String key)
     {
-        if(!hasKey(handle, key))
-            return null;
-        return handle.getIntArray(key);
+        return handle.getIntArray(key).orElse(null);
     }
 
     @Override
     public long @Nullable [] getLongArray(CompoundTag handle, String key)
     {
-        if(!hasKey(handle, key))
-            return null;
-        return handle.getLongArray(key);
+        return handle.getLongArray(key).orElse(null);
     }
 
     @Override
     public CompoundTag getCompound(CompoundTag handle, String key)
     {
-        if (!handle.contains(key))
-            return null;
-        return handle.getCompound(key);
+        return handle.getCompound(key).orElse(null);
     }
 
     @Override
@@ -219,15 +200,14 @@ public class CompoundTag_v1_21_5 implements ICompoundTag<CompoundTag, ListTag, C
     {
         if (!handle.contains(key))
             handle.put(key, new CompoundTag());
-        return handle.getCompound(key);
+        //noinspection OptionalGetWithoutIsPresent
+        return handle.getCompound(key).get(); // This cannot be null because we just added it
     }
 
     @Override
     public ListTag getList(CompoundTag handle, String key, int typeID)
     {
-        if (!handle.contains(key))
-            return null;
-        return handle.getList(key, typeID);
+        return handle.getList(key).orElse(null);
     }
 
     @Override
@@ -235,7 +215,8 @@ public class CompoundTag_v1_21_5 implements ICompoundTag<CompoundTag, ListTag, C
     {
         if (!handle.contains(key))
             handle.put(key, new ListTag());
-        return handle.getList(key, typeID);
+        //noinspection OptionalGetWithoutIsPresent
+        return handle.getList(key).get(); // This cannot be null because we just added it
     }
 
     @Override
@@ -247,13 +228,13 @@ public class CompoundTag_v1_21_5 implements ICompoundTag<CompoundTag, ListTag, C
     @Override
     public boolean getBoolean(CompoundTag handle, String key)
     {
-        return handle.getBoolean(key);
+        return handle.getBoolean(key).orElse(false);
     }
 
     @Override
     public Set<String> getKeys(CompoundTag handle)
     {
-        return handle.getAllKeys();
+        return handle.keySet();
     }
 
     @Override

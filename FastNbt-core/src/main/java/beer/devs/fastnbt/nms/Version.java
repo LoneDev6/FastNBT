@@ -4,10 +4,9 @@ import org.bukkit.Bukkit;
 
 /**
  * Protocol version.
- * https://wiki.vg/Protocol_version_numbers
- * https://minecraft.wiki/w/Protocol_version
+ * <a href="https://minecraft.wiki/w/Protocol_version">Minecraft Wiki</a>
  */
-@SuppressWarnings({"unused", "DeprecatedIsStillUsed"})
+@SuppressWarnings({"unused"})
 public enum Version
 {
     UNKNOWN(Integer.MAX_VALUE, Integer.MAX_VALUE, ""),
@@ -30,7 +29,8 @@ public enum Version
     v1_21(140, 767, "1.21"),
     v1_21_1(141, 767, "1.21.1"),
     v1_21_3(143, 768, "1.21.3"),
-    v1_21_4(144, 769, "1.21.4");
+    v1_21_4(144, 769, "1.21.4"),
+    v1_21_5(145, 770, "1.21.5");
 
     private static Version version;
 

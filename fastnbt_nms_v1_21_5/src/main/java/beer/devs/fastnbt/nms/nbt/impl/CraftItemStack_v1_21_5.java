@@ -36,8 +36,8 @@ public class CraftItemStack_v1_21_5 implements ICraftItemStack<ListTag, Compound
 
     public static net.minecraft.world.item.ItemStack getHandle(CraftItemStack craftItemStack)
     {
-        if(IS_FIELD_HANDLE_PUBLIC)
-            return craftItemStack.handle;
+//        if(IS_FIELD_HANDLE_PUBLIC)
+//            return craftItemStack.handle; // TODO enable this when Paper is updated to 1.21.5
 
         try
         {
@@ -110,6 +110,7 @@ public class CraftItemStack_v1_21_5 implements ICraftItemStack<ListTag, Compound
         simpleMergeComponent(a, b, DataComponents.UNBREAKABLE);
         simpleMergeComponent(a, b, DataComponents.CUSTOM_NAME);
         simpleMergeComponent(a, b, DataComponents.ITEM_NAME);
+        simpleMergeComponent(a, b, DataComponents.ITEM_MODEL);
         simpleMergeComponent(a, b, DataComponents.LORE);
         simpleMergeComponent(a, b, DataComponents.RARITY);
         simpleMergeComponent(a, b, DataComponents.ENCHANTMENTS);
@@ -117,15 +118,25 @@ public class CraftItemStack_v1_21_5 implements ICraftItemStack<ListTag, Compound
         simpleMergeComponent(a, b, DataComponents.CAN_BREAK);
         simpleMergeComponent(a, b, DataComponents.ATTRIBUTE_MODIFIERS);
         simpleMergeComponent(a, b, DataComponents.CUSTOM_MODEL_DATA);
-        simpleMergeComponent(a, b, DataComponents.HIDE_ADDITIONAL_TOOLTIP);
-        simpleMergeComponent(a, b, DataComponents.HIDE_TOOLTIP);
+        simpleMergeComponent(a, b, DataComponents.TOOLTIP_DISPLAY);
         simpleMergeComponent(a, b, DataComponents.REPAIR_COST);
         simpleMergeComponent(a, b, DataComponents.CREATIVE_SLOT_LOCK);
         simpleMergeComponent(a, b, DataComponents.ENCHANTMENT_GLINT_OVERRIDE);
         simpleMergeComponent(a, b, DataComponents.INTANGIBLE_PROJECTILE);
         simpleMergeComponent(a, b, DataComponents.FOOD);
+        simpleMergeComponent(a, b, DataComponents.CONSUMABLE);
+        simpleMergeComponent(a, b, DataComponents.USE_REMAINDER);
+        simpleMergeComponent(a, b, DataComponents.USE_COOLDOWN);
         simpleMergeComponent(a, b, DataComponents.DAMAGE_RESISTANT);
         simpleMergeComponent(a, b, DataComponents.TOOL);
+        simpleMergeComponent(a, b, DataComponents.WEAPON);
+        simpleMergeComponent(a, b, DataComponents.ENCHANTABLE);
+        simpleMergeComponent(a, b, DataComponents.EQUIPPABLE);
+        simpleMergeComponent(a, b, DataComponents.REPAIRABLE);
+        simpleMergeComponent(a, b, DataComponents.GLIDER);
+        simpleMergeComponent(a, b, DataComponents.TOOLTIP_STYLE);
+        simpleMergeComponent(a, b, DataComponents.DEATH_PROTECTION);
+        simpleMergeComponent(a, b, DataComponents.BLOCKS_ATTACKS);
         simpleMergeComponent(a, b, DataComponents.STORED_ENCHANTMENTS);
         simpleMergeComponent(a, b, DataComponents.DYED_COLOR);
         simpleMergeComponent(a, b, DataComponents.MAP_COLOR);
@@ -135,6 +146,7 @@ public class CraftItemStack_v1_21_5 implements ICraftItemStack<ListTag, Compound
         simpleMergeComponent(a, b, DataComponents.CHARGED_PROJECTILES);
         simpleMergeComponent(a, b, DataComponents.BUNDLE_CONTENTS);
         simpleMergeComponent(a, b, DataComponents.POTION_CONTENTS);
+        simpleMergeComponent(a, b, DataComponents.POTION_DURATION_SCALE);
         simpleMergeComponent(a, b, DataComponents.SUSPICIOUS_STEW_EFFECTS);
         simpleMergeComponent(a, b, DataComponents.WRITABLE_BOOK_CONTENT);
         simpleMergeComponent(a, b, DataComponents.WRITTEN_BOOK_CONTENT);
@@ -144,7 +156,10 @@ public class CraftItemStack_v1_21_5 implements ICraftItemStack<ListTag, Compound
         simpleMergeComponent(a, b, DataComponents.BUCKET_ENTITY_DATA);
         simpleMergeComponent(a, b, DataComponents.BLOCK_ENTITY_DATA);
         simpleMergeComponent(a, b, DataComponents.INSTRUMENT);
+        simpleMergeComponent(a, b, DataComponents.PROVIDES_TRIM_MATERIAL);
         simpleMergeComponent(a, b, DataComponents.OMINOUS_BOTTLE_AMPLIFIER);
+        simpleMergeComponent(a, b, DataComponents.JUKEBOX_PLAYABLE);
+        simpleMergeComponent(a, b, DataComponents.PROVIDES_BANNER_PATTERNS);
         simpleMergeComponent(a, b, DataComponents.RECIPES);
         simpleMergeComponent(a, b, DataComponents.LODESTONE_TRACKER);
         simpleMergeComponent(a, b, DataComponents.FIREWORK_EXPLOSION);
@@ -159,16 +174,31 @@ public class CraftItemStack_v1_21_5 implements ICraftItemStack<ListTag, Compound
         simpleMergeComponent(a, b, DataComponents.BEES);
         simpleMergeComponent(a, b, DataComponents.LOCK);
         simpleMergeComponent(a, b, DataComponents.CONTAINER_LOOT);
-        simpleMergeComponent(a, b, DataComponents.ITEM_MODEL);
-        simpleMergeComponent(a, b, DataComponents.CONSUMABLE);
-        simpleMergeComponent(a, b, DataComponents.USE_REMAINDER);
-        simpleMergeComponent(a, b, DataComponents.USE_COOLDOWN);
-        simpleMergeComponent(a, b, DataComponents.ENCHANTABLE);
-        simpleMergeComponent(a, b, DataComponents.EQUIPPABLE);
-        simpleMergeComponent(a, b, DataComponents.REPAIRABLE);
-        simpleMergeComponent(a, b, DataComponents.TOOLTIP_STYLE);
-        simpleMergeComponent(a, b, DataComponents.DEATH_PROTECTION);
-        simpleMergeComponent(a, b, DataComponents.JUKEBOX_PLAYABLE);
+        simpleMergeComponent(a, b, DataComponents.BREAK_SOUND);
+        simpleMergeComponent(a, b, DataComponents.VILLAGER_VARIANT);
+        simpleMergeComponent(a, b, DataComponents.WOLF_VARIANT);
+        simpleMergeComponent(a, b, DataComponents.WOLF_SOUND_VARIANT);
+        simpleMergeComponent(a, b, DataComponents.WOLF_COLLAR);
+        simpleMergeComponent(a, b, DataComponents.FOX_VARIANT);
+        simpleMergeComponent(a, b, DataComponents.SALMON_SIZE);
+        simpleMergeComponent(a, b, DataComponents.PARROT_VARIANT);
+        simpleMergeComponent(a, b, DataComponents.TROPICAL_FISH_PATTERN);
+        simpleMergeComponent(a, b, DataComponents.TROPICAL_FISH_BASE_COLOR);
+        simpleMergeComponent(a, b, DataComponents.TROPICAL_FISH_PATTERN_COLOR);
+        simpleMergeComponent(a, b, DataComponents.MOOSHROOM_VARIANT);
+        simpleMergeComponent(a, b, DataComponents.RABBIT_VARIANT);
+        simpleMergeComponent(a, b, DataComponents.PIG_VARIANT);
+        simpleMergeComponent(a, b, DataComponents.COW_VARIANT);
+        simpleMergeComponent(a, b, DataComponents.CHICKEN_VARIANT);
+        simpleMergeComponent(a, b, DataComponents.FROG_VARIANT);
+        simpleMergeComponent(a, b, DataComponents.HORSE_VARIANT);
+        simpleMergeComponent(a, b, DataComponents.PAINTING_VARIANT);
+        simpleMergeComponent(a, b, DataComponents.LLAMA_VARIANT);
+        simpleMergeComponent(a, b, DataComponents.AXOLOTL_VARIANT);
+        simpleMergeComponent(a, b, DataComponents.CAT_VARIANT);
+        simpleMergeComponent(a, b, DataComponents.CAT_COLLAR);
+        simpleMergeComponent(a, b, DataComponents.SHEEP_COLOR);
+        simpleMergeComponent(a, b, DataComponents.SHULKER_COLOR);
     }
 
     @Override
@@ -223,7 +253,7 @@ public class CraftItemStack_v1_21_5 implements ICraftItemStack<ListTag, Compound
         CustomData data = handle.get(DataComponents.CUSTOM_DATA);
         if (data == null)
             handle.set(DataComponents.CUSTOM_DATA, CustomData.of(new CompoundTag()));
-        handle.get(DataComponents.CUSTOM_DATA).getUnsafe().putUUID(key, param);
+        NBTUtilsModern_v1_21_5.putUUID(handle.get(DataComponents.CUSTOM_DATA).getUnsafe(), key, param);
     }
 
     @Override
@@ -289,7 +319,7 @@ public class CraftItemStack_v1_21_5 implements ICraftItemStack<ListTag, Compound
         CustomData data = handle.get(DataComponents.CUSTOM_DATA);
         if (data == null)
             handle.set(DataComponents.CUSTOM_DATA, CustomData.of(new CompoundTag()));
-        handle.get(DataComponents.CUSTOM_DATA).getUnsafe().putIntArray(key, param);
+        handle.get(DataComponents.CUSTOM_DATA).getUnsafe().putIntArray(key, param.stream().mapToInt(Integer::intValue).toArray());
     }
 
     @Override
@@ -311,7 +341,7 @@ public class CraftItemStack_v1_21_5 implements ICraftItemStack<ListTag, Compound
         CustomData data = handle.get(DataComponents.CUSTOM_DATA);
         if (data == null)
             handle.set(DataComponents.CUSTOM_DATA, CustomData.of(new CompoundTag()));
-        handle.get(DataComponents.CUSTOM_DATA).getUnsafe().putLongArray(key, param);
+       handle.get(DataComponents.CUSTOM_DATA).getUnsafe().putLongArray(key, param.stream().mapToLong(Long::longValue).toArray());
     }
 
     @Override
@@ -338,11 +368,7 @@ public class CraftItemStack_v1_21_5 implements ICraftItemStack<ListTag, Compound
     @Override
     public boolean hasUUID(ItemStack itemStack, String key)
     {
-        CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
-        CustomData data = getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA);
-        if (data == null)
-            return false;
-        return data.getUnsafe().hasUUID(key);
+        return getUUID(itemStack, key) != null;
     }
 
     @Override
@@ -352,7 +378,8 @@ public class CraftItemStack_v1_21_5 implements ICraftItemStack<ListTag, Compound
         CustomData data = getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA);
         if (data == null)
             return null;
-        return data.getUnsafe().getUUID(key);
+
+        return NBTUtilsModern_v1_21_5.getUUID(data.getUnsafe(), key);
     }
 
     @Override
@@ -362,7 +389,7 @@ public class CraftItemStack_v1_21_5 implements ICraftItemStack<ListTag, Compound
         CustomData data = getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA);
         if (data == null)
             return 0;
-        return data.getUnsafe().getByte(key);
+        return data.getUnsafe().getByte(key).orElse((byte) 0);
     }
 
     @Override
@@ -372,7 +399,7 @@ public class CraftItemStack_v1_21_5 implements ICraftItemStack<ListTag, Compound
         CustomData data = getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA);
         if (data == null)
             return 0;
-        return data.getUnsafe().getShort(key);
+        return data.getUnsafe().getShort(key).orElse((short) 0);
     }
 
     @Override
@@ -382,7 +409,7 @@ public class CraftItemStack_v1_21_5 implements ICraftItemStack<ListTag, Compound
         CustomData data = getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA);
         if (data == null)
             return 0;
-        return data.getUnsafe().getInt(key);
+        return data.getUnsafe().getInt(key).orElse(0);
     }
 
     @Override
@@ -392,7 +419,7 @@ public class CraftItemStack_v1_21_5 implements ICraftItemStack<ListTag, Compound
         CustomData data = getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA);
         if (data == null)
             return 0;
-        return data.getUnsafe().getLong(key);
+        return data.getUnsafe().getLong(key).orElse(0L);
     }
 
     @Override
@@ -402,7 +429,7 @@ public class CraftItemStack_v1_21_5 implements ICraftItemStack<ListTag, Compound
         CustomData data = getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA);
         if (data == null)
             return 0;
-        return data.getUnsafe().getFloat(key);
+        return data.getUnsafe().getFloat(key).orElse(0.0f);
     }
 
     @Override
@@ -412,7 +439,7 @@ public class CraftItemStack_v1_21_5 implements ICraftItemStack<ListTag, Compound
         CustomData data = getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA);
         if (data == null)
             return 0;
-        return data.getUnsafe().getDouble(key);
+        return data.getUnsafe().getDouble(key).orElse(0.0);
     }
 
     @Override
@@ -422,7 +449,7 @@ public class CraftItemStack_v1_21_5 implements ICraftItemStack<ListTag, Compound
         CustomData data = getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA);
         if (data == null)
             return null;
-        return data.getUnsafe().getString(key);
+        return data.getUnsafe().getString(key).orElse(null);
     }
 
     @Override
@@ -432,7 +459,7 @@ public class CraftItemStack_v1_21_5 implements ICraftItemStack<ListTag, Compound
         CustomData data = getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA);
         if (data == null)
             return null;
-        return data.getUnsafe().getByteArray(key);
+        return data.getUnsafe().getByteArray(key).orElse(null);
     }
 
     @Override
@@ -442,7 +469,7 @@ public class CraftItemStack_v1_21_5 implements ICraftItemStack<ListTag, Compound
         CustomData data = getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA);
         if (data == null)
             return null;
-        return data.getUnsafe().getIntArray(key);
+        return data.getUnsafe().getIntArray(key).orElse(null);
     }
 
     @Override
@@ -452,7 +479,7 @@ public class CraftItemStack_v1_21_5 implements ICraftItemStack<ListTag, Compound
         CustomData data = getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA);
         if (data == null)
             return null;
-        return data.getUnsafe().getLongArray(key);
+        return data.getUnsafe().getLongArray(key).orElse(null);
     }
 
     @Override
@@ -462,7 +489,7 @@ public class CraftItemStack_v1_21_5 implements ICraftItemStack<ListTag, Compound
         CustomData data = getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA);
         if (data == null)
             return null;
-        return data.getUnsafe().getCompound(key);
+        return data.getUnsafe().getCompound(key).orElse(null);
     }
 
     @Override
@@ -521,7 +548,7 @@ public class CraftItemStack_v1_21_5 implements ICraftItemStack<ListTag, Compound
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
         CustomData data = getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA);
         if (data != null)
-            return data.getUnsafe().getAllKeys();
+            return data.getUnsafe().keySet();
         return null;
     }
 
@@ -586,7 +613,7 @@ public class CraftItemStack_v1_21_5 implements ICraftItemStack<ListTag, Compound
     {
         try
         {
-            return compoundToItemStack(TagParser.parseTag(json));
+            return compoundToItemStack(TagParser.parseCompoundFully(json));
         }
         catch (CommandSyntaxException ignored) {}
         return null;

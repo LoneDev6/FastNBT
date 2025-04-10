@@ -7,6 +7,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.Optional;
 
 @SuppressWarnings({"unused"})
 public class ListTag_v1_21_5 implements IListTag<ListTag, Tag, CompoundTag>
@@ -57,7 +58,7 @@ public class ListTag_v1_21_5 implements IListTag<ListTag, Tag, CompoundTag>
             Tag tag = list.get(i);
             if (tag.getId() != NBTType.Byte.id)
                 throwIllegalArgumentException(i, tag, "ByteTag");
-            return ((ByteTag) tag).getAsByte();
+            return ((ByteTag) tag).byteValue();
         }
 
         return 0;
@@ -66,13 +67,14 @@ public class ListTag_v1_21_5 implements IListTag<ListTag, Tag, CompoundTag>
     @Override
     public short getShortAt(ListTag list, int i)
     {
-        return list.getShort(i);
+        Optional<Short> val = list.getShort(i);
+        return val.isPresent() ? val.get() : 0;
     }
 
     @Override
     public int getIntAt(ListTag list, int i)
     {
-        return list.getInt(i);
+        return list.getInt(i).orElse(0);
     }
 
     @Override
@@ -117,19 +119,19 @@ public class ListTag_v1_21_5 implements IListTag<ListTag, Tag, CompoundTag>
     @Override
     public double getDoubleAt(ListTag list, int i)
     {
-        return list.getDouble(i);
+        return list.getDouble(i).orElse(0.0);
     }
 
     @Override
     public float getFloatAt(ListTag list, int i)
     {
-        return list.getFloat(i);
+        return list.getFloat(i).orElse(0.0f);
     }
 
     @Override
     public String getStringAt(ListTag list, int i)
     {
-        return list.getString(i);
+        return list.getString(i).orElse(null);
     }
 
     @Override
