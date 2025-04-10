@@ -107,6 +107,14 @@ You can shade the library in your plugin if you want to use it without connectin
 
 ### Shading Configuration Maven
 ```xml
+<dependency>
+    <groupId>beer.devs</groupId>
+    <artifactId>FastNbt-jar</artifactId>
+    <version>VERSION</version>
+    <scope>provided</scope>
+</dependency>
+```
+```xml
  <plugin>
     <groupId>org.apache.maven.plugins</groupId>
     <artifactId>maven-shade-plugin</artifactId>
