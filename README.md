@@ -1,9 +1,10 @@
-# FastNBT
 <hr>
 <h3 align="center">
 <a href="https://lonedev6.github.io/FastNBT/beer/devs/fastnbt/nms/nbt/package-summary.html">☕ JavaDocs</a>
 </h3>
 <hr> 
+
+![Maven Central](https://img.shields.io/maven-central/v/beer.devs/FastNbt-jar?label=Maven%20Central&style=flat-square)
 
 # Comparison to NBT API
 
@@ -39,12 +40,12 @@ nItem.save(); // If finished editing
 ```java
 nItem.setAttributeModifier(
         "minecraft:generic.movement_speed",
-        1,
-        6,
-        "bro",
-        "mainhand",
-        1337,
-        1337
+                1,
+                6,
+                "bro",
+                "mainhand",
+                1337,
+                1337
 );
 nItem.save(); // If finished editing
 ```
@@ -68,27 +69,43 @@ Currently, supports only items.
 
 # Adding it to your project
 
-## Plugin.yml
+![Maven Central](https://img.shields.io/maven-central/v/beer.devs/FastNbt-jar?label=Maven%20Central&style=flat-square)
+
+
+## Method 1 - Direct use
 This is the easiest way.
+
+### Step 1 - `plugin.yml`
 ```yml
 name: Your Plugin
 author: You
 # ....
 libraries:
-  - beer.devs:FastNbt-jar:1.4.6
+  - beer.devs:FastNbt-jar:VERSION
 ```
 
-## Maven
+### Step 2 - Maven
 ```xml
 <dependency>
     <groupId>beer.devs</groupId>
     <artifactId>FastNbt-jar</artifactId>
-    <version>1.4.6</version>
+    <version>VERSION</version>
     <scope>provided</scope>
 </dependency>
 ```
 
-### Shading
+### Step 2 - or Gradle
+```kt
+dependencies {
+    compileOnly("beer.devs:FastNbt-jar:VERSION")
+}
+```
+
+## Method 2 - Shading
+
+You can shade the library in your plugin if you want to use it without connecting to maven central.
+
+### Shading Configuration Maven
 ```xml
  <plugin>
     <groupId>org.apache.maven.plugins</groupId>
@@ -112,6 +129,23 @@ libraries:
     </executions>
 </plugin>
 ```
+
+### Shading Configuration Gradle
+```kt
+dependencies {
+    implementation("beer.devs:FastNbt-jar:VERSION")
+}
+```
+
+```kt
+tasks {
+    shadowJar {
+        relocate("beer.devs.fastnbt", "YOUR_PACKAGE_HERE.libs.beer.devs.fastnbt")
+    }
+}
+```
+
+-----
 
 # Updating
 
