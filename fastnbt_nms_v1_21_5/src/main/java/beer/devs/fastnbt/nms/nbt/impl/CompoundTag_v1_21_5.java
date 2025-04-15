@@ -270,7 +270,7 @@ public class CompoundTag_v1_21_5 implements ICompoundTag<CompoundTag, ListTag, C
     {
         try
         {
-            new ItemParser(Commands.createValidationContext(MinecraftServer.getDefaultRegistryAccess())).parse(new StringReader(component));
+            new ItemParser(Commands.createValidationContext(MinecraftServer.getServer().registryAccess())).parse(new StringReader(component));
             return true;
         }
         catch (CommandSyntaxException ex)

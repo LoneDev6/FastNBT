@@ -7,8 +7,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.component.ItemLore;
-import org.bukkit.craftbukkit.v1_21_R4.inventory.CraftItemStack;
-import org.bukkit.craftbukkit.v1_21_R4.util.CraftChatMessage;
+import org.bukkit.craftbukkit.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.util.CraftChatMessage;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;

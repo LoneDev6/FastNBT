@@ -11,7 +11,7 @@ import net.minecraft.nbt.TagParser;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.item.component.CustomData;
 import org.apache.commons.lang.reflect.FieldUtils;
-import org.bukkit.craftbukkit.v1_21_R4.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
@@ -36,8 +36,8 @@ public class CraftItemStack_v1_21_5 implements ICraftItemStack<ListTag, Compound
 
     public static net.minecraft.world.item.ItemStack getHandle(CraftItemStack craftItemStack)
     {
-//        if(IS_FIELD_HANDLE_PUBLIC)
-//            return craftItemStack.handle; // TODO enable this when Paper is updated to 1.21.5
+        if(IS_FIELD_HANDLE_PUBLIC)
+            return craftItemStack.handle;
 
         try
         {

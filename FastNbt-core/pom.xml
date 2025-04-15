@@ -5,19 +5,12 @@
     <parent>
         <artifactId>FastNbt</artifactId>
         <groupId>beer.devs</groupId>
-        <version>1.4.6</version>
+        <version>1.4.7</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>FastNbt-core</artifactId>
     <packaging>jar</packaging>
-
-    <repositories>
-        <repository>
-            <id>spigot-repo</id>
-            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-        </repository>
-    </repositories>
 
     <dependencies>
         <dependency>

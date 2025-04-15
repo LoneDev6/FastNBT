@@ -8,25 +8,29 @@
     <packaging>jar</packaging>
 
     <dependencies>
-        <!--        TODO change it to use Paper once it's out -->
         <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot</artifactId>
-            <version>1.21.5-R0.1-SNAPSHOT</version>
-            <classifier>remapped-mojang</classifier>
+            <groupId>ca.bkaw</groupId>
+            <artifactId>paper-nms</artifactId>
+            <version>1.21.5-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-        <!--        <dependency>-->
-        <!--            <groupId>ca.bkaw</groupId>-->
-        <!--            <artifactId>paper-nms</artifactId>-->
-        <!--            <version>1.21.5-SNAPSHOT</version>-->
-        <!--            <scope>provided</scope>-->
-        <!--        </dependency>-->
-
+        <!-- No idea why the fuck I have to specify that, shouldn't it be imported automatically? I have to do that only 1.21.5 -->
+        <dependency>
+            <groupId>io.papermc.paper</groupId>
+            <artifactId>paper-api</artifactId>
+            <version>1.21.5-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- No idea why the fuck I have to specify that, shouldn't it be imported automatically? I have to do that only 1.21.5 -->
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.6</version>
+        </dependency>
         <dependency>
             <groupId>beer.devs</groupId>
             <artifactId>FastNbt-core</artifactId>
-            <version>1.4.6</version>
+            <version>1.4.7</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
@@ -34,7 +38,7 @@
     <parent>
         <artifactId>FastNbt</artifactId>
         <groupId>beer.devs</groupId>
-        <version>1.4.6</version>
+        <version>1.4.7</version>
     </parent>
 
     <properties>
