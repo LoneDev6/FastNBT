@@ -10,6 +10,8 @@ import java.util.Map;
 
 public class NMSImpl
 {
+    public static final String LIB_VERSION = "1.4.8";
+
     private static final String NMS_IMPL_PACKAGE = "beer.devs.fastnbt.nms.nbt.impl";
     private static final String NMS_IMPL_PACKAGE_SPIGOTMAP = "beer.devs.fastnbt.nms.nbt.impl_spigotmap";
     private static final String NMS_IMPL_PACKAGE_MOJANGMAP = "beer.devs.fastnbt.nms.nbt.impl_mojangmap";
@@ -74,25 +76,32 @@ public class NMSImpl
 
     private static Class<?> getImplClass(Class<?> type) throws ClassNotFoundException
     {
-        String classNamePath;
-        Version version = Version.get();
-        String typeName = type.getSimpleName();
-        if(typeName.startsWith("I"))
-            typeName = typeName.substring(1);
+        String classNamePath = null;
+         try
+         {
+             Version version = Version.get();
+             String typeName = type.getSimpleName();
+             if(typeName.startsWith("I"))
+                 typeName = typeName.substring(1);
 
-        if(Version.isOlderThan(Version.v1_20_5))
-        {
-            classNamePath = NMS_IMPL_PACKAGE + "." + typeName + "_" + version.toString();
-        }
-        else
-        {
-            if (isSpigotMapped())
-                classNamePath = NMS_IMPL_PACKAGE_SPIGOTMAP + "." + typeName + "_" + version.toString();
-            else
-                classNamePath = NMS_IMPL_PACKAGE_MOJANGMAP + "." + typeName + "_" + version.toString();
-        }
+             if(Version.isOlderThan(Version.v1_20_5))
+             {
+                 classNamePath = NMS_IMPL_PACKAGE + "." + typeName + "_" + version.toString();
+             }
+             else
+             {
+                 if (isSpigotMapped())
+                     classNamePath = NMS_IMPL_PACKAGE_SPIGOTMAP + "." + typeName + "_" + version.toString();
+                 else
+                     classNamePath = NMS_IMPL_PACKAGE_MOJANGMAP + "." + typeName + "_" + version.toString();
+             }
 
-        return Class.forName(classNamePath);
+             return Class.forName(classNamePath);
+         }
+         catch (ClassNotFoundException e)
+         {
+             throw new ClassNotFoundException("Class not found " + type.getName() + " (" + classNamePath + ").", e);
+         }
     }
 
     public static <T> T instantiate(Class<T> type)

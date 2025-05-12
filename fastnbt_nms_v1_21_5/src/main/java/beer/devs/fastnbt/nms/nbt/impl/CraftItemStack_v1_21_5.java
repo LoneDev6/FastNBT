@@ -36,8 +36,7 @@ public class CraftItemStack_v1_21_5 implements ICraftItemStack<ListTag, Compound
 
     public static net.minecraft.world.item.ItemStack getHandle(CraftItemStack craftItemStack)
     {
-        if(IS_FIELD_HANDLE_PUBLIC)
-            return craftItemStack.handle;
+        if(IS_FIELD_HANDLE_PUBLIC) return craftItemStack.handle;
 
         try
         {

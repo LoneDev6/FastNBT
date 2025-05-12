@@ -30,7 +30,7 @@ public class NBT
         }
         catch (Throwable ex)
         {
-            Bukkit.getLogger().severe("This server is not compatible with FastNBT. Server: " + Bukkit.getVersion() + " (NMS: " + Version.get() + ")");
+            Bukkit.getLogger().severe("This server is not compatible with FastNBT" + NMSImpl.LIB_VERSION + ". Server: " + Bukkit.getVersion() + " (NMS: " + Version.get() + ")");
             ex.printStackTrace();
             Bukkit.shutdown();
         }
@@ -45,7 +45,7 @@ public class NBT
     {
         try
         {
-            new ApiMetrics("FastNbt", "1.4.7", 10);
+            new ApiMetrics("FastNbt", NMSImpl.LIB_VERSION, 10);
             return;
         }
         catch (Throwable ex)

@@ -68,7 +68,15 @@ handleRecursiveFiles(srcFolder, (data, file) => {
         }
 
         copyFileToFolder(data.replaceAll("nbt.impl", 'nbt.impl_mojangmap'), file.replaceAll(nmsFolder, mojangmapFolder).replaceAll("impl", 'impl_mojangmap'));
-        copyFileToFolder(data.replaceAll("nbt.impl", 'nbt.impl_spigotmap'), file.replaceAll(nmsFolder, spigotmapFolder).replaceAll("impl", 'impl_spigotmap'));
+
+        let spigotMapData = data.replaceAll("nbt.impl", 'nbt.impl_spigotmap');
+        // Versions after 1.21.4 will use the Spigot specialsource-maven-plugin instead of the paper one.
+        // So I have to make sure that the code is using the correct package and remove paper-only shit.
+        if(file.includes("1_21_5")) {
+            spigotMapData = spigotMapData.replaceAll("org.bukkit.craftbukkit", "org.bukkit.craftbukkit.v1_21_R4")
+            spigotMapData = spigotMapData.replaceAll("if(IS_FIELD_HANDLE_PUBLIC) return craftItemStack.handle;", "")
+        }
+        copyFileToFolder(spigotMapData, file.replaceAll(nmsFolder, spigotmapFolder).replaceAll("impl", 'impl_spigotmap'));
     });
 });
 

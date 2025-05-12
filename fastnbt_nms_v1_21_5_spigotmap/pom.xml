@@ -10,7 +10,7 @@
     <parent>
         <artifactId>FastNbt</artifactId>
         <groupId>beer.devs</groupId>
-        <version>1.4.7</version>
+        <version>1.4.8</version>
     </parent>
 
     <repositories>
@@ -23,15 +23,35 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>ca.bkaw</groupId>
-                <artifactId>paper-nms-maven-plugin</artifactId>
-                <version>${paper-nms-maven-plugin-version}</version>
+                <groupId>net.md-5</groupId>
+                <artifactId>specialsource-maven-plugin</artifactId>
+                <version>2.0.4</version>
                 <executions>
                     <execution>
-                        <phase>process-classes</phase>
+                        <phase>package</phase>
                         <goals>
                             <goal>remap</goal>
                         </goals>
+                        <id>remap-obf</id>
+                        <configuration>
+                            <srgIn>org.spigotmc:minecraft-server:1.21.5-R0.1-SNAPSHOT:txt:maps-mojang</srgIn>
+                            <reverse>true</reverse>
+                            <remappedDependencies>org.spigotmc:spigot:1.21.5-R0.1-SNAPSHOT:jar:remapped-mojang</remappedDependencies>
+                            <remappedArtifactAttached>true</remappedArtifactAttached>
+                            <remappedClassifierName>remapped-obf</remappedClassifierName>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>remap</goal>
+                        </goals>
+                        <id>remap-spigot</id>
+                        <configuration>
+                            <inputFile>${project.build.directory}/${project.artifactId}-${project.version}-remapped-obf.jar</inputFile>
+                            <srgIn>org.spigotmc:minecraft-server:1.21.5-R0.1-SNAPSHOT:csrg:maps-spigot</srgIn>
+                            <remappedDependencies>org.spigotmc:spigot:1.21.5-R0.1-SNAPSHOT:jar:remapped-obf</remappedDependencies>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -40,9 +60,10 @@
 
     <dependencies>
         <dependency>
-            <groupId>ca.bkaw</groupId>
-            <artifactId>paper-nms</artifactId>
-            <version>1.21.5-SNAPSHOT</version>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot</artifactId>
+            <version>1.21.5-R0.1-SNAPSHOT</version>
+            <classifier>remapped-mojang</classifier>
             <scope>provided</scope>
         </dependency>
         <!-- No idea why the fuck I have to specify that, shouldn't it be imported automatically? I have to do that only 1.21.5 -->
@@ -54,7 +75,7 @@
         <dependency>
              <groupId>beer.devs</groupId>
             <artifactId>FastNbt-core</artifactId>
-            <version>1.4.7</version>
+            <version>1.4.8</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

@@ -6,7 +6,7 @@
 
     <artifactId>FastNbt</artifactId>
     <groupId>beer.devs</groupId>
-    <version>1.4.7</version>
+    <version>1.4.8</version>
 
     <name>FastNbt</name>
     <packaging>pom</packaging>
