@@ -161,6 +161,7 @@ tasks {
 - Add the new NMS version to the `Version` enum.
 - Add the new module in the modules list of `FastNbt` module and as dependency in the `FastNbt-jar` module.
 - Also create the relative `_mojangmap` and `_spigotmap` modules.
+- Open GenerateNms.js and edit the `handleRecursiveFiles` function including the current NMS version rules.
 
 Should be all.
 
