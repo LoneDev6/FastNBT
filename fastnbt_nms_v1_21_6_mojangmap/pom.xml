@@ -4,28 +4,35 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>fastnbt_nms_v1_21_5_mojangmap</artifactId>
+    <artifactId>fastnbt_nms_v1_21_6_mojangmap</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>
-        <dependency>
-            <groupId>ca.bkaw</groupId>
-            <artifactId>paper-nms</artifactId>
-            <version>1.21.5-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-        <!-- No idea why the fuck I have to specify that, shouldn't it be imported automatically? I have to do that only 1.21.5 -->
+        <!--
+               TODO change it to use Paper once it's out.
+                 - Remove Spigot and replace it with the Paper correct one.
+                 - Remove the hardcoded jar completely. -->
         <dependency>
             <groupId>io.papermc.paper</groupId>
-            <artifactId>paper-api</artifactId>
-            <version>1.21.5-R0.1-SNAPSHOT</version>
+            <artifactId>paper-1.21.6</artifactId>
+            <version>1.21.6</version>
+            <scope>system</scope>
+            <systemPath>C:/Progetti/Minecraft/Spigot/_jars/spigot/paper/paper-1.21.6.jar</systemPath>
+        </dependency>
+        <!-- Used to import stuff missing from the Paper jar. Put it under Paper to avoid overriding Paper with classes. -->
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot</artifactId>
+            <version>1.21.6-R0.1-SNAPSHOT</version>
+            <classifier>remapped-mojang</classifier>
             <scope>provided</scope>
         </dependency>
-        <!-- No idea why the fuck I have to specify that, shouldn't it be imported automatically? I have to do that only 1.21.5 -->
+        <!-- No idea why the fuck I have to specify that, shouldn't it be imported automatically? I have to do that only 1.21.5+. Might not be needeed anymore btw. -->
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
             <version>2.6</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>beer.devs</groupId>

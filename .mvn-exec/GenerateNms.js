@@ -76,6 +76,10 @@ handleRecursiveFiles(srcFolder, (data, file) => {
             spigotMapData = spigotMapData.replaceAll("org.bukkit.craftbukkit", "org.bukkit.craftbukkit.v1_21_R4")
             spigotMapData = spigotMapData.replaceAll("if(IS_FIELD_HANDLE_PUBLIC) return craftItemStack.handle;", "")
         }
+        else if(file.includes("1_21_6")) {
+            spigotMapData = spigotMapData.replaceAll("org.bukkit.craftbukkit", "org.bukkit.craftbukkit.v1_21_R5")
+            spigotMapData = spigotMapData.replaceAll("if(IS_FIELD_HANDLE_PUBLIC) return craftItemStack.handle;", "")
+        }
         copyFileToFolder(spigotMapData, file.replaceAll(nmsFolder, spigotmapFolder).replaceAll("impl", 'impl_spigotmap'));
     });
 });

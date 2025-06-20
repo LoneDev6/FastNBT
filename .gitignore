@@ -118,6 +118,9 @@ target/
 
 
 # Ignore automatically generated contents
+/fastnbt_nms_v1_21_6_mojangmap/src/main/java/beer/
+/fastnbt_nms_v1_21_6_spigotmap/src/main/java/beer/
+
 /fastnbt_nms_v1_21_5_mojangmap/src/main/java/beer/
 /fastnbt_nms_v1_21_5_spigotmap/src/main/java/beer/
 
