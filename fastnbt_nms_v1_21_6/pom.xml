@@ -5,6 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>fastnbt_nms_v1_21_6</artifactId>
+    <name>${project.artifactId}</name>
     <packaging>jar</packaging>
 
     <parent>
@@ -55,10 +56,9 @@
           - Remove the hardcoded jar completely. -->
         <dependency>
             <groupId>io.papermc.paper</groupId>
-            <artifactId>paper-1.21.6</artifactId>
+            <artifactId>paper</artifactId>
             <version>1.21.6</version>
-            <scope>system</scope>
-            <systemPath>C:/Progetti/Minecraft/Spigot/_jars/spigot/paper/paper-1.21.6.jar</systemPath>
+            <scope>provided</scope>
         </dependency>
         <!-- Used to import stuff missing from the Paper jar. Put it under Paper to avoid overriding Paper with classes. -->
         <dependency>

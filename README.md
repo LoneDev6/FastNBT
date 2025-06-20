@@ -173,8 +173,8 @@ This is the only solution I found to avoid this issue, in the future I might com
 
 # LoneDev's Notes
 
-## How to publish to the maven repository
-`mvn deploy`
+## How to deploy to maven central
+`mvn deploy -DskipNexusStaging=true -PpublishToMavenCentral`
 
 ## How to install locally
 `mvn install`
@@ -192,3 +192,15 @@ In order to update Javadocs you have to build locally, as old NMS jars are not a
 - Run the command `mvn clean install javadoc:javadoc -pl FastNbt-core -am`
 - Get the generated javadocs from `.cache/targets/FastNbt-core/target/reports/apidocs/`
 - Push the contents into the `javadoc` branch
+ 
+## Installing Paper NMS manually
+`mvn install:install-file -Dfile=C:/Progetti/Minecraft/Spigot/_jars/spigot/paper/paper-1.21.6.jar -DgroupId=io.papermc.paper -DartifactId=paper -Dversion=1.21.6 -Dpackaging=jar`
+
+```xml
+<dependency>
+    <groupId>io.papermc.paper</groupId>
+    <artifactId>paper</artifactId>
+    <version>1.21.6</version>
+    <scope>provided</scope>
+</dependency>
+```

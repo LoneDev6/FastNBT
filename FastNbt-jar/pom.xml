@@ -10,6 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>FastNbt-jar</artifactId>
+    <name>${project.artifactId}</name>
     <packaging>jar</packaging>
 
     <build>
