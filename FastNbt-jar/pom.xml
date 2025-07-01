@@ -5,7 +5,7 @@
     <parent>
         <artifactId>FastNbt</artifactId>
         <groupId>beer.devs</groupId>
-        <version>1.4.9</version>
+        <version>1.4.10</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -15,14 +15,15 @@
 
     <build>
         <plugins>
-            <!-- To remove the manifest files-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.2.0</version>
                 <configuration>
                     <archive>
-                        <addMavenDescriptor>false</addMavenDescriptor>
+                        <manifestEntries>
+                            <paperweight-mappings-namespace>spigot</paperweight-mappings-namespace>
+                        </manifestEntries>
                     </archive>
                 </configuration>
             </plugin>
@@ -53,116 +54,88 @@
         <dependency>
             <groupId>beer.devs</groupId>
             <artifactId>FastNbt-core</artifactId>
-            <version>1.4.9</version>
+            <version>1.4.10</version>
         </dependency>
 
         <dependency>
             <groupId>beer.devs</groupId>
-            <artifactId>fastnbt_nms_v1_21_6_mojangmap</artifactId>
-            <version>1.4.9</version>
+            <artifactId>fastnbt_nms_v1_21_7</artifactId>
+            <version>1.4.10</version>
         </dependency>
         <dependency>
             <groupId>beer.devs</groupId>
-            <artifactId>fastnbt_nms_v1_21_6_spigotmap</artifactId>
-            <version>1.4.9</version>
-        </dependency>
-
-        <dependency>
-            <groupId>beer.devs</groupId>
-            <artifactId>fastnbt_nms_v1_21_5_mojangmap</artifactId>
-            <version>1.4.9</version>
+            <artifactId>fastnbt_nms_v1_21_6</artifactId>
+            <version>1.4.10</version>
         </dependency>
         <dependency>
             <groupId>beer.devs</groupId>
-            <artifactId>fastnbt_nms_v1_21_5_spigotmap</artifactId>
-            <version>1.4.9</version>
-        </dependency>
-
-        <dependency>
-            <groupId>beer.devs</groupId>
-            <artifactId>fastnbt_nms_v1_21_4_mojangmap</artifactId>
-            <version>1.4.9</version>
+            <artifactId>fastnbt_nms_v1_21_5</artifactId>
+            <version>1.4.10</version>
         </dependency>
         <dependency>
             <groupId>beer.devs</groupId>
-            <artifactId>fastnbt_nms_v1_21_4_spigotmap</artifactId>
-            <version>1.4.9</version>
+            <artifactId>fastnbt_nms_v1_21_4</artifactId>
+            <version>1.4.10</version>
         </dependency>
         <dependency>
             <groupId>beer.devs</groupId>
-            <artifactId>fastnbt_nms_v1_21_3_mojangmap</artifactId>
-            <version>1.4.9</version>
+            <artifactId>fastnbt_nms_v1_21_3</artifactId>
+            <version>1.4.10</version>
         </dependency>
         <dependency>
             <groupId>beer.devs</groupId>
-            <artifactId>fastnbt_nms_v1_21_3_spigotmap</artifactId>
-            <version>1.4.9</version>
+            <artifactId>fastnbt_nms_v1_21_1</artifactId>
+            <version>1.4.10</version>
         </dependency>
         <dependency>
             <groupId>beer.devs</groupId>
-            <artifactId>fastnbt_nms_v1_21_1_mojangmap</artifactId>
-            <version>1.4.9</version>
+            <artifactId>fastnbt_nms_v1_20_6</artifactId>
+            <version>1.4.10</version>
         </dependency>
-        <dependency>
-            <groupId>beer.devs</groupId>
-            <artifactId>fastnbt_nms_v1_21_1_spigotmap</artifactId>
-            <version>1.4.9</version>
-        </dependency>
-        <dependency>
-            <groupId>beer.devs</groupId>
-            <artifactId>fastnbt_nms_v1_20_6_mojangmap</artifactId>
-            <version>1.4.9</version>
-        </dependency>
-        <dependency>
-            <groupId>beer.devs</groupId>
-            <artifactId>fastnbt_nms_v1_20_6_spigotmap</artifactId>
-            <version>1.4.9</version>
-        </dependency>
-
         <dependency>
             <groupId>beer.devs</groupId>
             <artifactId>fastnbt_nms_v1_20_4</artifactId>
-            <version>1.4.9</version>
+            <version>1.4.10</version>
         </dependency>
         <dependency>
             <groupId>beer.devs</groupId>
             <artifactId>fastnbt_nms_v1_20_R3</artifactId>
-            <version>1.4.9</version>
+            <version>1.4.10</version>
         </dependency>
         <dependency>
             <groupId>beer.devs</groupId>
             <artifactId>fastnbt_nms_v1_20_R2</artifactId>
-            <version>1.4.9</version>
+            <version>1.4.10</version>
         </dependency>
         <dependency>
             <groupId>beer.devs</groupId>
             <artifactId>fastnbt_nms_v1_20_R1</artifactId>
-            <version>1.4.9</version>
+            <version>1.4.10</version>
         </dependency>
         <dependency>
             <groupId>beer.devs</groupId>
             <artifactId>fastnbt_nms_v1_19_R3</artifactId>
-            <version>1.4.9</version>
+            <version>1.4.10</version>
         </dependency>
         <dependency>
             <groupId>beer.devs</groupId>
             <artifactId>fastnbt_nms_v1_19_R2</artifactId>
-            <version>1.4.9</version>
+            <version>1.4.10</version>
         </dependency>
         <dependency>
             <groupId>beer.devs</groupId>
             <artifactId>fastnbt_nms_v1_19_R1</artifactId>
-            <version>1.4.9</version>
+            <version>1.4.10</version>
         </dependency>
         <dependency>
             <groupId>beer.devs</groupId>
             <artifactId>fastnbt_nms_v1_18_R2</artifactId>
-            <version>1.4.9</version>
+            <version>1.4.10</version>
         </dependency>
         <dependency>
             <groupId>beer.devs</groupId>
             <artifactId>fastnbt_nms_v1_17_R1</artifactId>
-            <version>1.4.9</version>
+            <version>1.4.10</version>
         </dependency>
     </dependencies>
 

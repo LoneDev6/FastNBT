@@ -72,7 +72,7 @@ Currently, supports only items.
 ![Maven Central](https://img.shields.io/maven-central/v/beer.devs/FastNbt-jar?label=Maven%20Central&style=flat-square)
 
 
-## Method 1 - Direct use
+## Method 1 - Direct use on Spigot
 This is the easiest way.
 
 ### Step 1 - `plugin.yml`
@@ -101,7 +101,33 @@ dependencies {
 }
 ```
 
-## Method 2 - Shading
+## Method 2 - Direct use on Paper
+This is the easiest way, but requires some special steps.
+
+### Step 1
+Shade libby into your JAR, read more [here](https://github.com/AlessioDP/libby).
+
+### Step 2 - `plugin.yml`
+Add the lib into `libraries-libby` of your `plugin.yml` and specify the `--remap` flag.
+```yml
+name: Your Plugin
+author: You
+# ....
+libraries-libby:
+  - beer.devs:FastNbt-jar:VERSION --remap
+```
+
+### Step 3
+You need to include this [LibsLoader](https://gist.github.com/LoneDev6/27fed334fc3ef013e666a7371a6b3551) class in your plugin and call in `onLoad`.\
+This will load the libraries you specified in the `plugin.yml` file.
+```java
+new LibsLoader(this).loadAll();
+```
+
+### Step 4 - Maven or gradle
+Same as Method 1
+
+## Method 3 - Shading
 
 You can shade the library in your plugin if you want to use it without connecting to maven central.
 
@@ -160,16 +186,8 @@ tasks {
 - Create a new module for the new NMS version and add the correct `paper-nms` **dependency**.
 - Add the new NMS version to the `Version` enum.
 - Add the new module in the modules list of `FastNbt` module and as dependency in the `FastNbt-jar` module.
-- Also create the relative `_mojangmap` and `_spigotmap` modules.
-- Open GenerateNms.js and edit the `handleRecursiveFiles` function including the current NMS version rules.
 
 Should be all.
-
-
-## Why the Mojang and Spigot maps are separated?
-Paper user Mojang mapped JAR. At the same time Paper itself remaps the plugins JARs at runtime.
-This causes issues because it does not remap code that is loaded dynamically.
-This is the only solution I found to avoid this issue, in the future I might come up with something else.
 
 # LoneDev's Notes
 
@@ -181,10 +199,8 @@ This is the only solution I found to avoid this issue, in the future I might com
 
 ## Editing to the repository
 - Clone it
-- Change paths in `pom.xml` -> `maven-antrun-plugin` based on your directories, or comment the plugin if you don't need it
 - Make your changes
 - Run `mvn install` in order to access the plugin as dependency in your projects
-- Run Maven `clean package` and get the generated jar from `output` folder
 
 ## Updating Javadocs
 
@@ -194,6 +210,7 @@ In order to update Javadocs you have to build locally, as old NMS jars are not a
 - Push the contents into the `javadoc` branch
  
 ## Installing Paper NMS manually
+(In case Paper didn't provide the remapping for a particular version)\
 `mvn install:install-file -Dfile=C:/Progetti/Minecraft/Spigot/_jars/spigot/paper/paper-1.21.6.jar -DgroupId=io.papermc.paper -DartifactId=paper -Dversion=1.21.6 -Dpackaging=jar`
 
 ```xml

@@ -6,7 +6,7 @@
 
     <artifactId>FastNbt</artifactId>
     <groupId>beer.devs</groupId>
-    <version>1.4.9</version>
+    <version>1.4.10</version>
 
     <name>FastNbt</name>
     <packaging>pom</packaging>
@@ -40,9 +40,7 @@
         <maven.compiler.source>9</maven.compiler.source>
         <maven.compiler.target>9</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <paper-nms-maven-plugin-version>1.4.7</paper-nms-maven-plugin-version>
-        <jars_libs_folder>C:/Progetti/Minecraft/Spigot/_jars</jars_libs_folder>
-        <targets_prefix_folder>R:\maven-target</targets_prefix_folder>
+        <paper-nms-maven-plugin-version>1.4.8</paper-nms-maven-plugin-version>
     </properties>
 
     <modules>
@@ -58,23 +56,13 @@
         <module>fastnbt_nms_v1_20_R3</module>
         <module>fastnbt_nms_v1_20_4</module>
 
-        <module>fastnbt_nms_v1_20_6_spigotmap</module>
-        <module>fastnbt_nms_v1_20_6_mojangmap</module>
-
-        <module>fastnbt_nms_v1_21_1_spigotmap</module>
-        <module>fastnbt_nms_v1_21_1_mojangmap</module>
-
-        <module>fastnbt_nms_v1_21_3_spigotmap</module>
-        <module>fastnbt_nms_v1_21_3_mojangmap</module>
-
-        <module>fastnbt_nms_v1_21_4_spigotmap</module>
-        <module>fastnbt_nms_v1_21_4_mojangmap</module>
-
-        <module>fastnbt_nms_v1_21_5_spigotmap</module>
-        <module>fastnbt_nms_v1_21_5_mojangmap</module>
-
-        <module>fastnbt_nms_v1_21_6_spigotmap</module>
-        <module>fastnbt_nms_v1_21_6_mojangmap</module>
+        <module>fastnbt_nms_v1_20_6</module>
+        <module>fastnbt_nms_v1_21_1</module>
+        <module>fastnbt_nms_v1_21_3</module>
+        <module>fastnbt_nms_v1_21_4</module>
+        <module>fastnbt_nms_v1_21_5</module>
+        <module>fastnbt_nms_v1_21_6</module>
+        <module>fastnbt_nms_v1_21_7</module>
     </modules>
 
     <pluginRepositories>
@@ -222,22 +210,6 @@
 
     <profiles>
         <profile>
-            <id>with-base-nms</id>
-            <activation>
-                <property>
-                    <name>!publishToMavenCentral</name>
-                </property>
-            </activation>
-            <modules>
-                <module>fastnbt_nms_v1_20_6</module>
-                <module>fastnbt_nms_v1_21_1</module>
-                <module>fastnbt_nms_v1_21_3</module>
-                <module>fastnbt_nms_v1_21_4</module>
-                <module>fastnbt_nms_v1_21_5</module>
-                <module>fastnbt_nms_v1_21_6</module>
-            </modules>
-        </profile>
-        <profile>
             <id>publish-to-maven-central</id>
             <activation>
                 <property>
@@ -320,36 +292,6 @@
                         <extensions>true</extensions>
                         <configuration>
                             <publishingServerId>central</publishingServerId>
-                            <excludeArtifacts>
-                                <module>FastNbt-core</module>
-                                <module>fastnbt_nms_v1_17_R1</module>
-                                <module>fastnbt_nms_v1_18_R2</module>
-                                <module>fastnbt_nms_v1_19_R1</module>
-                                <module>fastnbt_nms_v1_19_R2</module>
-                                <module>fastnbt_nms_v1_19_R3</module>
-                                <module>fastnbt_nms_v1_20_R1</module>
-                                <module>fastnbt_nms_v1_20_R2</module>
-                                <module>fastnbt_nms_v1_20_R3</module>
-                                <module>fastnbt_nms_v1_20_4</module>
-
-                                <module>fastnbt_nms_v1_20_6_spigotmap</module>
-                                <module>fastnbt_nms_v1_20_6_mojangmap</module>
-
-                                <module>fastnbt_nms_v1_21_1_spigotmap</module>
-                                <module>fastnbt_nms_v1_21_1_mojangmap</module>
-
-                                <module>fastnbt_nms_v1_21_3_spigotmap</module>
-                                <module>fastnbt_nms_v1_21_3_mojangmap</module>
-
-                                <module>fastnbt_nms_v1_21_4_spigotmap</module>
-                                <module>fastnbt_nms_v1_21_4_mojangmap</module>
-
-                                <module>fastnbt_nms_v1_21_5_spigotmap</module>
-                                <module>fastnbt_nms_v1_21_5_mojangmap</module>
-
-                                <module>fastnbt_nms_v1_21_6_spigotmap</module>
-                                <module>fastnbt_nms_v1_21_6_mojangmap</module>
-                            </excludeArtifacts>
                         </configuration>
                     </plugin>
                 </plugins>

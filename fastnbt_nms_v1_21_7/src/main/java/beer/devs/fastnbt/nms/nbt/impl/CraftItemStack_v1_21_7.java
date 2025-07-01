@@ -20,7 +20,7 @@ import java.lang.reflect.Modifier;
 import java.util.*;
 
 @SuppressWarnings({"unchecked", "DataFlowIssue", "CallToPrintStackTrace", "unused", "deprecation"})
-public class CraftItemStack_v1_21_6 implements ICraftItemStack<ListTag, CompoundTag, CraftItemStack>
+public class CraftItemStack_v1_21_7 implements ICraftItemStack<ListTag, CompoundTag, CraftItemStack>
 {
     public static final Field FIELD_HANDLE;
     /**
@@ -36,7 +36,7 @@ public class CraftItemStack_v1_21_6 implements ICraftItemStack<ListTag, Compound
 
     public static net.minecraft.world.item.ItemStack getHandle(CraftItemStack craftItemStack)
     {
-        if(IS_FIELD_HANDLE_PUBLIC) return craftItemStack.handle;
+        
 
         try
         {
@@ -252,7 +252,7 @@ public class CraftItemStack_v1_21_6 implements ICraftItemStack<ListTag, Compound
         CustomData data = handle.get(DataComponents.CUSTOM_DATA);
         if (data == null)
             handle.set(DataComponents.CUSTOM_DATA, CustomData.of(new CompoundTag()));
-        NBTUtilsModern_v1_21_6.putUUID(handle.get(DataComponents.CUSTOM_DATA).getUnsafe(), key, param);
+        NBTUtilsModern_v1_21_7.putUUID(handle.get(DataComponents.CUSTOM_DATA).getUnsafe(), key, param);
     }
 
     @Override
@@ -378,7 +378,7 @@ public class CraftItemStack_v1_21_6 implements ICraftItemStack<ListTag, Compound
         if (data == null)
             return null;
 
-        return NBTUtilsModern_v1_21_6.getUUID(data.getUnsafe(), key);
+        return NBTUtilsModern_v1_21_7.getUUID(data.getUnsafe(), key);
     }
 
     @Override
@@ -597,7 +597,7 @@ public class CraftItemStack_v1_21_6 implements ICraftItemStack<ListTag, Compound
     public ItemStack compoundToItemStack(CompoundTag compound)
     {
         Optional<net.minecraft.world.item.ItemStack> parsed = parse(MinecraftServer.getServer().registryAccess(), compound);
-        return CraftItemStack.asCraftMirror(parsed.get());
+        return CraftItemStack.asBukkitCopy(parsed.get());
     }
 
     @Override

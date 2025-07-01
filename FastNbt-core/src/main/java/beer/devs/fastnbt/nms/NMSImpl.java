@@ -10,11 +10,9 @@ import java.util.Map;
 
 public class NMSImpl
 {
-    public static final String LIB_VERSION = "1.4.9";
+    public static final String LIB_VERSION = "1.4.10";
 
     private static final String NMS_IMPL_PACKAGE = "beer.devs.fastnbt.nms.nbt.impl";
-    private static final String NMS_IMPL_PACKAGE_SPIGOTMAP = "beer.devs.fastnbt.nms.nbt.impl_spigotmap";
-    private static final String NMS_IMPL_PACKAGE_MOJANGMAP = "beer.devs.fastnbt.nms.nbt.impl_mojangmap";
 
     public static boolean isPaper;
     private static final Map<Class<?>, Constructor<?>> CACHED_CONSTRUCTORS = new HashMap<>();
@@ -84,18 +82,7 @@ public class NMSImpl
              if(typeName.startsWith("I"))
                  typeName = typeName.substring(1);
 
-             if(Version.isOlderThan(Version.v1_20_5))
-             {
-                 classNamePath = NMS_IMPL_PACKAGE + "." + typeName + "_" + version.toString();
-             }
-             else
-             {
-                 if (isSpigotMapped())
-                     classNamePath = NMS_IMPL_PACKAGE_SPIGOTMAP + "." + typeName + "_" + version.toString();
-                 else
-                     classNamePath = NMS_IMPL_PACKAGE_MOJANGMAP + "." + typeName + "_" + version.toString();
-             }
-
+             classNamePath = NMS_IMPL_PACKAGE + "." + typeName + "_" + version.toString();
              return Class.forName(classNamePath);
          }
          catch (ClassNotFoundException e)

@@ -11,43 +11,13 @@
     <parent>
         <artifactId>FastNbt</artifactId>
         <groupId>beer.devs</groupId>
-        <version>1.4.9</version>
+        <version>1.4.10</version>
     </parent>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
-
-    <build>
-        <plugins>
-            <!-- Spigot to Mojang mapping is different on each version, so I use this trick to generate the files on demand. -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>3.1.0</version>
-                <inherited>false</inherited>
-                <executions>
-                    <execution>
-                        <id>GenerateNms</id>
-                        <phase>generate-sources</phase>
-                        <configuration>
-                            <executable>cmd</executable>
-                            <workingDirectory>${project.parent.basedir}</workingDirectory>
-                            <arguments>
-                                <argument>/C</argument>
-                                <argument>"node .mvn-exec/GenerateNms.js"</argument>
-                                <argument>${project.basedir}</argument>
-                            </arguments>
-                        </configuration>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
 
     <dependencies>
         <dependency>
@@ -73,7 +43,7 @@
         <dependency>
             <groupId>beer.devs</groupId>
             <artifactId>FastNbt-core</artifactId>
-            <version>1.4.9</version>
+            <version>1.4.10</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
