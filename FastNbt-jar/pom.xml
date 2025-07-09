@@ -5,7 +5,7 @@
     <parent>
         <artifactId>FastNbt</artifactId>
         <groupId>beer.devs</groupId>
-        <version>1.4.10</version>
+        <version>1.4.11</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -54,88 +54,88 @@
         <dependency>
             <groupId>beer.devs</groupId>
             <artifactId>FastNbt-core</artifactId>
-            <version>1.4.10</version>
+            <version>1.4.11</version>
         </dependency>
 
         <dependency>
             <groupId>beer.devs</groupId>
             <artifactId>fastnbt_nms_v1_21_7</artifactId>
-            <version>1.4.10</version>
+            <version>1.4.11</version>
         </dependency>
         <dependency>
             <groupId>beer.devs</groupId>
             <artifactId>fastnbt_nms_v1_21_6</artifactId>
-            <version>1.4.10</version>
+            <version>1.4.11</version>
         </dependency>
         <dependency>
             <groupId>beer.devs</groupId>
             <artifactId>fastnbt_nms_v1_21_5</artifactId>
-            <version>1.4.10</version>
+            <version>1.4.11</version>
         </dependency>
         <dependency>
             <groupId>beer.devs</groupId>
             <artifactId>fastnbt_nms_v1_21_4</artifactId>
-            <version>1.4.10</version>
+            <version>1.4.11</version>
         </dependency>
         <dependency>
             <groupId>beer.devs</groupId>
             <artifactId>fastnbt_nms_v1_21_3</artifactId>
-            <version>1.4.10</version>
+            <version>1.4.11</version>
         </dependency>
         <dependency>
             <groupId>beer.devs</groupId>
             <artifactId>fastnbt_nms_v1_21_1</artifactId>
-            <version>1.4.10</version>
+            <version>1.4.11</version>
         </dependency>
         <dependency>
             <groupId>beer.devs</groupId>
             <artifactId>fastnbt_nms_v1_20_6</artifactId>
-            <version>1.4.10</version>
+            <version>1.4.11</version>
         </dependency>
         <dependency>
             <groupId>beer.devs</groupId>
             <artifactId>fastnbt_nms_v1_20_4</artifactId>
-            <version>1.4.10</version>
+            <version>1.4.11</version>
         </dependency>
         <dependency>
             <groupId>beer.devs</groupId>
             <artifactId>fastnbt_nms_v1_20_R3</artifactId>
-            <version>1.4.10</version>
+            <version>1.4.11</version>
         </dependency>
         <dependency>
             <groupId>beer.devs</groupId>
             <artifactId>fastnbt_nms_v1_20_R2</artifactId>
-            <version>1.4.10</version>
+            <version>1.4.11</version>
         </dependency>
         <dependency>
             <groupId>beer.devs</groupId>
             <artifactId>fastnbt_nms_v1_20_R1</artifactId>
-            <version>1.4.10</version>
+            <version>1.4.11</version>
         </dependency>
         <dependency>
             <groupId>beer.devs</groupId>
             <artifactId>fastnbt_nms_v1_19_R3</artifactId>
-            <version>1.4.10</version>
+            <version>1.4.11</version>
         </dependency>
         <dependency>
             <groupId>beer.devs</groupId>
             <artifactId>fastnbt_nms_v1_19_R2</artifactId>
-            <version>1.4.10</version>
+            <version>1.4.11</version>
         </dependency>
         <dependency>
             <groupId>beer.devs</groupId>
             <artifactId>fastnbt_nms_v1_19_R1</artifactId>
-            <version>1.4.10</version>
+            <version>1.4.11</version>
         </dependency>
         <dependency>
             <groupId>beer.devs</groupId>
             <artifactId>fastnbt_nms_v1_18_R2</artifactId>
-            <version>1.4.10</version>
+            <version>1.4.11</version>
         </dependency>
         <dependency>
             <groupId>beer.devs</groupId>
             <artifactId>fastnbt_nms_v1_17_R1</artifactId>
-            <version>1.4.10</version>
+            <version>1.4.11</version>
         </dependency>
     </dependencies>
 
