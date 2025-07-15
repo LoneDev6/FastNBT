@@ -11,13 +11,31 @@
     <parent>
         <artifactId>FastNbt</artifactId>
         <groupId>beer.devs</groupId>
-        <version>1.4.11</version>
+        <version>1.4.12</version>
     </parent>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>ca.bkaw</groupId>
+                <artifactId>paper-nms-maven-plugin</artifactId>
+                <version>${paper-nms-maven-plugin-version}</version>
+                <executions>
+                    <execution>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>remap</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
     <dependencies>
         <dependency>
@@ -26,14 +44,13 @@
             <version>1.21.5-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-        <!-- No idea why the fuck I have to specify that, shouldn't it be imported automatically? I have to do that only 1.21.5 -->
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
             <version>1.21.5-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-        <!-- No idea why the fuck I have to specify that, shouldn't it be imported automatically? I have to do that only 1.21.5 -->
+        <!-- No idea why the fuck I have to specify that, shouldn't it be imported automatically? I have to do that only 1.21.5+ -->
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
@@ -43,7 +60,7 @@
         <dependency>
             <groupId>beer.devs</groupId>
             <artifactId>FastNbt-core</artifactId>
-            <version>1.4.11</version>
+            <version>1.4.12</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

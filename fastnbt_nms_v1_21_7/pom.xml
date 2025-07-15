@@ -11,7 +11,7 @@
     <parent>
         <artifactId>FastNbt</artifactId>
         <groupId>beer.devs</groupId>
-        <version>1.4.11</version>
+        <version>1.4.12</version>
     </parent>
 
     <properties>
@@ -50,6 +50,7 @@
             <version>1.21.7-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
+        <!-- No idea why the fuck I have to specify that, shouldn't it be imported automatically? I have to do that only 1.21.5+ -->
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
@@ -60,7 +61,7 @@
         <dependency>
             <groupId>beer.devs</groupId>
             <artifactId>FastNbt-core</artifactId>
-            <version>1.4.11</version>
+            <version>1.4.12</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

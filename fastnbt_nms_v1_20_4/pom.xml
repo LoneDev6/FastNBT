@@ -11,7 +11,7 @@
     <parent>
         <artifactId>FastNbt</artifactId>
         <groupId>beer.devs</groupId>
-        <version>1.4.11</version>
+        <version>1.4.12</version>
     </parent>
 
     <properties>
@@ -19,23 +19,23 @@
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
 
-   <build>
-       <plugins>
-           <plugin>
-               <groupId>ca.bkaw</groupId>
-               <artifactId>paper-nms-maven-plugin</artifactId>
-               <version>${paper-nms-maven-plugin-version}</version>
-               <executions>
-                   <execution>
-                       <phase>process-classes</phase>
-                       <goals>
-                           <goal>remap</goal>
-                       </goals>
-                   </execution>
-               </executions>
-           </plugin>
-       </plugins>
-   </build>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>ca.bkaw</groupId>
+                <artifactId>paper-nms-maven-plugin</artifactId>
+                <version>${paper-nms-maven-plugin-version}</version>
+                <executions>
+                    <execution>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>remap</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
     <dependencies>
         <dependency>
@@ -47,7 +47,7 @@
         <dependency>
             <groupId>beer.devs</groupId>
             <artifactId>FastNbt-core</artifactId>
-            <version>1.4.11</version>
+            <version>1.4.12</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
