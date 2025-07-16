@@ -192,7 +192,8 @@ Should be all.
 # LoneDev's Notes
 
 ## How to deploy to maven central
-`mvn deploy -DskipNexusStaging=true -PpublishToMavenCentral`
+Deploy only the `FastNbt-jar` module, as it contains the library and the API.\
+`mvn deploy -pl FastNbt-jar -DskipNexusStaging=true -Ppublish-to-maven-central`
 
 ## How to install locally
 `mvn install`
@@ -229,3 +230,7 @@ In order to update Javadocs you have to build locally, as old NMS jars are not a
 
 This happens when mappings are out of date.\
 To fix that delete the `.paper-nms` maps and run `paper-nms:init` for each version you got the issue.
+
+---
+TODO:
+Find a way to fix the fact that javadocs are empty on the `FastNbt-jar` module and the source is empty too.
