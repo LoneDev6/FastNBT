@@ -221,3 +221,11 @@ In order to update Javadocs you have to build locally, as old NMS jars are not a
     <scope>provided</scope>
 </dependency>
 ```
+
+
+---
+
+## Solving `java.lang.NoClassDefFoundError: ji$a` and similar
+
+This happens when mappings are out of date.\
+To fix that delete the `.paper-nms` maps and run `paper-nms:init` for each version you got the issue.

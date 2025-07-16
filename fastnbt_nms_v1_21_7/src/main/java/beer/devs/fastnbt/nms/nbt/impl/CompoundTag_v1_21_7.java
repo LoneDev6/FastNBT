@@ -275,7 +275,7 @@ public class CompoundTag_v1_21_7 implements ICompoundTag<CompoundTag, ListTag, C
         }
         catch (CommandSyntaxException ex)
         {
-            System.err.println(ex);
+            ex.printStackTrace();
             return false;
         }
     }
