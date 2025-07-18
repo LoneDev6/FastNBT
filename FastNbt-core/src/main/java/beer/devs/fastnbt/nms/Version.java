@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 /**
  * Protocol version.
  * <a href="https://minecraft.wiki/w/Protocol_version">Minecraft Wiki</a>
+ * "Each Minecraft build since 18w47b specifies its current protocol version in the version.json file"
  */
 @SuppressWarnings({"unused"})
 public enum Version
@@ -32,7 +33,8 @@ public enum Version
     v1_21_4(144, 769, "1.21.4"),
     v1_21_5(145, 770, "1.21.5"),
     v1_21_6(146, 771, "1.21.6"),
-    v1_21_7(147, 772, "1.21.7")
+    v1_21_7(147, 772, "1.21.7"),
+    v1_21_8(148, 772, "1.21.8")
     ;
 
     private static Version version;
@@ -43,6 +45,7 @@ public enum Version
     public final int id;
     // Used internally by the plugin to identify the version chronologically,
     // because sometimes the Mojang protocol version doesn't increase.
+    @Deprecated // Named protocol by mistake a long time ago. `id` and `protocol` are swapped.
     public final int protocol;
     public final String name;
 

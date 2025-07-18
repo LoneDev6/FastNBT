@@ -6,7 +6,7 @@
 
     <artifactId>FastNbt</artifactId>
     <groupId>beer.devs</groupId>
-    <version>1.4.13</version>
+    <version>1.4.14</version>
 
     <name>FastNbt</name>
     <packaging>pom</packaging>
@@ -63,6 +63,7 @@
         <module>fastnbt_nms_v1_21_5</module>
         <module>fastnbt_nms_v1_21_6</module>
         <module>fastnbt_nms_v1_21_7</module>
+        <module>fastnbt_nms_v1_21_8</module>
     </modules>
 
     <pluginRepositories>
