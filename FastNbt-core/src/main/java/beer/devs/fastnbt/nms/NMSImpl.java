@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class NMSImpl
 {
-    public static final String LIB_VERSION = "1.4.14";
+    public static final String LIB_VERSION = "1.4.15";
 
     private static final String NMS_IMPL_PACKAGE = "beer.devs.fastnbt.nms.nbt.impl";
 

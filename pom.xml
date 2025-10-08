@@ -6,7 +6,7 @@
 
     <artifactId>FastNbt</artifactId>
     <groupId>beer.devs</groupId>
-    <version>1.4.14</version>
+    <version>1.4.15</version>
 
     <name>FastNbt</name>
     <packaging>pom</packaging>
@@ -40,7 +40,7 @@
         <maven.compiler.source>9</maven.compiler.source>
         <maven.compiler.target>9</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <paper-nms-maven-plugin-version>1.4.8</paper-nms-maven-plugin-version>
+        <paper-nms-maven-plugin-version>1.4.10</paper-nms-maven-plugin-version>
     </properties>
 
     <modules>
@@ -64,6 +64,7 @@
         <module>fastnbt_nms_v1_21_6</module>
         <module>fastnbt_nms_v1_21_7</module>
         <module>fastnbt_nms_v1_21_8</module>
+        <module>fastnbt_nms_v1_21_10</module>
     </modules>
 
     <pluginRepositories>
