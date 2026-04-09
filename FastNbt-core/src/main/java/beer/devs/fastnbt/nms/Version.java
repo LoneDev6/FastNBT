@@ -36,7 +36,8 @@ public enum Version
     v1_21_7(147, 772, "1.21.7"),
     v1_21_8(148, 772, "1.21.8"),
     v1_21_10(149, 773, "1.21.10"),
-    v1_21_11(150, 774, "1.21.11")
+    v1_21_11(150, 774, "1.21.11"),
+    v26_1_1(162, 775, "26.1.1")
     ;
 
     private static Version version;
@@ -108,7 +109,7 @@ public enum Version
 
         try
         {
-            version = Version.byName(Bukkit.getServer().getBukkitVersion().split("-")[0]);
+            version = Version.byName(Bukkit.getServer().getVersion().split("-")[0]);
         }
         catch (Throwable ignored)
         {
