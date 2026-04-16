@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>fastnbt_nms_v1_20_R2</artifactId>
+    <artifactId>fastnbt_nms_v26_1_2</artifactId>
     <name>${project.artifactId}</name>
     <packaging>jar</packaging>
 
@@ -15,8 +15,8 @@
     </parent>
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>25</maven.compiler.source>
+        <maven.compiler.target>25</maven.compiler.target>
     </properties>
 
     <build>
@@ -41,7 +41,27 @@
         <dependency>
             <groupId>ca.bkaw</groupId>
             <artifactId>paper-nms</artifactId>
-            <version>1.20.2-SNAPSHOT</version>
+            <version>26.1.2.build.7-alpha-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.papermc.paper</groupId>
+            <artifactId>paper-api</artifactId>
+            <version>1.21.11-R0.1-SNAPSHOT</version> <!-- for now I keep using 1.21.11 as API even if NMS is 26.1.2 -->
+            <scope>provided</scope>
+        </dependency>
+        <!-- No idea why the fuck I have to specify that, shouldn't it be imported automatically? I have to do that only 1.21.5+ -->
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.6</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- No idea why the fuck I have to specify that, shouldn't it be imported automatically? I have to do that only 1.21.11+ -->
+        <dependency>
+            <groupId>com.mojang</groupId>
+            <artifactId>datafixerupper</artifactId>
+            <version>8.0.16</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
