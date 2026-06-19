@@ -4,7 +4,12 @@
 </h3>
 <hr> 
 
-![Maven Central](https://img.shields.io/maven-central/v/beer.devs/FastNbt-jar?label=Maven%20Central&style=flat-square)
+## Dependency
+
+[![FastNbt-jar](https://img.shields.io/badge/dynamic/xml?url=https%3A%2F%2Frepo1.maven.org%2Fmaven2%2Fbeer%2Fdevs%2FFastNbt-jar%2Fmaven-metadata.xml&query=%2Fmetadata%2Fversioning%2Flatest&label=version&color=blue)](https://maven-snippets.lonedev.workers.dev/?pkg=beer.devs%3AFastNbt-jar)
+
+Click the badge above to get ready-to-copy Maven and Gradle snippets.
+
 
 # Comparison to NBT API
 
