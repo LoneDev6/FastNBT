@@ -11,7 +11,7 @@
     <parent>
         <artifactId>FastNbt</artifactId>
         <groupId>beer.devs</groupId>
-        <version>1.4.19</version>
+        <version>1.4.20</version>
     </parent>
 
     <properties>
@@ -41,7 +41,7 @@
         <dependency>
             <groupId>ca.bkaw</groupId>
             <artifactId>paper-nms</artifactId>
-            <version>26.1.2.build.7-alpha-SNAPSHOT</version>
+            <version>26.1.2.build.9-alpha-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -67,7 +67,7 @@
         <dependency>
             <groupId>beer.devs</groupId>
             <artifactId>FastNbt-core</artifactId>
-            <version>1.4.19</version>
+            <version>1.4.20</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

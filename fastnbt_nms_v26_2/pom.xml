@@ -41,13 +41,13 @@
         <dependency>
             <groupId>ca.bkaw</groupId>
             <artifactId>paper-nms</artifactId>
-            <version>26.2.build.24-alpha-SNAPSHOT</version>
+            <version>26.2.build.21-alpha-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
-            <version>1.21.11-R0.1-SNAPSHOT</version> <!-- for now I keep using 1.21.11 as API even if NMS is 26.1.2 -->
+            <version>1.21.11-R0.1-SNAPSHOT</version> <!-- for now I keep using 1.21.11 as API even if NMS is 26.2 -->
             <scope>provided</scope>
         </dependency>
         <!-- No idea why the fuck I have to specify that, shouldn't it be imported automatically? I have to do that only 1.21.5+ -->
