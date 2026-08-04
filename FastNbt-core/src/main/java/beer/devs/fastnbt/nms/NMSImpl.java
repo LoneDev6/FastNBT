@@ -78,6 +78,11 @@ public class NMSImpl
          try
          {
              Version version = Version.get();
+             if(version == Version.v1_20_5)
+                 version = Version.v1_20_6;
+             else if(version == Version.v1_21)
+                 version = Version.v1_21_1;
+
              String typeName = type.getSimpleName();
              if(typeName.startsWith("I"))
                  typeName = typeName.substring(1);

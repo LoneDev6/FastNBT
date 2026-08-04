@@ -25,47 +25,53 @@ Click the badge above to get ready-to-copy Maven and Gradle snippets.
 
 **FastNbt** is easier to use compared to NBT API and requires less boilerplate code.
 
-### Creating an head texture
+### Creating a head texture
+FastNBT writes `SkullOwner` NBT or the native profile Data Component automatically.
 ```java
-NItem nItem = new nItem(new ItemStack(Material.PLAYER_HEAD));
+NItem nItem = new NItem(new ItemStack(Material.PLAYER_HEAD));
 nItem.setSkull("dummy", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjc4ZWYyZTRjZjJjNDFhMmQxNGJmZGU5Y2FmZjEwMjE5ZjViMWJmNWIzNWE0OWViNTFjNjQ2Nzg4MmNiNWYwIn19fQ==");
-nItem.save(); // If finished editing
 ```
 
 ### Renaming an item
-NOTE: FastNBT supports only Compound strings.
-If you want to use legacy notation you have to call the Spigot API as usual.
+FastNBT accepts JSON text components for item names.
+Use the Bukkit API as usual for legacy strings.
 ```java
-NItem nItem = new nItem(new ItemStack(Material.STONE));
-nItem.setDisplayNameCompound("{\"text\":\"Example Compound Name\",\"color\":\"blue\"}");
-nItem.save(); // If finished editing
+NItem nItem = new NItem(new ItemStack(Material.STONE));
+nItem.setCustomNameJson("{\"text\":\"Example Name\",\"color\":\"blue\"}");
 ```
 
 ### Setting an attribute modifier
+FastNBT writes legacy NBT or modern Data Components automatically, depending on the server version.
 ```java
+NItem nItem = new NItem(new ItemStack(Material.DIAMOND_BOOTS));
 nItem.setAttributeModifier(
-        "minecraft:generic.movement_speed",
-                1,
-                6,
-                "bro",
-                "mainhand",
-                1337,
-                1337
+        AttributeName.MOVEMENT_SPEED,
+        AttributeOperation.ADD,
+        0.1,
+        "movement_speed",
+        "feet",
+        1337,
+        1337
 );
-nItem.save(); // If finished editing
 ```
-### Setting an attribute modifier (manual method)
+Operations are `ADD`, `MULTIPLY_BASE`, and `MULTIPLY_TOTAL`.
+`AttributeName` contains every vanilla attribute and resolves its exact NMS name for the current Minecraft version.
+Legacy names such as `attackDamage`, `generic.attackDamage`, and `horse.jumpStrength` are accepted and converted automatically.
+Using an attribute before the version that introduced it throws `IllegalArgumentException`.
+The existing `String` and integer-operation overload remains available for compatibility.
+
+### Setting an attribute modifier manually (Minecraft 1.20.4 and older)
+Use the high-level method above for multi-version code. For direct legacy NBT access:
 ```java
-NList attributes = nItem.getOrAddList("AttributeModifiers", NBTType.Compound);
-NCompound attribute = new NCompound();
-attribute.setString("AttributeName", attributeName);
-attribute.setInt("Operation", operation);
-attribute.setInt("UUIDLeast", uuidLeast);
-attribute.setInt("UUIDMost", uuidMost);
-attribute.setDouble("Amount", amount);
-attribute.setString("Name", name);
-attribute.setString("Slot", slot);
-attributes.addCompound(attribute);
+UUID uuid = new UUID(1337, 1337);
+NCompound attribute = nItem.getOrAddList("AttributeModifiers", NBTType.Compound).addCompound();
+attribute.setString("AttributeName", AttributeName.MOVEMENT_SPEED.getName());
+attribute.setInt("Operation", AttributeOperation.ADD.getId());
+attribute.setUUID("UUID", uuid);
+attribute.setDouble("Amount", 0.1);
+attribute.setString("Name", "movement_speed");
+attribute.setString("Slot", "feet");
+nItem.save();
 ```
 
 # Limitations

@@ -9,6 +9,7 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.TagParser;
 import org.apache.commons.lang.reflect.FieldUtils;
 import org.bukkit.craftbukkit.v1_18_R2.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_18_R2.util.CraftChatMessage;
 import org.bukkit.inventory.ItemStack;
 
 import java.lang.reflect.Field;
@@ -77,6 +78,49 @@ public class CraftItemStack_v1_18_R2 implements ICraftItemStack<ListTag, Compoun
         if (handle == null)
             return false;
         return handle.hasTag();
+    }
+
+    @Override
+    public boolean hasEnchantment(ItemStack itemStack, String name)
+    {
+        net.minecraft.world.item.ItemStack handle = getHandle(castToCraftItemStack(itemStack));
+        CompoundTag tag = handle == null ? null : handle.getTag();
+        if (tag == null)
+            return false;
+        ListTag enchantments = tag.getList("Enchantments", 10);
+        for (int i = 0; i < enchantments.size(); i++)
+        {
+            if (name.equals(enchantments.getCompound(i).getString("id")))
+                return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean hasLore(ItemStack itemStack, String line)
+    {
+        net.minecraft.world.item.ItemStack handle = getHandle(castToCraftItemStack(itemStack));
+        CompoundTag tag = handle == null ? null : handle.getTag();
+        if (tag == null)
+            return false;
+        ListTag lore = tag.getCompound("display").getList("Lore", 8);
+        for (int i = 0; i < lore.size(); i++)
+        {
+            if (line.equals(CraftChatMessage.fromJSONComponent(lore.getString(i))))
+                return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean hasDisplayName(ItemStack itemStack, String name)
+    {
+        net.minecraft.world.item.ItemStack handle = getHandle(castToCraftItemStack(itemStack));
+        CompoundTag tag = handle == null ? null : handle.getTag();
+        if (tag == null)
+            return false;
+        CompoundTag display = tag.getCompound("display");
+        return display.contains("Name") && name.equals(CraftChatMessage.fromJSONComponent(display.getString("Name")));
     }
 
     @Override

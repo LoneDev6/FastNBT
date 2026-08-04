@@ -53,7 +53,7 @@ public interface ICompoundTag<Handle, ListTag, CompoundTag>
     {
         try
         {
-            return JsonParser.parseString(component).getAsJsonObject() != null;
+            return new JsonParser().parse(component).getAsJsonObject() != null;
         }
         catch (Throwable ignored) {}
         return false;
