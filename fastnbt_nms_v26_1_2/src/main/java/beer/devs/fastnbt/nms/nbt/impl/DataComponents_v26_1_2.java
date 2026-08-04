@@ -13,8 +13,6 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @SuppressWarnings({"unused"})
 public class DataComponents_v26_1_2 implements IDataComponents
@@ -72,19 +70,8 @@ public class DataComponents_v26_1_2 implements IDataComponents
         if(modifiersA == null)
             return false;
 
-        CraftItemStack b = CraftItemStack_v26_1_2.castToCraftItemStack(bukkitItemStackSource);
-        ItemAttributeModifiers modifiersB = CraftItemStack_v26_1_2.getHandle(b).get(DataComponents.ATTRIBUTE_MODIFIERS);
-        if(modifiersB != null)
-        {
-            for (ItemAttributeModifiers.Entry modifier : modifiersA.modifiers())
-            {
-                modifiersB.modifiers().add(modifier);
-            }
-        }
-        else
-        {
-            CraftItemStack_v26_1_2.getHandle(b).set(DataComponents.ATTRIBUTE_MODIFIERS, modifiersA);
-        }
+        CraftItemStack b = CraftItemStack_v26_1_2.castToCraftItemStack(bukkitItemStackDestination);
+        CraftItemStack_v26_1_2.getHandle(b).set(DataComponents.ATTRIBUTE_MODIFIERS, modifiersA);
 
         return true;
     }
@@ -93,8 +80,12 @@ public class DataComponents_v26_1_2 implements IDataComponents
     public boolean copyLore(ItemStack bukkitItemStackSource, ItemStack bukkitItemStackDestination)
     {
         CraftItemStack a = CraftItemStack_v26_1_2.castToCraftItemStack(bukkitItemStackSource);
-        CraftItemStack b = CraftItemStack_v26_1_2.castToCraftItemStack(bukkitItemStackSource);
-        CraftItemStack_v26_1_2.getHandle(b).set(DataComponents.LORE, CraftItemStack_v26_1_2.getHandle(a).get(DataComponents.LORE));
+        ItemLore lore = CraftItemStack_v26_1_2.getHandle(a).get(DataComponents.LORE);
+        if(lore == null)
+            return false;
+
+        CraftItemStack b = CraftItemStack_v26_1_2.castToCraftItemStack(bukkitItemStackDestination);
+        CraftItemStack_v26_1_2.getHandle(b).set(DataComponents.LORE, lore);
         return true;
     }
 
@@ -104,7 +95,7 @@ public class DataComponents_v26_1_2 implements IDataComponents
         CraftItemStack craftItemStack = CraftItemStack_v26_1_2.castToCraftItemStack(bukkitItem);
         net.minecraft.world.item.ItemStack itemStack = CraftItemStack_v26_1_2.getHandle(craftItemStack);
 
-        List<Component> endLines = new ArrayList<>();
+        List<Component> endLines = new ArrayList<>(endLinesJson.size());
         for (String lineJson : endLinesJson)
             endLines.add(CraftChatMessage.fromJSON(lineJson));
 
@@ -112,7 +103,12 @@ public class DataComponents_v26_1_2 implements IDataComponents
         if(lore == null)
             itemStack.set(DataComponents.LORE, new ItemLore(endLines));
         else
-            itemStack.set(DataComponents.LORE, new ItemLore(Stream.concat(lore.lines().parallelStream(), endLines.parallelStream()).collect(Collectors.toList())));
+        {
+            List<Component> lines = new ArrayList<>(lore.lines().size() + endLines.size());
+            lines.addAll(lore.lines());
+            lines.addAll(endLines);
+            itemStack.set(DataComponents.LORE, new ItemLore(lines));
+        }
     }
 
     @Override
