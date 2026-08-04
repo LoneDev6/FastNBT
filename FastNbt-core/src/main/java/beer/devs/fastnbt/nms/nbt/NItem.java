@@ -1,7 +1,6 @@
 package beer.devs.fastnbt.nms.nbt;
 
 import com.google.gson.JsonSyntaxException;
-import beer.devs.fastnbt.nms.Version;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -9,6 +8,7 @@ import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings({"unchecked", "deprecation", "unused"})
@@ -173,17 +173,23 @@ public class NItem extends NCompound
 
     public Object getCustomName()
     {
-        return NBT.dataComponents.getCustomName(getItem());
+        if (NBT.dataComponents != null)
+            return NBT.dataComponents.getCustomName(getItem());
+        NCompound display = getCompound("display");
+        return display == null ? null : display.getString("Name");
     }
 
     public String getCustomNameJson()
     {
-        return NBT.dataComponents.getCustomNameJson(getItem());
+        if (NBT.dataComponents != null)
+            return NBT.dataComponents.getCustomNameJson(getItem());
+        NCompound display = getCompound("display");
+        return display == null ? null : display.getString("Name");
     }
 
     public void setCustomName(String compoundString)
     {
-        if(Version.isNewerThan(Version.v1_20_4))
+        if (NBT.dataComponents != null)
             NBT.dataComponents.setCustomName(getItem(), compoundString);
         else
             getOrAddCompound("display").setString("Name", compoundString);
@@ -192,23 +198,58 @@ public class NItem extends NCompound
 
     public Object getItemName()
     {
-        return NBT.dataComponents.getItemName(getItem());
+        return NBT.dataComponents == null ? null : NBT.dataComponents.getItemName(getItem());
     }
 
     public void setItemName(String compoundString)
     {
+        if (NBT.dataComponents == null)
+            throw new UnsupportedOperationException("Item names require Minecraft 1.20.5 or newer.");
         NBT.dataComponents.setItemName(getItem(), compoundString);
+        save();
     }
 
     @Nullable
     public List<Object> getLoreCopy()
     {
-        return NBT.dataComponents.getLore(getItem());
+        if (NBT.dataComponents != null)
+            return NBT.dataComponents.getLore(getItem());
+
+        NCompound display = getCompound("display");
+        if (display == null)
+            return null;
+        NList lore = display.getList("Lore", NBTType.String);
+        if (lore == null)
+            return null;
+
+        List<Object> copy = new ArrayList<>(lore.size());
+        for (int i = 0; i < lore.size(); i++)
+            copy.add(lore.getString(i));
+        return copy;
     }
 
     public void setLore(@Nullable List<?> lore)
     {
-        NBT.dataComponents.setLore(getItem(), lore);
+        if (NBT.dataComponents != null)
+            NBT.dataComponents.setLore(getItem(), lore);
+        else if (lore == null)
+        {
+            NCompound display = getCompound("display");
+            if (display != null)
+                display.remove("Lore");
+        }
+        else
+        {
+            for (Object line : lore)
+            {
+                if (!(line instanceof String))
+                    throw new IllegalArgumentException("Legacy lore entries must be JSON strings.");
+            }
+
+            NList legacyLore = getOrAddCompound("display").addList("Lore", NBTType.String);
+            for (Object line : lore)
+                legacyLore.addString((String) line);
+        }
         save();
     }
 }

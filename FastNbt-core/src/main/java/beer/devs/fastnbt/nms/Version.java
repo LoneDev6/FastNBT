@@ -154,19 +154,20 @@ public enum Version
         try
         {
             version = Version.byName(Bukkit.getServer().getVersion().split("-")[0]);
+            if (version != null)
+                return version;
+        }
+        catch (Throwable ignored) {}
+
+        try
+        {
+            version = Version.valueOf(Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3]);
         }
         catch (Throwable ignored)
         {
-            try
-            {
-                version = Version.valueOf(Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3]);
-            }
-            catch (IllegalArgumentException ex)
-            {
-                version = Version.UNKNOWN;
-            }
+            version = Version.UNKNOWN;
         }
-        
+
         return version;
     }
 }
