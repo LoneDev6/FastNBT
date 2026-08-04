@@ -6,9 +6,7 @@
 
 ## Dependency
 
-[![FastNbt-jar](https://img.shields.io/badge/dynamic/xml?url=https%3A%2F%2Frepo1.maven.org%2Fmaven2%2Fbeer%2Fdevs%2FFastNbt-jar%2Fmaven-metadata.xml&query=%2Fmetadata%2Fversioning%2Flatest&label=version&color=blue)](https://maven-snippets.lonedev.workers.dev/?pkg=beer.devs%3AFastNbt-jar)
-
-Click the badge above to get ready-to-copy Maven and Gradle snippets.
+[![FastNbt-jar](https://img.shields.io/badge/dynamic/xml?url=https%3A%2F%2Frepo1.maven.org%2Fmaven2%2Fbeer%2Fdevs%2FFastNbt-jar%2Fmaven-metadata.xml&query=%2Fmetadata%2Fversioning%2Flatest&label=version&color=blue)](https://central.sonatype.com/artifact/beer.devs/FastNbt-jar)
 
 
 # Comparison to NBT API
@@ -95,18 +93,8 @@ libraries:
   - beer.devs:FastNbt-jar:VERSION
 ```
 
-### Step 2 - Maven
-```xml
-<dependency>
-    <groupId>beer.devs</groupId>
-    <artifactId>FastNbt-jar</artifactId>
-    <version>VERSION</version>
-    <scope>provided</scope>
-</dependency>
-```
-
-### Step 2 - or Gradle
-```kt
+### Step 2 - Gradle Kotlin DSL
+```kotlin
 dependencies {
     compileOnly("beer.devs:FastNbt-jar:VERSION")
 }
@@ -135,58 +123,25 @@ This will load the libraries you specified in the `plugin.yml` file.
 new LibsLoader(this).loadAll();
 ```
 
-### Step 4 - Maven or gradle
+### Step 4 - Gradle Kotlin DSL
 Same as Method 1
 
 ## Method 3 - Shading
 
-You can shade the library in your plugin if you want to use it without connecting to maven central.
+You can shade the library in your plugin if you want to use it without connecting to Maven Central.
 
-### Shading Configuration Maven
-```xml
-<dependency>
-    <groupId>beer.devs</groupId>
-    <artifactId>FastNbt-jar</artifactId>
-    <version>VERSION</version>
-    <scope>provided</scope>
-</dependency>
-```
-```xml
- <plugin>
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-shade-plugin</artifactId>
-    <version>3.5.0</version>
-    <executions>
-        <execution>
-            <phase>package</phase>
-            <goals>
-                <goal>shade</goal>
-            </goals>
-            <configuration>
-                <relocations>
-                    <relocation>
-                        <pattern>beer.devs.fastnbt.</pattern>
-                        <shadedPattern>YOUR_PACKAGE_HERE.libs.beer.devs.fastnbt.</shadedPattern>
-                    </relocation>
-                </relocations>
-            </configuration>
-        </execution>
-    </executions>
-</plugin>
-```
+### Shading Configuration - Gradle Kotlin DSL
+```kotlin
+plugins {
+    id("com.gradleup.shadow") version "9.4.1"
+}
 
-### Shading Configuration Gradle
-```kt
 dependencies {
     implementation("beer.devs:FastNbt-jar:VERSION")
 }
-```
 
-```kt
-tasks {
-    shadowJar {
-        relocate("beer.devs.fastnbt", "YOUR_PACKAGE_HERE.libs.beer.devs.fastnbt")
-    }
+tasks.shadowJar {
+    relocate("beer.devs.fastnbt", "YOUR_PACKAGE_HERE.libs.beer.devs.fastnbt")
 }
 ```
 
@@ -194,54 +149,47 @@ tasks {
 
 # Updating
 
-- Create a new module for the new NMS version and add the correct `paper-nms` **dependency**.
+- Create a new module for the NMS version and configure its `paperweight.paperDevBundle` dependency.
 - Add the new NMS version to the `Version` enum.
-- Add the new module in the modules list of `FastNbt` module and as dependency in the `FastNbt-jar` module.
+- Include the module in `settings.gradle.kts` and add it to `FastNbt-jar/build.gradle.kts`.
 
 Should be all.
 
 # LoneDev's Notes
 
-## How to deploy to maven central
-Deploy only the `FastNbt-jar` module, as it contains the library and the API.\
-`mvn deploy -pl FastNbt-jar -DskipNexusStaging=true -Ppublish-to-maven-central`
+## Deploying to Maven Central
 
-## How to install locally
-`mvn install`
+Create a Central Portal user token and put it in `~/.gradle/gradle.properties`:
+```properties
+mavenCentralUsername=TOKEN_USERNAME
+mavenCentralPassword=TOKEN_PASSWORD
+```
+
+The deploy uses the default GPG key through `gpg-agent`. To select one explicitly, add:
+```properties
+signing.gnupg.keyName=KEY_ID
+```
+
+Run `.scripts/deploy_maven.sh` or the `Deploy to Maven Central` IntelliJ run configuration.
+The deployment is validated and left for manual release at https://central.sonatype.com/publishing/deployments.
 
 ## Editing to the repository
 - Clone it
 - Make your changes
-- Run `mvn install` in order to access the plugin as dependency in your projects
+- Run `./gradlew build`
+- Use the generated `output/FastNbt.jar`
 
 ## Updating Javadocs
 
 In order to update Javadocs you have to build locally, as old NMS jars are not available and can't be easily included on Github.
-- Run the command `mvn clean install javadoc:javadoc -pl FastNbt-core -am`
-- Get the generated javadocs from `.cache/targets/FastNbt-core/target/reports/apidocs/`
+- Run `./gradlew :FastNbt-core:javadoc`
+- Get the generated Javadocs from `FastNbt-core/build/docs/javadoc/`
 - Push the contents into the `javadoc` branch
- 
-## Installing Paper NMS manually
-(In case Paper didn't provide the remapping for a particular version)\
-`mvn install:install-file -Dfile=C:/Progetti/Minecraft/Spigot/_jars/spigot/paper/paper-1.21.6.jar -DgroupId=io.papermc.paper -DartifactId=paper -Dversion=1.21.6 -Dpackaging=jar`
-
-```xml
-<dependency>
-    <groupId>io.papermc.paper</groupId>
-    <artifactId>paper</artifactId>
-    <version>1.21.6</version>
-    <scope>provided</scope>
-</dependency>
-```
 
 
 ---
 
 ## Solving `java.lang.NoClassDefFoundError: ji$a` and similar
 
-This happens when mappings are out of date.\
-To fix that delete the `.paper-nms` maps and run `paper-nms:init` for each version you got the issue.
-
----
-TODO:
-Find a way to fix the fact that javadocs are empty on the `FastNbt-jar` module and the source is empty too.
+This happens when mappings are out of date. Refresh Paperweight's dependencies and rebuild:
+`./gradlew build --refresh-dependencies`

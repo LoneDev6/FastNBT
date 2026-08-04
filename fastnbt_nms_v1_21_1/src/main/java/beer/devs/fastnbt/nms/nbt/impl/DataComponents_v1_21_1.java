@@ -165,7 +165,7 @@ public class DataComponents_v1_21_1 implements IDataComponents
             modifiers = ItemAttributeModifiers.EMPTY;
         ResourceLocation attributeId = ResourceLocation.parse(attributeName);
         itemStack.set(DataComponents.ATTRIBUTE_MODIFIERS, modifiers.withModifierAdded(
-                BuiltInRegistries.ATTRIBUTE.get(attributeId)
+                BuiltInRegistries.ATTRIBUTE.getHolder(attributeId)
                         .orElseThrow(() -> new IllegalArgumentException("Unknown attribute: " + attributeName)),
                 new net.minecraft.world.entity.ai.attributes.AttributeModifier(
                         ResourceLocation.parse(uuid.toString()), amount,

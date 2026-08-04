@@ -18,6 +18,7 @@ public final class TextApiCompatibilityCheck
         assert NItem.class.getMethod("setLore", List.class).isAnnotationPresent(Deprecated.class);
         assert NItem.class.getMethod("itemFromSnbt", String.class).getReturnType().getSimpleName().equals("ItemStack");
 
+        assert IDataComponents.class.getMethod("getCustomNameJson", org.bukkit.inventory.ItemStack.class).isDefault();
         assert IDataComponents.class.getMethod("getItemNameJson", org.bukkit.inventory.ItemStack.class).isDefault();
         assert IDataComponents.class.getMethod("getLoreJson", org.bukkit.inventory.ItemStack.class).isDefault();
         assert IDataComponents.class.getMethod("setLoreJson", org.bukkit.inventory.ItemStack.class, List.class).isDefault();

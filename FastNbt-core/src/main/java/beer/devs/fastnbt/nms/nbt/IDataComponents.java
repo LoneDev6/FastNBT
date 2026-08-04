@@ -23,7 +23,10 @@ public interface IDataComponents
 
     /** Returns the custom name as a serialized vanilla JSON text component. */
     @Nullable
-    String getCustomNameJson(ItemStack bukkitItemStack);
+    default String getCustomNameJson(ItemStack bukkitItemStack)
+    {
+        throw new RuntimeException("Not available in this server implementation");
+    }
 
     /**
      * Returns the server-internal item-name component.
