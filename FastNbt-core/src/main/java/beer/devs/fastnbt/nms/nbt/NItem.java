@@ -45,8 +45,13 @@ public class NItem extends NCompound
 
     public void setType(Material type)
     {
-        original.setType(type);
-        refreshCopy();
+        if (isConvertedCopy)
+        {
+            original.setType(type);
+            refreshCopy();
+            return;
+        }
+        getItem().setType(type);
     }
 
     /**

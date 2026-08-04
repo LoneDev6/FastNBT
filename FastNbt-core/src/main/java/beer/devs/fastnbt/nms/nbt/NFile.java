@@ -14,24 +14,24 @@ public class NFile extends NCompound
     public NFile(File file) throws IOException
     {
         super();
-        this.file = file;
         if (file == null)
-        {
             throw new NullPointerException("File can't be null!");
-        }
-        else
+
+        this.file = file;
+        this.writeLock = new ReentrantReadWriteLock().writeLock();
+        if (file.exists())
         {
-            this.writeLock = new ReentrantReadWriteLock().writeLock();
-            if (file.exists())
+            try (FileInputStream inputStream = new FileInputStream(file))
             {
-                this.handle = NBT.streamTools.read(new FileInputStream(file));
+                this.handle = NBT.streamTools.read(inputStream);
             }
-            else
-            {
-                Files.createDirectories(file.getParentFile().toPath());
-                this.handle = NBT.compound.newInstance();
-            }
+            return;
         }
+
+        File parent = file.getParentFile();
+        if (parent != null)
+            Files.createDirectories(parent.toPath());
+        this.handle = NBT.compound.newInstance();
     }
 
     public File getFile()
@@ -44,7 +44,10 @@ public class NFile extends NCompound
         try
         {
             this.writeLock.lock();
-            NBT.streamTools.save(handle, new FileOutputStream(file));
+            try (FileOutputStream outputStream = new FileOutputStream(file))
+            {
+                NBT.streamTools.save(handle, outputStream);
+            }
         }
         catch (FileNotFoundException ignored) {} // File deleted by another plugin or manually.
         finally

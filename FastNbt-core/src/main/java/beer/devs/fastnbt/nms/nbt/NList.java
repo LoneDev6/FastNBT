@@ -513,7 +513,7 @@ public class NList
      */
     public void setList(int i, NList list)
     {
-        addRaw(i, list.handle);
+        setRaw(i, list.handle);
     }
 
     /**
@@ -607,7 +607,7 @@ public class NList
     @Override
     public String toString()
     {
-        return handler.toString();
+        return handler.toString(handle);
     }
 
     public boolean isEmpty()
