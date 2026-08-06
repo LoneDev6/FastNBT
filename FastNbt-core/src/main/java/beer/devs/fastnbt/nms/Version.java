@@ -105,12 +105,17 @@ public enum Version
 
     public static Version byName(String name)
     {
+        if (name == null)
+            return UNKNOWN;
+
         for (Version value : values())
         {
-            if(value.name.equals(name))
+            if (value != UNKNOWN && (value.name.equals(name)
+                    || name.startsWith(value.name + "-")
+                    || name.contains("(MC: " + value.name + ")")))
                 return value;
         }
-        return null;
+        return UNKNOWN;
     }
 
     /**
@@ -121,7 +126,9 @@ public enum Version
      */
     public static boolean isAtLeast(Version version)
     {
-        return get().ordinal() >= version.ordinal();
+        Version current = get();
+        return current != UNKNOWN && version != null && version != UNKNOWN
+                && current.ordinal() >= version.ordinal();
     }
 
     /**
@@ -132,7 +139,9 @@ public enum Version
      */
     public static boolean isNewerThan(Version version)
     {
-        return get().ordinal() > version.ordinal();
+        Version current = get();
+        return current != UNKNOWN && version != null && version != UNKNOWN
+                && current.ordinal() > version.ordinal();
     }
 
     /**
@@ -143,7 +152,9 @@ public enum Version
      */
     public static boolean isOlderThan(Version version)
     {
-        return get().ordinal() < version.ordinal();
+        Version current = get();
+        return current != UNKNOWN && version != null && version != UNKNOWN
+                && current.ordinal() < version.ordinal();
     }
 
     public static Version get()
@@ -153,8 +164,24 @@ public enum Version
 
         try
         {
-            version = Version.byName(Bukkit.getServer().getVersion().split("-")[0]);
-            if (version != null)
+            version = Version.byName((String) Bukkit.class.getMethod("getMinecraftVersion").invoke(null));
+            if (version != UNKNOWN)
+                return version;
+        }
+        catch (Throwable ignored) {}
+
+        try
+        {
+            version = Version.byName(Bukkit.getBukkitVersion());
+            if (version != UNKNOWN)
+                return version;
+        }
+        catch (Throwable ignored) {}
+
+        try
+        {
+            version = Version.byName(Bukkit.getVersion());
+            if (version != UNKNOWN)
                 return version;
         }
         catch (Throwable ignored) {}
