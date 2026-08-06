@@ -18,11 +18,14 @@ import org.jetbrains.annotations.Nullable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.*;
+import java.util.function.Consumer;
 
 @SuppressWarnings({"unchecked", "DataFlowIssue", "CallToPrintStackTrace", "unused", "deprecation"})
 public class CraftItemStack_v1_21_4 implements ICraftItemStack<ListTag, CompoundTag, CraftItemStack>
 {
     public static final Field FIELD_HANDLE;
+    private static final Field FIELD_CUSTOM_DATA_TAG;
+    private static final boolean HAS_GET_UNSAFE;
     /**
      * The handle field is public only on Paper!
      */
@@ -31,7 +34,58 @@ public class CraftItemStack_v1_21_4 implements ICraftItemStack<ListTag, Compound
     static
     {
         FIELD_HANDLE = FieldUtils.getField(CraftItemStack.class, "handle", true);
+        FIELD_CUSTOM_DATA_TAG = FieldUtils.getField(CustomData.class, "tag", true);
         IS_FIELD_HANDLE_PUBLIC = Modifier.isPublic(FIELD_HANDLE.getModifiers());
+
+        boolean hasGetUnsafe;
+        try
+        {
+            CustomData.class.getMethod("getUnsafe");
+            hasGetUnsafe = true;
+        }
+        catch (NoSuchMethodException ignored)
+        {
+            hasGetUnsafe = false;
+        }
+        HAS_GET_UNSAFE = hasGetUnsafe;
+    }
+
+    private static CompoundTag readTag(CustomData data)
+    {
+        return HAS_GET_UNSAFE ? data.getUnsafe() : internalTag(data);
+    }
+
+    private static CompoundTag internalTag(CustomData data)
+    {
+        try
+        {
+            return (CompoundTag) FIELD_CUSTOM_DATA_TAG.get(data);
+        }
+        catch (IllegalAccessException e)
+        {
+            throw new IllegalStateException("Error reading CustomData tag field.", e);
+        }
+    }
+
+    private static void updateTag(net.minecraft.world.item.ItemStack itemStack, Consumer<CompoundTag> update)
+    {
+        CustomData.update(DataComponents.CUSTOM_DATA, itemStack, update);
+    }
+
+    /**
+     * FastNBT exposes nested compounds and lists as mutable wrappers. A copied tag cannot preserve
+     * mutations performed after those wrappers are returned, while Spigot exposes no public live view.
+     */
+    private static CompoundTag mutableTag(net.minecraft.world.item.ItemStack itemStack)
+    {
+        CustomData data = itemStack.get(DataComponents.CUSTOM_DATA);
+        if (data == null)
+        {
+            itemStack.set(DataComponents.CUSTOM_DATA, CustomData.of(new CompoundTag()));
+            data = itemStack.get(DataComponents.CUSTOM_DATA);
+        }
+
+        return internalTag(data);
     }
 
     public static net.minecraft.world.item.ItemStack getHandle(CraftItemStack craftItemStack)
@@ -102,7 +156,7 @@ public class CraftItemStack_v1_21_4 implements ICraftItemStack<ListTag, Compound
 
         // Make sure to merge the properties, not replace them completely.
         if(a.has(DataComponents.CUSTOM_DATA) && b.has(DataComponents.CUSTOM_DATA))
-            a.get(DataComponents.CUSTOM_DATA).getUnsafe().merge(b.get(DataComponents.CUSTOM_DATA).getUnsafe());
+            updateTag(a, tag -> tag.merge(readTag(b.get(DataComponents.CUSTOM_DATA))));
 
         simpleMergeComponent(a, b, DataComponents.MAX_STACK_SIZE);
         simpleMergeComponent(a, b, DataComponents.MAX_DAMAGE);
@@ -176,10 +230,7 @@ public class CraftItemStack_v1_21_4 implements ICraftItemStack<ListTag, Compound
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
         net.minecraft.world.item.ItemStack handle = getHandle(craftItemStack);
-        CustomData data = handle.get(DataComponents.CUSTOM_DATA);
-        if (data == null)
-            handle.set(DataComponents.CUSTOM_DATA, CustomData.of(new CompoundTag()));
-        handle.get(DataComponents.CUSTOM_DATA).getUnsafe().putByte(key, param);
+        updateTag(handle, tag -> tag.putByte(key, param));
     }
 
     @Override
@@ -187,10 +238,7 @@ public class CraftItemStack_v1_21_4 implements ICraftItemStack<ListTag, Compound
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
         net.minecraft.world.item.ItemStack handle = getHandle(craftItemStack);
-        CustomData data = handle.get(DataComponents.CUSTOM_DATA);
-        if (data == null)
-            handle.set(DataComponents.CUSTOM_DATA, CustomData.of(new CompoundTag()));
-        handle.get(DataComponents.CUSTOM_DATA).getUnsafe().putShort(key, param);
+        updateTag(handle, tag -> tag.putShort(key, param));
     }
 
     @Override
@@ -198,10 +246,7 @@ public class CraftItemStack_v1_21_4 implements ICraftItemStack<ListTag, Compound
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
         net.minecraft.world.item.ItemStack handle = getHandle(craftItemStack);
-        CustomData data = handle.get(DataComponents.CUSTOM_DATA);
-        if (data == null)
-            handle.set(DataComponents.CUSTOM_DATA, CustomData.of(new CompoundTag()));
-        handle.get(DataComponents.CUSTOM_DATA).getUnsafe().putInt(key, param);
+        updateTag(handle, tag -> tag.putInt(key, param));
     }
 
     @Override
@@ -209,10 +254,7 @@ public class CraftItemStack_v1_21_4 implements ICraftItemStack<ListTag, Compound
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
         net.minecraft.world.item.ItemStack handle = getHandle(craftItemStack);
-        CustomData data = handle.get(DataComponents.CUSTOM_DATA);
-        if (data == null)
-            handle.set(DataComponents.CUSTOM_DATA, CustomData.of(new CompoundTag()));
-        handle.get(DataComponents.CUSTOM_DATA).getUnsafe().putLong(key, param);
+        updateTag(handle, tag -> tag.putLong(key, param));
     }
 
     @Override
@@ -220,10 +262,7 @@ public class CraftItemStack_v1_21_4 implements ICraftItemStack<ListTag, Compound
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
         net.minecraft.world.item.ItemStack handle = getHandle(craftItemStack);
-        CustomData data = handle.get(DataComponents.CUSTOM_DATA);
-        if (data == null)
-            handle.set(DataComponents.CUSTOM_DATA, CustomData.of(new CompoundTag()));
-        handle.get(DataComponents.CUSTOM_DATA).getUnsafe().putUUID(key, param);
+        updateTag(handle, tag -> tag.putUUID(key, param));
     }
 
     @Override
@@ -231,10 +270,7 @@ public class CraftItemStack_v1_21_4 implements ICraftItemStack<ListTag, Compound
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
         net.minecraft.world.item.ItemStack handle = getHandle(craftItemStack);
-        CustomData data = handle.get(DataComponents.CUSTOM_DATA);
-        if (data == null)
-            handle.set(DataComponents.CUSTOM_DATA, CustomData.of(new CompoundTag()));
-        handle.get(DataComponents.CUSTOM_DATA).getUnsafe().putFloat(key, param);
+        updateTag(handle, tag -> tag.putFloat(key, param));
     }
 
     @Override
@@ -242,10 +278,7 @@ public class CraftItemStack_v1_21_4 implements ICraftItemStack<ListTag, Compound
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
         net.minecraft.world.item.ItemStack handle = getHandle(craftItemStack);
-        CustomData data = handle.get(DataComponents.CUSTOM_DATA);
-        if (data == null)
-            handle.set(DataComponents.CUSTOM_DATA, CustomData.of(new CompoundTag()));
-        handle.get(DataComponents.CUSTOM_DATA).getUnsafe().putDouble(key, param);
+        updateTag(handle, tag -> tag.putDouble(key, param));
     }
 
     @Override
@@ -253,10 +286,7 @@ public class CraftItemStack_v1_21_4 implements ICraftItemStack<ListTag, Compound
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
         net.minecraft.world.item.ItemStack handle = getHandle(craftItemStack);
-        CustomData data = handle.get(DataComponents.CUSTOM_DATA);
-        if (data == null)
-            handle.set(DataComponents.CUSTOM_DATA, CustomData.of(new CompoundTag()));
-        handle.get(DataComponents.CUSTOM_DATA).getUnsafe().putString(key, param);
+        updateTag(handle, tag -> tag.putString(key, param));
     }
 
     @Override
@@ -264,10 +294,7 @@ public class CraftItemStack_v1_21_4 implements ICraftItemStack<ListTag, Compound
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
         net.minecraft.world.item.ItemStack handle = getHandle(craftItemStack);
-        CustomData data = handle.get(DataComponents.CUSTOM_DATA);
-        if (data == null)
-            handle.set(DataComponents.CUSTOM_DATA, CustomData.of(new CompoundTag()));
-        handle.get(DataComponents.CUSTOM_DATA).getUnsafe().putByteArray(key, param);
+        updateTag(handle, tag -> tag.putByteArray(key, param));
     }
 
     @Override
@@ -275,10 +302,7 @@ public class CraftItemStack_v1_21_4 implements ICraftItemStack<ListTag, Compound
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
         net.minecraft.world.item.ItemStack handle = getHandle(craftItemStack);
-        CustomData data = handle.get(DataComponents.CUSTOM_DATA);
-        if (data == null)
-            handle.set(DataComponents.CUSTOM_DATA, CustomData.of(new CompoundTag()));
-        handle.get(DataComponents.CUSTOM_DATA).getUnsafe().putIntArray(key, param);
+        updateTag(handle, tag -> tag.putIntArray(key, param));
     }
 
     @Override
@@ -286,10 +310,7 @@ public class CraftItemStack_v1_21_4 implements ICraftItemStack<ListTag, Compound
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
         net.minecraft.world.item.ItemStack handle = getHandle(craftItemStack);
-        CustomData data = handle.get(DataComponents.CUSTOM_DATA);
-        if (data == null)
-            handle.set(DataComponents.CUSTOM_DATA, CustomData.of(new CompoundTag()));
-        handle.get(DataComponents.CUSTOM_DATA).getUnsafe().putIntArray(key, param);
+        updateTag(handle, tag -> tag.putIntArray(key, param));
     }
 
     @Override
@@ -297,10 +318,7 @@ public class CraftItemStack_v1_21_4 implements ICraftItemStack<ListTag, Compound
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
         net.minecraft.world.item.ItemStack handle = getHandle(craftItemStack);
-        CustomData data = handle.get(DataComponents.CUSTOM_DATA);
-        if (data == null)
-            handle.set(DataComponents.CUSTOM_DATA, CustomData.of(new CompoundTag()));
-        handle.get(DataComponents.CUSTOM_DATA).getUnsafe().putLongArray(key, param);
+        updateTag(handle, tag -> tag.putLongArray(key, param));
     }
 
     @Override
@@ -308,10 +326,7 @@ public class CraftItemStack_v1_21_4 implements ICraftItemStack<ListTag, Compound
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
         net.minecraft.world.item.ItemStack handle = getHandle(craftItemStack);
-        CustomData data = handle.get(DataComponents.CUSTOM_DATA);
-        if (data == null)
-            handle.set(DataComponents.CUSTOM_DATA, CustomData.of(new CompoundTag()));
-        handle.get(DataComponents.CUSTOM_DATA).getUnsafe().putLongArray(key, param);
+        updateTag(handle, tag -> tag.putLongArray(key, param));
     }
 
     @Override
@@ -319,10 +334,7 @@ public class CraftItemStack_v1_21_4 implements ICraftItemStack<ListTag, Compound
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
         net.minecraft.world.item.ItemStack handle = getHandle(craftItemStack);
-        CustomData data = handle.get(DataComponents.CUSTOM_DATA);
-        if (data == null)
-            handle.set(DataComponents.CUSTOM_DATA, CustomData.of(new CompoundTag()));
-        handle.get(DataComponents.CUSTOM_DATA).getUnsafe().putBoolean(key, param);
+        updateTag(handle, tag -> tag.putBoolean(key, param));
     }
 
     @Override
@@ -332,7 +344,7 @@ public class CraftItemStack_v1_21_4 implements ICraftItemStack<ListTag, Compound
         CustomData data = getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA);
         if (data == null)
             return false;
-        return data.contains(key);
+        return readTag(data).contains(key);
     }
 
     @Override
@@ -342,7 +354,7 @@ public class CraftItemStack_v1_21_4 implements ICraftItemStack<ListTag, Compound
         CustomData data = getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA);
         if (data == null)
             return false;
-        return data.getUnsafe().hasUUID(key);
+        return readTag(data).hasUUID(key);
     }
 
     @Override
@@ -352,7 +364,7 @@ public class CraftItemStack_v1_21_4 implements ICraftItemStack<ListTag, Compound
         CustomData data = getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA);
         if (data == null)
             return null;
-        return data.getUnsafe().getUUID(key);
+        return readTag(data).getUUID(key);
     }
 
     @Override
@@ -362,7 +374,7 @@ public class CraftItemStack_v1_21_4 implements ICraftItemStack<ListTag, Compound
         CustomData data = getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA);
         if (data == null)
             return 0;
-        return data.getUnsafe().getByte(key);
+        return readTag(data).getByte(key);
     }
 
     @Override
@@ -372,7 +384,7 @@ public class CraftItemStack_v1_21_4 implements ICraftItemStack<ListTag, Compound
         CustomData data = getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA);
         if (data == null)
             return 0;
-        return data.getUnsafe().getShort(key);
+        return readTag(data).getShort(key);
     }
 
     @Override
@@ -382,7 +394,7 @@ public class CraftItemStack_v1_21_4 implements ICraftItemStack<ListTag, Compound
         CustomData data = getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA);
         if (data == null)
             return 0;
-        return data.getUnsafe().getInt(key);
+        return readTag(data).getInt(key);
     }
 
     @Override
@@ -392,7 +404,7 @@ public class CraftItemStack_v1_21_4 implements ICraftItemStack<ListTag, Compound
         CustomData data = getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA);
         if (data == null)
             return 0;
-        return data.getUnsafe().getLong(key);
+        return readTag(data).getLong(key);
     }
 
     @Override
@@ -402,7 +414,7 @@ public class CraftItemStack_v1_21_4 implements ICraftItemStack<ListTag, Compound
         CustomData data = getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA);
         if (data == null)
             return 0;
-        return data.getUnsafe().getFloat(key);
+        return readTag(data).getFloat(key);
     }
 
     @Override
@@ -412,7 +424,7 @@ public class CraftItemStack_v1_21_4 implements ICraftItemStack<ListTag, Compound
         CustomData data = getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA);
         if (data == null)
             return 0;
-        return data.getUnsafe().getDouble(key);
+        return readTag(data).getDouble(key);
     }
 
     @Override
@@ -422,7 +434,7 @@ public class CraftItemStack_v1_21_4 implements ICraftItemStack<ListTag, Compound
         CustomData data = getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA);
         if (data == null)
             return null;
-        return data.getUnsafe().getString(key);
+        return readTag(data).getString(key);
     }
 
     @Override
@@ -432,7 +444,7 @@ public class CraftItemStack_v1_21_4 implements ICraftItemStack<ListTag, Compound
         CustomData data = getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA);
         if (data == null)
             return null;
-        return data.getUnsafe().getByteArray(key);
+        return readTag(data).getByteArray(key);
     }
 
     @Override
@@ -442,7 +454,7 @@ public class CraftItemStack_v1_21_4 implements ICraftItemStack<ListTag, Compound
         CustomData data = getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA);
         if (data == null)
             return null;
-        return data.getUnsafe().getIntArray(key);
+        return readTag(data).getIntArray(key);
     }
 
     @Override
@@ -452,7 +464,7 @@ public class CraftItemStack_v1_21_4 implements ICraftItemStack<ListTag, Compound
         CustomData data = getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA);
         if (data == null)
             return null;
-        return data.getUnsafe().getLongArray(key);
+        return readTag(data).getLongArray(key);
     }
 
     @Override
@@ -462,16 +474,14 @@ public class CraftItemStack_v1_21_4 implements ICraftItemStack<ListTag, Compound
         CustomData data = getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA);
         if (data == null)
             return null;
-        return data.getUnsafe().getCompound(key);
+        return mutableTag(getHandle(craftItemStack)).getCompound(key);
     }
 
     @Override
     public CompoundTag getOrAddCompound(ItemStack itemStack, String key)
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
-        if (!getHandle(craftItemStack).has(DataComponents.CUSTOM_DATA))
-            getHandle(craftItemStack).set(DataComponents.CUSTOM_DATA, CustomData.of(new CompoundTag()));
-        return (CompoundTag) NBT.compound.getOrAddCompound(getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA).getUnsafe(), key);
+        return (CompoundTag) NBT.compound.getOrAddCompound(mutableTag(getHandle(craftItemStack)), key);
     }
 
     @Override
@@ -481,27 +491,21 @@ public class CraftItemStack_v1_21_4 implements ICraftItemStack<ListTag, Compound
         CustomData data = getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA);
         if (data == null)
             return null;
-        return (ListTag) NBT.compound.getList(data.getUnsafe(), key, typeID);
+        return (ListTag) NBT.compound.getList(mutableTag(getHandle(craftItemStack)), key, typeID);
     }
 
     @Override
     public ListTag getOrAddList(ItemStack itemStack, String key, int typeID)
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
-        CustomData data = getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA);
-        if (data == null)
-            getHandle(craftItemStack).set(DataComponents.CUSTOM_DATA, CustomData.of(new CompoundTag()));
-        return (ListTag) NBT.compound.getOrAddList(data.getUnsafe(), key, typeID);
+        return (ListTag) NBT.compound.getOrAddList(mutableTag(getHandle(craftItemStack)), key, typeID);
     }
 
     @Override
     public void putTag(ItemStack itemStack, String key, Object value)
     {
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
-        CustomData data = getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA);
-        if (data == null)
-            getHandle(craftItemStack).set(DataComponents.CUSTOM_DATA, CustomData.of(new CompoundTag()));
-        NBT.compound.putTag(data.getUnsafe(), key, value);
+        updateTag(getHandle(craftItemStack), tag -> NBT.compound.putTag(tag, key, value));
     }
 
     @Override
@@ -512,7 +516,7 @@ public class CraftItemStack_v1_21_4 implements ICraftItemStack<ListTag, Compound
         CustomData data = handle.get(DataComponents.CUSTOM_DATA);
         if (data == null)
             return false;
-        return NBT.compound.getBoolean(data.getUnsafe(), key);
+        return NBT.compound.getBoolean(readTag(data), key);
     }
 
     @Override
@@ -521,7 +525,7 @@ public class CraftItemStack_v1_21_4 implements ICraftItemStack<ListTag, Compound
         CraftItemStack craftItemStack = castToCraftItemStack(itemStack);
         CustomData data = getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA);
         if (data != null)
-            return data.getUnsafe().getAllKeys();
+            return readTag(data).getAllKeys();
         return null;
     }
 
@@ -545,7 +549,7 @@ public class CraftItemStack_v1_21_4 implements ICraftItemStack<ListTag, Compound
         CustomData data = getHandle(craftItemStack).get(DataComponents.CUSTOM_DATA);
         if (data == null)
             return;
-        data.getUnsafe().remove(key);
+        updateTag(getHandle(craftItemStack), tag -> tag.remove(key));
     }
 
     @Override
