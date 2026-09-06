@@ -34,7 +34,7 @@ public class CraftItemStack_v26_2 implements ICraftItemStack<ListTag, CompoundTa
     static
     {
         FIELD_HANDLE = FieldUtils.getField(CraftItemStack.class, "handle", true);
-        FIELD_CUSTOM_DATA_TAG = FieldUtils.getField(CustomData.class, "tag", true);
+        FIELD_CUSTOM_DATA_TAG = CustomDataField.resolve(CustomData.class, CompoundTag.class, CraftItemStack_v26_2.class);
         IS_FIELD_HANDLE_PUBLIC = Modifier.isPublic(FIELD_HANDLE.getModifiers());
 
         boolean hasGetUnsafe;
