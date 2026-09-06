@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "beer.devs"
-version = "1.4.22"
+version = "1.4.23"
 
 dependencies {
     nmcpAggregation(project(":FastNbt-jar"))
