@@ -43,6 +43,7 @@ final class CustomDataField
             case v26_1_1:
             case v26_1_2:
             case v26_2:
+            case v26_3:
                 return "tag";
             default:
                 return null;

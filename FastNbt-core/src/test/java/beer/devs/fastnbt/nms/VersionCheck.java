@@ -10,6 +10,9 @@ public final class VersionCheck
         assert Version.byName("26.2") == Version.v26_2;
         assert Version.byName("26.2-Paper-123") == Version.v26_2;
         assert Version.byName("4645-Spigot-8db49a2-c4d1107 (MC: 26.2)") == Version.v26_2;
+        assert Version.byName("26.3") == Version.v26_3;
+        assert Version.byName("26.3-Paper-3") == Version.v26_3;
+        assert Version.byName("4650-Spigot-766de51-f48060a (MC: 26.3)") == Version.v26_3;
         assert Version.byName("1.20.6-R0.1-SNAPSHOT") == Version.v1_20_6;
         assert Version.byName("99.9") == Version.UNKNOWN;
         assert Version.byName(null) == Version.UNKNOWN;

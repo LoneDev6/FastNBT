@@ -36,7 +36,8 @@ public final class CustomDataFieldCheck
             assertEquals("g", CustomDataField.mappedName(version, true));
         for (Version version : new Version[]{Version.v1_21_10, Version.v1_21_11})
             assertEquals("e", CustomDataField.mappedName(version, true));
-        for (Version version : new Version[]{Version.v26_1_1, Version.v26_1_2, Version.v26_2})
+        for (Version version : new Version[]{Version.v26_1_1, Version.v26_1_2, Version.v26_2,
+                Version.v26_3})
             assertEquals("tag", CustomDataField.mappedName(version, true));
         for (Version version : Version.values())
             if (version.ordinal() >= Version.v1_20_5.ordinal())

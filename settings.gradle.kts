@@ -43,4 +43,5 @@ include(
     ":fastnbt_nms_v26_1_1",
     ":fastnbt_nms_v26_1_2",
     ":fastnbt_nms_v26_2",
+    ":fastnbt_nms_v26_3",
 )

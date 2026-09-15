@@ -31,6 +31,7 @@ dependencies {
     runtimeOnly(project(":fastnbt_nms_v26_1_1"))
     runtimeOnly(project(":fastnbt_nms_v26_1_2"))
     runtimeOnly(project(":fastnbt_nms_v26_2"))
+    runtimeOnly(project(":fastnbt_nms_v26_3"))
 }
 
 tasks.jar {
