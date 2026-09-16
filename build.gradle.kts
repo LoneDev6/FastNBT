@@ -7,7 +7,10 @@ plugins {
 }
 
 group = "beer.devs"
-version = "1.4.24"
+version = "1.4.25"
+
+@Suppress("UNCHECKED_CAST")
+val adapterTargets = gradle.extra["adapterTargets"] as Map<String, Map<String, String>>
 
 dependencies {
     nmcpAggregation(project(":FastNbt-jar"))
@@ -35,14 +38,6 @@ subprojects {
         options.encoding = "UTF-8"
     }
 
-    if (name.startsWith("fastnbt_nms_")) {
-        pluginManager.withPlugin("java-library") {
-            dependencies {
-                add("compileOnly", project(":FastNbt-core"))
-                add("compileOnly", "commons-lang:commons-lang:2.6")
-            }
-        }
-    }
 }
 
 tasks.assemble {
@@ -51,6 +46,7 @@ tasks.assemble {
 
 tasks.check {
     dependsOn(":FastNbt-core:test")
+    dependsOn(adapterTargets.keys.map { ":fastnbt_nms_$it:check" })
 }
 
 tasks.named("publishAggregationToCentralPortal") {

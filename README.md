@@ -72,6 +72,19 @@ attribute.setString("Slot", "feet");
 nItem.save();
 ```
 
+## Modern item merging
+
+`NItem.merge` copies the source item's present components when their values
+differ from that source item's defaults. It discovers component types from the
+item itself, so newly added types do not require a manual merge list. Absent
+components, explicit removals and default values do not clear or reset values
+on the destination.
+
+`CUSTOM_DATA` is merged recursively, including when the destination has none.
+Source values win on conflicting keys; copied NBT does not share mutable tags
+with the source item. `./gradlew check --no-daemon` exercises this behavior
+against every configured modern adapter using its mapped Paper classes.
+
 # Limitations
 
 Currently, supports only items.
@@ -149,11 +162,43 @@ tasks.shadowJar {
 
 # Updating
 
-- Create a new module for the NMS version and configure its `paperweight.paperDevBundle` dependency.
-- Add the new NMS version to the `Version` enum.
-- Include the module in `settings.gradle.kts` and add it to `FastNbt-jar/build.gradle.kts`.
+## Adapter layout
 
-Should be all.
+- `adapters/versions/<version>/adapter.properties` declares the exact target's
+  Paper dev bundle, Java release/toolchain, output mappings and source variant
+  for each wrapper. This is the only adapter build configuration to maintain.
+- `adapters/sources/<wrapper>/<wrapper>_<source-version>.java` contains the
+  canonical Java variants. Each target selects its variants explicitly;
+  no version is selected by proximity or protocol number.
+- `adapters/adapter.gradle.kts` is the shared build script. Gradle `Sync`
+  generates sources under each version's `build/generated/sources/nms/main/java`
+  by replacing only the selected source version suffix in filenames and text.
+
+Edit the canonical sources, not the generated files. A change to a shared
+variant affects every target selecting it. When behavior differs, add a new
+variant for that wrapper and select it only for the affected targets.
+
+The Gradle project names remain `:fastnbt_nms_<version>`. Java package names,
+public APIs, Maven coordinates and the final `output/FastNbt.jar` are unchanged.
+Each target still compiles against its own dev bundle; legacy targets use
+`reobf` artifacts, while targets declaring `mappings=mojang` use their normal JAR.
+
+## Adding a version
+
+1. Add `adapters/versions/<version>/adapter.properties`, using an existing target
+   as a starting point. Set `devBundle`, `javaRelease`, `mappings` (`spigot` or
+   `mojang`) and, where required, `javaToolchain`.
+2. Select each wrapper's source version explicitly. `CompoundTag`,
+   `CraftItemStack`, `DataFixer`, `ListTag` and `NbtIo` are required;
+   `DataComponents` and `NBTUtilsModern` are included where needed.
+3. Add the version to the public `Version` enum, preserving the existing order.
+   Settings and the final JAR discover the target from its manifest automatically.
+4. Run `./gradlew check :FastNbt-jar:shadowJar --no-daemon`. The check compiles
+   every adapter, runs the core tests and verifies that configured targets match
+   supported enum entries, excluding documented historical versions and aliases.
+5. Verify new NMS behavior on Spigot and Paper, including NBT round trips and
+   item copy/mirror semantics. Successful generation alone does not prove runtime
+   compatibility.
 
 # LoneDev's Notes
 

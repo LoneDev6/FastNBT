@@ -23,6 +23,9 @@ dependencies {
 tasks.test {
     useJUnit()
     enableAssertions = true
+    @Suppress("UNCHECKED_CAST")
+    val adapterTargets = gradle.extra["adapterTargets"] as Map<String, Map<String, String>>
+    systemProperty("fastnbt.adapterVersions", adapterTargets.keys.joinToString(","))
 }
 
 tasks.register<Jar>("sourcesJar") {

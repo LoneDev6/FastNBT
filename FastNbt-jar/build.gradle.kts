@@ -9,29 +9,15 @@ plugins {
 dependencies {
     api(project(":FastNbt-core"))
 
-    runtimeOnly(project(path = ":fastnbt_nms_v1_17_R1", configuration = "reobf"))
-    runtimeOnly(project(path = ":fastnbt_nms_v1_18_R2", configuration = "reobf"))
-    runtimeOnly(project(path = ":fastnbt_nms_v1_19_R1", configuration = "reobf"))
-    runtimeOnly(project(path = ":fastnbt_nms_v1_19_R2", configuration = "reobf"))
-    runtimeOnly(project(path = ":fastnbt_nms_v1_19_R3", configuration = "reobf"))
-    runtimeOnly(project(path = ":fastnbt_nms_v1_20_R1", configuration = "reobf"))
-    runtimeOnly(project(path = ":fastnbt_nms_v1_20_R2", configuration = "reobf"))
-    runtimeOnly(project(path = ":fastnbt_nms_v1_20_R3", configuration = "reobf"))
-    runtimeOnly(project(path = ":fastnbt_nms_v1_20_4", configuration = "reobf"))
-    runtimeOnly(project(path = ":fastnbt_nms_v1_20_6", configuration = "reobf"))
-    runtimeOnly(project(path = ":fastnbt_nms_v1_21_1", configuration = "reobf"))
-    runtimeOnly(project(path = ":fastnbt_nms_v1_21_3", configuration = "reobf"))
-    runtimeOnly(project(path = ":fastnbt_nms_v1_21_4", configuration = "reobf"))
-    runtimeOnly(project(path = ":fastnbt_nms_v1_21_5", configuration = "reobf"))
-    runtimeOnly(project(path = ":fastnbt_nms_v1_21_6", configuration = "reobf"))
-    runtimeOnly(project(path = ":fastnbt_nms_v1_21_7", configuration = "reobf"))
-    runtimeOnly(project(path = ":fastnbt_nms_v1_21_8", configuration = "reobf"))
-    runtimeOnly(project(path = ":fastnbt_nms_v1_21_10", configuration = "reobf"))
-    runtimeOnly(project(path = ":fastnbt_nms_v1_21_11", configuration = "reobf"))
-    runtimeOnly(project(":fastnbt_nms_v26_1_1"))
-    runtimeOnly(project(":fastnbt_nms_v26_1_2"))
-    runtimeOnly(project(":fastnbt_nms_v26_2"))
-    runtimeOnly(project(":fastnbt_nms_v26_3"))
+    @Suppress("UNCHECKED_CAST")
+    val adapterTargets = gradle.extra["adapterTargets"] as Map<String, Map<String, String>>
+    for ((version, target) in adapterTargets) {
+        val path = ":fastnbt_nms_$version"
+        if (target.getValue("mappings") == "spigot")
+            runtimeOnly(project(path = path, configuration = "reobf"))
+        else
+            runtimeOnly(project(path))
+    }
 }
 
 tasks.jar {
