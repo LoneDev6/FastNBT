@@ -52,6 +52,11 @@ public class ApiMetrics
         return dummyPlugin;
     }
 
+    static File pluginFolder(Plugin[] plugins)
+    {
+        return plugins.length == 0 ? new File("plugins") : plugins[0].getDataFolder().getParentFile();
+    }
+
     /**
      * Creates a new Metrics instance.
      *
@@ -62,8 +67,7 @@ public class ApiMetrics
     {
         this.pluginVersion = pluginVersion;
         // Get the config file
-        File serverRoot = Bukkit.getServer().getWorldContainer();
-        File pluginFolder = new File(serverRoot, "plugins");
+        File pluginFolder = pluginFolder(Bukkit.getPluginManager().getPlugins());
         File pStatsFolder = new File(pluginFolder, "pStats");
         File configFile = new File(pStatsFolder, "config.yml");
         YamlConfiguration config = YamlConfiguration.loadConfiguration(configFile);

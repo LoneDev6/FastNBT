@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "beer.devs"
-version = "1.4.25"
+version = "1.4.26"
 
 @Suppress("UNCHECKED_CAST")
 val adapterTargets = gradle.extra["adapterTargets"] as Map<String, Map<String, String>>
