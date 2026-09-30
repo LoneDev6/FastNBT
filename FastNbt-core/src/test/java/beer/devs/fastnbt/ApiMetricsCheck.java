@@ -21,7 +21,8 @@ public final class ApiMetricsCheck
                     throw new AssertionError("Unexpected plugin method: " + method.getName());
                 });
 
-        assertEquals(new File("server/plugins"), ApiMetrics.pluginFolder(new Plugin[]{loadedPlugin}));
-        assertEquals(new File("plugins"), ApiMetrics.pluginFolder(new Plugin[0]));
+        assertEquals(new File("server/plugins"), ApiMetrics.pluginFolder(null, new Plugin[]{loadedPlugin}));
+        assertEquals(new File("plugins"), ApiMetrics.pluginFolder(null, new Plugin[0]));
+        assertEquals(new File("server/plugins"), ApiMetrics.pluginFolder(loadedPlugin, new Plugin[0]));
     }
 }

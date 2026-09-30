@@ -39,7 +39,7 @@ public class ApiMetrics
     private final String pluginVersion;
 
     private final MetricsBase metricsBase;
-    private final Logger logger = Bukkit.getLogger();
+    private final Logger logger;
 
     /**
      * Get any enabled plugin
@@ -52,8 +52,10 @@ public class ApiMetrics
         return dummyPlugin;
     }
 
-    static File pluginFolder(Plugin[] plugins)
+    static File pluginFolder(Plugin plugin, Plugin[] plugins)
     {
+        if (plugin != null)
+            return plugin.getDataFolder().getParentFile();
         return plugins.length == 0 ? new File("plugins") : plugins[0].getDataFolder().getParentFile();
     }
 
@@ -65,9 +67,21 @@ public class ApiMetrics
      */
     public ApiMetrics(String pluginName, String pluginVersion, int serviceId)
     {
+        this(null, pluginName, pluginVersion, serviceId);
+    }
+
+    public ApiMetrics(Plugin plugin, int serviceId)
+    {
+        this(plugin, plugin.getName(), plugin.getDescription().getVersion(), serviceId);
+    }
+
+    private ApiMetrics(Plugin plugin, String pluginName, String pluginVersion, int serviceId)
+    {
         this.pluginVersion = pluginVersion;
+        this.logger = plugin == null ? Bukkit.getLogger() : plugin.getLogger();
+        String logPrefix = plugin == null ? pluginName + " | " : "";
         // Get the config file
-        File pluginFolder = pluginFolder(Bukkit.getPluginManager().getPlugins());
+        File pluginFolder = pluginFolder(plugin, Bukkit.getPluginManager().getPlugins());
         File pStatsFolder = new File(pluginFolder, "pStats");
         File configFile = new File(pStatsFolder, "config.yml");
         YamlConfiguration config = YamlConfiguration.loadConfiguration(configFile);
@@ -94,7 +108,7 @@ public class ApiMetrics
             }
             catch (IOException e)
             {
-                logger.log(Level.WARNING, pluginName + " | Failed to save Metrics config.yml", e);
+                logger.log(Level.WARNING, logPrefix + "Failed to save Metrics config.yml", e);
             }
         }
         // Load the data
@@ -128,10 +142,10 @@ public class ApiMetrics
                         this::appendServiceData,
                         isFolia
                                 ? null
-                                : submitDataTask -> Bukkit.getScheduler().runTask(getAnyPlugin(), submitDataTask),
-                        () -> true,
-                        (message, error) -> logger.log(Level.WARNING, pluginName + " | " + message, error),
-                        (message) -> logger.log(Level.INFO, pluginName + " | " + message),
+                                : submitDataTask -> Bukkit.getScheduler().runTask(plugin == null ? getAnyPlugin() : plugin, submitDataTask),
+                        plugin == null ? () -> true : plugin::isEnabled,
+                        (message, error) -> logger.log(Level.WARNING, logPrefix + message, error),
+                        (message) -> logger.log(Level.INFO, logPrefix + message),
                         logErrors,
                         logSentData,
                         logResponseStatusText,
