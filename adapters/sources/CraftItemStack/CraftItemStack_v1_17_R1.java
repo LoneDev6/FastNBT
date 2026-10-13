@@ -1,6 +1,7 @@
 package beer.devs.fastnbt.nms.nbt.impl;
 
 import beer.devs.fastnbt.nms.nbt.ICraftItemStack;
+import beer.devs.fastnbt.nms.nbt.NCompound;
 import beer.devs.fastnbt.nms.nbt.NBT;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import org.jetbrains.annotations.Nullable;
@@ -17,6 +18,7 @@ import java.lang.reflect.Modifier;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 @SuppressWarnings({"unchecked", "DataFlowIssue", "CallToPrintStackTrace", "unused"})
 public class CraftItemStack_v1_17_R1 implements ICraftItemStack<ListTag, CompoundTag, CraftItemStack>
@@ -66,7 +68,51 @@ public class CraftItemStack_v1_17_R1 implements ICraftItemStack<ListTag, Compoun
     {
         if (itemStack instanceof CraftItemStack)
             return ((CraftItemStack) itemStack);
+        return CraftItemStack.asCraftMirror(CraftItemStack.asNMSCopy(itemStack));
+    }
+
+    @Override
+    public void applyEdit(ItemStack original, ItemStack draft)
+    {
+        if (!(original instanceof CraftItemStack))
+        {
+            ICraftItemStack.super.applyEdit(original, draft);
+            return;
+        }
+        CompoundTag tag = getHandle((CraftItemStack) draft).getTag();
+        getHandle((CraftItemStack) original).setTag(tag == null || tag.isEmpty() ? null : tag);
+    }
+
+    @Override
+    public CraftItemStack copyForEdit(ItemStack itemStack)
+    {
         return CraftItemStack.asCraftCopy(itemStack);
+    }
+
+    @Override
+    public Object editTag(ItemStack craftItem, boolean create)
+    {
+        net.minecraft.world.item.ItemStack handle = getHandle((CraftItemStack) craftItem);
+        if (handle == null)
+        {
+            if (create)
+                throw new IllegalStateException("Cannot create an NBT tag for an empty item.");
+            return null;
+        }
+        return create ? handle.getOrCreateTag() : handle.getTag();
+    }
+
+    @Override
+    public void modifyCustomData(ItemStack itemStack, Consumer<NCompound> modifier)
+    {
+        CraftItemStack craft = convertToCraft(itemStack);
+        net.minecraft.world.item.ItemStack handle = getHandle(craft);
+        CompoundTag working = handle.getTag() == null ? new CompoundTag() : handle.getTag().copy();
+        modifier.accept(new NCompound(working));
+        working = working.copy();
+        handle.setTag(working.isEmpty() ? null : working);
+        if (craft != itemStack)
+            itemStack.setItemMeta(craft.getItemMeta());
     }
 
     @Override

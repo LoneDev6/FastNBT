@@ -2,6 +2,7 @@ package beer.devs.fastnbt.nms.nbt.impl;
 
 import beer.devs.fastnbt.nms.NMSImpl;
 import beer.devs.fastnbt.nms.nbt.ICraftItemStack;
+import beer.devs.fastnbt.nms.nbt.NCompound;
 import beer.devs.fastnbt.nms.nbt.NBT;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.logging.LogUtils;
@@ -113,7 +114,8 @@ public class CraftItemStack_v26_3 implements ICraftItemStack<ListTag, CompoundTa
 
     public static net.minecraft.world.item.ItemStack getHandle(CraftItemStack craftItemStack)
     {
-        
+        if (IS_FIELD_HANDLE_PUBLIC)
+            return craftItemStack.handle;
 
         try
         {
@@ -140,13 +142,94 @@ public class CraftItemStack_v26_3 implements ICraftItemStack<ListTag, CompoundTa
     @Override
     public CraftItemStack convertToCraft(ItemStack itemStack)
     {
+        if (itemStack instanceof CraftItemStack)
+            return (CraftItemStack) itemStack;
+        return copyForEdit(itemStack);
+    }
+
+    @Override
+    public CraftItemStack readForEdit(ItemStack itemStack)
+    {
+        if (itemStack instanceof CraftItemStack)
+            return (CraftItemStack) itemStack;
         try
         {
-            return (CraftItemStack) AS_CRAFT_COPY.invokeExact(itemStack);
+            net.minecraft.world.item.ItemStack copy = CraftItemStack.asNMSCopy(itemStack);
+            ItemStack mirror = (ItemStack) AS_CRAFT_MIRROR.invokeExact(copy);
+            return mirror instanceof CraftItemStack ? (CraftItemStack) mirror : (CraftItemStack) AS_CRAFT_COPY.invokeExact(mirror);
+        }
+        catch (Throwable e)
+        {
+            throw new IllegalStateException("Error reading Bukkit ItemStack for edit.", e);
+        }
+    }
+
+    @Override
+    public CraftItemStack copyForEdit(ItemStack itemStack)
+    {
+        try
+        {
+            net.minecraft.world.item.ItemStack copy = CraftItemStack.asNMSCopy(itemStack);
+            CustomData data = copy.get(DataComponents.CUSTOM_DATA);
+            if (data != null)
+                copy.set(DataComponents.CUSTOM_DATA, CustomData.of(readTag(data)));
+            ItemStack mirror = (ItemStack) AS_CRAFT_MIRROR.invokeExact(copy);
+            return mirror instanceof CraftItemStack ? (CraftItemStack) mirror : (CraftItemStack) AS_CRAFT_COPY.invokeExact(mirror);
         }
         catch (Throwable e)
         {
             throw new IllegalStateException("Error converting Bukkit ItemStack to CraftItemStack.", e);
+        }
+    }
+
+    @Override
+    public void applyEdit(ItemStack original, ItemStack draft)
+    {
+        if (!(original instanceof CraftItemStack))
+        {
+            ICraftItemStack.super.applyEdit(original, draft);
+            return;
+        }
+        getHandle((CraftItemStack) original).restorePatch(getHandle((CraftItemStack) draft).getComponentsPatch());
+    }
+
+    @Override
+    public Object editTag(ItemStack craftItem, boolean create)
+    {
+        net.minecraft.world.item.ItemStack handle = getHandle((CraftItemStack) craftItem);
+        if (handle == null)
+        {
+            if (create)
+                throw new IllegalStateException("Cannot create custom data for an empty item.");
+            return null;
+        }
+        CustomData data = handle.get(DataComponents.CUSTOM_DATA);
+        return create ? mutableTag(handle) : data == null ? null : readTag(data);
+    }
+
+    @Override
+    public void modifyCustomData(ItemStack itemStack, Consumer<NCompound> modifier)
+    {
+        boolean craft = itemStack instanceof CraftItemStack;
+        net.minecraft.world.item.ItemStack handle = craft ? getHandle((CraftItemStack) itemStack) : CraftItemStack.asNMSCopy(itemStack);
+        CustomData data = handle.get(DataComponents.CUSTOM_DATA);
+        CompoundTag working = data == null ? new CompoundTag() : data.copyTag();
+        modifier.accept(new NCompound(working));
+        if (working.isEmpty())
+            handle.remove(DataComponents.CUSTOM_DATA);
+        else
+            handle.set(DataComponents.CUSTOM_DATA, CustomData.of(working));
+        if (!craft)
+        {
+            try
+            {
+                ItemStack mirror = (ItemStack) AS_CRAFT_MIRROR.invokeExact(handle);
+                itemStack.setItemMeta(mirror.getItemMeta());
+            }
+            catch (Throwable e)
+            {
+                throw new IllegalStateException("Error committing custom data to Bukkit ItemStack.", e);
+            }
         }
     }
 

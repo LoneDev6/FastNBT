@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 @SuppressWarnings({"unchecked", "deprecation", "unused"})
 public class NItem extends NCompound
@@ -24,6 +25,7 @@ public class NItem extends NCompound
 
     public NItem(@NotNull ItemStack itemStack)
     {
+        super((Object) null);
         if (!NBT.isInstanceOfCraftItemStack(itemStack))
         {
             this.handle = NBT.item.convertToCraft(itemStack);
@@ -41,6 +43,59 @@ public class NItem extends NCompound
         if(itemStack == null)
             return null;
         return new NItem(itemStack);
+    }
+
+    /**
+     * Edits item custom NBT in one batch and commits a snapshot after the callback succeeds.
+     * On versions before 1.20.5 this edits the legacy item tag. Other item components are preserved.
+     * The callback receives a detached compound; retained compounds, lists and arrays cannot
+     * mutate the committed item afterwards. An exception leaves the item's NBT unchanged.
+     * Use on the owning server thread, and do not modify the item itself inside the callback.
+     */
+    public static void modifyCustomData(@NotNull ItemStack itemStack, @NotNull Consumer<NCompound> modifier)
+    {
+        Objects.requireNonNull(itemStack, "itemStack");
+        Objects.requireNonNull(modifier, "modifier");
+        if (itemStack.getType().isAir() || itemStack.getAmount() <= 0)
+            throw new IllegalArgumentException("Cannot edit custom data of an empty item.");
+        NBT.item.modifyCustomData(itemStack, modifier);
+    }
+
+    /**
+     * Opens a lazy, single-use editor. Call save() to apply and close, or close() to discard.
+     * Use try-with-resources on the owning thread. Do not modify or recursively edit the
+     * original item while this editor is open. Views expire on save/close.
+     */
+    public static NItemEditor edit(@NotNull ItemStack itemStack)
+    {
+        Objects.requireNonNull(itemStack, "itemStack");
+        if (itemStack.getType().isAir() || itemStack.getAmount() <= 0)
+            throw new IllegalArgumentException("Cannot edit an empty item.");
+        return new NItemEditor(new EditScope(itemStack), false);
+    }
+
+    /**
+     * Lazily edits NBT and name/lore components, applying metadata once on successful return.
+     * Read-only callbacks do not commit. An exception discards the draft. Views expire afterwards.
+     * Use on the owning server thread. Do not mutate the original item or nest edits of that item
+     * inside the callback. Existing NItem setters and save() retain their original behavior.
+     */
+    public static void edit(@NotNull ItemStack itemStack, @NotNull Consumer<NItemEditor> modifier)
+    {
+        Objects.requireNonNull(itemStack, "itemStack");
+        Objects.requireNonNull(modifier, "modifier");
+        if (itemStack.getType().isAir() || itemStack.getAmount() <= 0)
+            throw new IllegalArgumentException("Cannot edit an empty item.");
+        EditScope scope = new EditScope(itemStack);
+        try
+        {
+            modifier.accept(new NItemEditor(scope));
+            scope.commit();
+        }
+        finally
+        {
+            scope.close();
+        }
     }
 
     public ItemStack getItem()

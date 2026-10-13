@@ -6,10 +6,29 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 public interface ICraftItemStack<ListTag, CompoundTag, CraftItemStack extends ItemStack> extends ICompoundTag<ItemStack, ListTag, CompoundTag>
 {
     CraftItemStack convertToCraft(ItemStack itemStack);
+    default ItemStack readForEdit(ItemStack itemStack)
+    {
+        return convertToCraft(itemStack);
+    }
+
+    default ItemStack copyForEdit(ItemStack itemStack)
+    {
+        return convertToCraft(new ItemStack(itemStack));
+    }
+
+    Object editTag(ItemStack craftItem, boolean create);
+    /** Publishes the private draft; callers must not expose its live tags afterwards. */
+    default void applyEdit(ItemStack original, ItemStack draft)
+    {
+        if (!original.setItemMeta(draft.getItemMeta()))
+            throw new IllegalStateException("Cannot apply edited item metadata");
+    }
+    void modifyCustomData(ItemStack itemStack, Consumer<NCompound> modifier);
     boolean hasNBT(ItemStack itemStack);
     void merge(ItemStack itemStack, ItemStack otherItem);
 

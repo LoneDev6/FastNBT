@@ -17,6 +17,24 @@ import java.util.UUID;
 public class CompoundTag_v1_21_5 implements ICompoundTag<CompoundTag, ListTag, CompoundTag>
 {
     @Override
+    public Object copyTag(Object tag)
+    {
+        return ((Tag) tag).copy();
+    }
+
+    @Override
+    public byte tagId(Object tag)
+    {
+        return tag == null ? 0 : ((Tag) tag).getId();
+    }
+
+    @Override
+    public Object rawTag(CompoundTag handle, String key)
+    {
+        return handle.get(key);
+    }
+
+    @Override
     public CompoundTag newInstance()
     {
         return new CompoundTag();

@@ -1,6 +1,7 @@
 package beer.devs.fastnbt.nms.nbt.impl;
 
 import beer.devs.fastnbt.nms.nbt.ICraftItemStack;
+import beer.devs.fastnbt.nms.nbt.NCompound;
 import beer.devs.fastnbt.nms.nbt.NBT;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.core.component.DataComponentType;
@@ -116,11 +117,70 @@ public class CraftItemStack_v1_21_3 implements ICraftItemStack<ListTag, Compound
     }
 
     @Override
+    public CraftItemStack readForEdit(ItemStack itemStack)
+    {
+        if (itemStack instanceof CraftItemStack)
+            return (CraftItemStack) itemStack;
+        return CraftItemStack.asCraftMirror(CraftItemStack.asNMSCopy(itemStack));
+    }
+
+    @Override
     public CraftItemStack convertToCraft(ItemStack itemStack)
     {
         if (itemStack instanceof CraftItemStack)
-            return ((CraftItemStack) itemStack);
-        return CraftItemStack.asCraftCopy(itemStack);
+            return (CraftItemStack) itemStack;
+        return copyForEdit(itemStack);
+    }
+
+    @Override
+    public CraftItemStack copyForEdit(ItemStack itemStack)
+    {
+        net.minecraft.world.item.ItemStack copy = CraftItemStack.asNMSCopy(itemStack);
+        CustomData data = copy.get(DataComponents.CUSTOM_DATA);
+        if (data != null)
+            copy.set(DataComponents.CUSTOM_DATA, CustomData.of(readTag(data)));
+        return CraftItemStack.asCraftMirror(copy);
+    }
+
+    @Override
+    public void applyEdit(ItemStack original, ItemStack draft)
+    {
+        if (!(original instanceof CraftItemStack))
+        {
+            ICraftItemStack.super.applyEdit(original, draft);
+            return;
+        }
+        getHandle((CraftItemStack) original).restorePatch(getHandle((CraftItemStack) draft).getComponentsPatch());
+    }
+
+    @Override
+    public Object editTag(ItemStack craftItem, boolean create)
+    {
+        net.minecraft.world.item.ItemStack handle = getHandle((CraftItemStack) craftItem);
+        if (handle == null)
+        {
+            if (create)
+                throw new IllegalStateException("Cannot create custom data for an empty item.");
+            return null;
+        }
+        CustomData data = handle.get(DataComponents.CUSTOM_DATA);
+        return create ? mutableTag(handle) : data == null ? null : readTag(data);
+    }
+
+    @Override
+    public void modifyCustomData(ItemStack itemStack, Consumer<NCompound> modifier)
+    {
+        boolean craft = itemStack instanceof CraftItemStack;
+        net.minecraft.world.item.ItemStack handle = craft ? getHandle((CraftItemStack) itemStack) : CraftItemStack.asNMSCopy(itemStack);
+        CustomData data = handle.get(DataComponents.CUSTOM_DATA);
+        CompoundTag working = data == null ? new CompoundTag() : data.copyTag();
+        modifier.accept(new NCompound(working));
+        if (working.isEmpty())
+            handle.remove(DataComponents.CUSTOM_DATA);
+        else
+            handle.set(DataComponents.CUSTOM_DATA, CustomData.of(working));
+        if (!craft)
+            itemStack.setItemMeta(CraftItemStack.asCraftMirror(handle).getItemMeta());
     }
 
     @Override

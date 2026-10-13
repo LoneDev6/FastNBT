@@ -9,6 +9,24 @@ import java.util.UUID;
 
 public interface ICompoundTag<Handle, ListTag, CompoundTag>
 {
+    /** Copies a native tag before exposing it for mutation. */
+    default Object copyTag(Object tag)
+    {
+        throw new UnsupportedOperationException();
+    }
+
+    /** Returns the native NBT type ID, or zero for null. */
+    default byte tagId(Object tag)
+    {
+        throw new UnsupportedOperationException();
+    }
+
+    /** Reads a raw native child tag without converting it. */
+    default Object rawTag(Handle handle, String key)
+    {
+        throw new UnsupportedOperationException();
+    }
+
     <I> I newInstance();
     void setByte(Handle handle, String key, byte param);
     void setShort(Handle handle, String key, short param);

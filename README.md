@@ -15,9 +15,89 @@
 <img src="https://pstats.devs.beer/signatures/bukkit/FastNbt.svg" width="800">
 <img src="https://bstats.org/signatures/bukkit/ItemNBTAPI.svg" width="800">
 
-## Benchmark
-**FastNbt** is ~190% faster than [NBT API](https://github.com/tr7zw/Item-NBT-API).\
-[Check the benchmark here](https://github.com/LoneDev6/FastNBT-Benchmark)
+## Lazy item editing
+
+For explicit control, use a single-use editor:
+
+```java
+try (NItemEditor editor = NItem.edit(item))
+{
+    editor.getOrAddCompound("itemsadder").setInt("usages", 25);
+    editor.setCustomNameJson("{\"text\":\"Ruby sword\"}");
+    editor.save();
+}
+```
+
+`save()` applies changes and closes the editor; a second save or further access throws.
+`close()` is idempotent and discards unsaved changes, including on an exception before save.
+An exception after a successful save cannot undo that save. Read-only save does not apply
+metadata. Keep the scope short and do not change the original item while it is open.
+If application itself fails, the editor closes; rollback of a partially failed platform
+commit is not guaranteed.
+
+The callback form manages saving and closing automatically (calling `save()` or `close()`
+inside it throws, preserving rollback when the callback fails):
+
+```java
+NItem.edit(item, editor ->
+{
+    NCompound data = editor.getOrAddCompound("itemsadder");
+    data.setInt("usages", 25);
+    data.setInt("max_usages", 25);
+    editor.setCustomNameJson("{\"text\":\"Ruby sword\"}");
+    editor.setLoreJson(List.of("{\"text\":\"25 uses\"}"));
+}); // One metadata commit; no save() required.
+```
+
+The editor opens without converting the item. Reads resolve data on demand; the first
+mutation creates an isolated draft. A read-only callback does not commit. If the callback
+throws, the draft is discarded, including name/lore changes, on both Bukkit and Craft items.
+An attempted setter counts as a mutation even when its value is unchanged.
+
+Compound and list views belong to the callback and throw after it returns. A view also
+throws if its entry is replaced, removed or shifted. Array getters and raw-tag access
+return detached snapshots; changing them does not write back. Use setters to apply changes.
+Inserted compounds, lists and arrays are copied. This differs deliberately from ordinary
+`NCompound`/`NList` live aliases. Run on the owning server thread and do not mutate or
+recursively edit the original item during the callback.
+
+The initial editor supports custom NBT and JSON custom name, item name and lore; material
+and amount remain outside this transaction. Existing `NItem` setters and `save()` keep
+their behavior. Consumers such as ItemsAdder can adopt editing selectively; they must
+first load a FastNBT build containing this API (including shaded copies in NativePackets).
+
+## Batched custom data
+
+```java
+NItem.modifyCustomData(item, tag ->
+{
+    tag.setString("id", "example:sword");
+    tag.setInt("level", 3);
+    tag.getOrAddCompound("stats").setInt("damage", 12);
+});
+```
+
+The batch commits once, including for ordinary Bukkit items; no `save()` is needed.
+On 1.20.5+ it edits only custom data and preserves other components. Older servers
+use the legacy item tag. The callback works on a detached compound: an exception
+does not commit, and retained compounds, lists or arrays do not alter the committed
+item later. Use it on the owning server thread and do not modify the item itself
+inside the callback. Existing `NItem` setters keep their immediate/Craft versus
+explicit `save()`/Bukkit behavior.
+
+Batch/conversion regressions run on an isolated local server:
+
+```sh
+rtk ./gradlew --no-daemon build
+rtk proxy python3 adapters/tests/run-custom-data.py 26.2 \
+  --server /path/to/paper.jar --java /path/to/java --platform paper \
+  --bootstrap-cache /path/to/matching-mojang.jar \
+  --evidence-root /path/to/verified-scratch/task/semantic
+```
+
+The probe checks ordinary and batched writes, callback rollback, clone/view/array
+isolation, nested replacement and preservation of item metadata. The runner stops
+its own server and removes the disposable world.
 
 ## Usability
 
